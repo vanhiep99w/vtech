@@ -8,24 +8,7 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-const logInSchema = z.object({
-  email: z.string().min(1, 'Email không được để trống!').email('Email không hợp lệ !'),
-  password: z
-    .string()
-    .min(6, 'Mật khẩu phải có ít nhất 6 ký tự ! ')
-    .refine((val) => /[A-Z]/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 chữ hoa!'
-    })
-    .refine((val) => /[a-z]/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 chữ thường!'
-    })
-    .refine((val) => /\d/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 số!'
-    })
-    .refine((val) => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt!'
-    })
-})
+import { logInSchema } from '@/components/auth/schemas/schemas'
 
 type logInFormValue = z.infer<typeof logInSchema>
 
@@ -38,7 +21,9 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
     resolver: zodResolver(logInSchema)
   })
 
-  const onSubmit = () => {}
+  const onSubmit = () => {
+    // TODO: gọi api back-end
+  }
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>

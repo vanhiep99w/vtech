@@ -8,40 +8,22 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-const signUpSchema = z.object({
-  lastname: z.string().min(1, 'Họ bắt buộc phải có !'),
-  firstname: z.string().min(1, 'Tên bắt buộc phải có !'),
-  username: z.string().min(3, 'Tên đăng nhập phải có ít nhất 3 ký tự !'),
-  email: z.string().min(1, 'Email không được để trống!').email('Email không hợp lệ !'),
-  password: z
-    .string()
-    .min(6, 'Mật khẩu phải có ít nhất 6 ký tự ! ')
-    .refine((val) => /[A-Z]/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 chữ hoa!'
-    })
-    .refine((val) => /[a-z]/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 chữ thường!'
-    })
-    .refine((val) => /\d/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 số!'
-    })
-    .refine((val) => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt!'
-    })
-})
+import { signUpSchema } from '@/components/auth/schemas/schemas'
 
-type singUpFormValue = z.infer<typeof signUpSchema>
+type signUpFormValue = z.infer<typeof signUpSchema>
 
 export function SignupForm({ className, ...props }: React.ComponentProps<'div'>) {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<singUpFormValue>({
+  } = useForm<signUpFormValue>({
     resolver: zodResolver(signUpSchema)
   })
 
-  const onSubmit = () => {}
+  const onSubmit = () => {
+    // TODO: gọi api back-end
+  }
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
@@ -49,7 +31,6 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
         <CardContent className='grid p-0 md:grid-cols-2'>
           <form className='p-6 md:p-8' onSubmit={handleSubmit(onSubmit)}>
             <div className='flex flex-col gap-6'>
-              {/* header - logo */}
               <div className='flex flex-col items-center gap-2'>
                 <a href='/' className='mx-auto block w-fit text-center'>
                   <img src='/logo.svg' alt='Logo' />
@@ -60,7 +41,6 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                 </p>
               </div>
 
-              {/* Họ và tên */}
               <div className='grid grid-cols-2 gap-3'>
                 <div className='space-y-2'>
                   <Label htmlFor='lastname' className='block text-sm'>
@@ -83,7 +63,6 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                 </div>
               </div>
 
-              {/* username */}
               <div className='flex flex-col gap-3'>
                 <Label htmlFor='username' className='block text-sm'>
                   Username
@@ -94,7 +73,6 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                 )}
               </div>
 
-              {/* email */}
               <div className='flex flex-col gap-3'>
                 <Label htmlFor='email' className='block text-sm'>
                   Email
@@ -108,7 +86,6 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                 {errors.email && <p className='text-destructive text-sm'>{errors.email.message}</p>}
               </div>
 
-              {/* password */}
               <div className='flex flex-col gap-3'>
                 <Label htmlFor='password' className='block text-sm'>
                   Password
@@ -118,9 +95,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                   <p className='text-destructive text-sm'>{errors.password.message}</p>
                 )}
               </div>
-              {/* confirm password */}
 
-              {/* Nút đăng ký */}
               <Button type='submit' className='w-full' disabled={isSubmitting}>
                 Tạo tài khoản
               </Button>

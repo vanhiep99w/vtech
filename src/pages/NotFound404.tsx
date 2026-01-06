@@ -1,4 +1,4 @@
-const HomePage = () => {
+const NotFound404 = () => {
   return (
     <>
       <div className='flex flex-col items-center justify-center min-h-screen text-center bg-slate-50'>
@@ -17,4 +17,4 @@ const HomePage = () => {
   )
 }
 
-export default HomePage
+export default NotFound404
