@@ -1,9 +1,9 @@
-import TestPage from '@/pages/TestPage'
+import SignupPage from '@/pages/auth/SignupPage'
 
 function App() {
   return (
     <>
-      <TestPage />
+      <SignupPage />
     </>
   )
 }
