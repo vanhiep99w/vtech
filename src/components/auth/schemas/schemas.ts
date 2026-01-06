@@ -1,44 +1,51 @@
+import type { TFunction } from 'i18next'
 import { z } from 'zod'
 
-const logInSchema = z.object({
-  email: z.string().min(1, 'Email không được để trống!').email('Email không hợp lệ !'),
-  password: z
-    .string()
-    .min(6, 'Mật khẩu phải có ít nhất 6 ký tự ! ')
-    .refine((val) => /[A-Z]/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 chữ hoa!'
-    })
-    .refine((val) => /[a-z]/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 chữ thường!'
-    })
-    .refine((val) => /\d/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 số!'
-    })
-    .refine((val) => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt!'
-    })
-})
+export const createSignUpSchema = (t: TFunction<'auth'>) => {
+  return z.object({
+    lastname: z.string().min(1, t('auth.errors.lastname.required')),
+    firstname: z.string().min(1, t('auth.errors.firstname.required')),
+    username: z.string().min(3, t('auth.errors.username.min')),
+    email: z.string().min(1, t('auth.errors.email.required')).email(t('auth.errors.email.invalid')),
+    password: z
+      .string()
+      .min(6, t('auth.errors.password.min'))
+      .refine((val) => /[A-Z]/.test(val), {
+        message: t('auth.errors.password.uppercase')
+      })
+      .refine((val) => /[a-z]/.test(val), {
+        message: t('auth.errors.password.lowercase')
+      })
+      .refine((val) => /\d/.test(val), {
+        message: t('auth.errors.password.number')
+      })
+      .refine((val) => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(val), {
+        message: t('auth.errors.password.special')
+      })
+  })
+}
 
-const signUpSchema = z.object({
-  lastname: z.string().min(1, 'Họ bắt buộc phải có !'),
-  firstname: z.string().min(1, 'Tên bắt buộc phải có !'),
-  username: z.string().min(3, 'Tên đăng nhập phải có ít nhất 3 ký tự !'),
-  email: z.string().min(1, 'Email không được để trống!').email('Email không hợp lệ !'),
-  password: z
-    .string()
-    .min(6, 'Mật khẩu phải có ít nhất 6 ký tự ! ')
-    .refine((val) => /[A-Z]/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 chữ hoa!'
-    })
-    .refine((val) => /[a-z]/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 chữ thường!'
-    })
-    .refine((val) => /\d/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 số!'
-    })
-    .refine((val) => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt!'
-    })
-})
+export const createLoginSchema = (t: TFunction<'auth'>) => {
+  return z.object({
+    email: z.string().min(1, t('auth.errors.email.required')).email(t('auth.errors.email.invalid')),
+    password: z
+      .string()
+      .min(6, t('auth.errors.password.min'))
+      .refine((val) => /[A-Z]/.test(val), {
+        message: t('auth.errors.password.uppercase')
+      })
+      .refine((val) => /[a-z]/.test(val), {
+        message: t('auth.errors.password.lowercase')
+      })
+      .refine((val) => /\d/.test(val), {
+        message: t('auth.errors.password.number')
+      })
+      .refine((val) => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(val), {
+        message: t('auth.errors.password.special')
+      })
+  })
+}
 
-export { logInSchema, signUpSchema }
+// Type inference helper
+export type SignUpFormData = z.infer<ReturnType<typeof createSignUpSchema>>
+export type LoginFormData = z.infer<ReturnType<typeof createLoginSchema>>
