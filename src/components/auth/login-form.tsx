@@ -15,7 +15,7 @@ import { locales } from '@/i18n/i18n'
 import { useEffect } from 'react'
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
-  const { t, i18n } = useTranslation()
+  const { t, i18n } = useTranslation(['auth', 'common'])
   const currentLanguage = locales[i18n.language as keyof typeof locales]
 
   const logInSchema = createLoginSchema(t)
@@ -57,10 +57,10 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
         </PopoverTrigger>
         <PopoverContent className='w-100 flex flex-col gap-2'>
           <Button className='py-5' onClick={() => changeLanguage('vi')}>
-            Tiếng Việt
+            {t('common:language.vietnamese')}
           </Button>
           <Button className='py-5 px-10' onClick={() => changeLanguage('en')}>
-            Tiếng Anh
+            {t('common:language.english')}
           </Button>
         </PopoverContent>
       </Popover>

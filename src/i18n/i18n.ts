@@ -2,6 +2,8 @@ import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import enAuth from './locales/en/auth.json'
 import viAuth from './locales/vi/auth.json'
+import enCommon from './locales/en/common.json'
+import viCommon from './locales/vi/common.json'
 
 export const locales = {
   vi: 'Tiếng Việt',
@@ -10,10 +12,12 @@ export const locales = {
 
 export const resources = {
   en: {
-    auth: enAuth
+    auth: enAuth,
+    common: enCommon
   },
   vi: {
-    auth: viAuth
+    auth: viAuth,
+    common: viCommon
   }
 }
 
@@ -22,7 +26,7 @@ export const defaultNS = 'auth'
 i18n.use(initReactI18next).init({
   resources,
   lng: 'vi',
-  ns: ['auth'],
+  ns: ['auth', 'common'],
   defaultNS,
   fallbackLng: 'vi',
   interpolation: {
