@@ -11,27 +11,22 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { createSignUpSchema, type SignUpFormData } from '@/components/auth/schemas/schemas'
 import { Trans, useTranslation } from 'react-i18next'
-import { locales } from '@/i18n/i18n'
-import { useEffect } from 'react'
+
+import { LANGUAGES } from '@/defines/language-constants'
+import { useCallback } from 'react'
 
 export function SignupForm({ className, ...props }: React.ComponentProps<'div'>) {
   const { t, i18n } = useTranslation()
-  const currentLanguage = locales[i18n.language as keyof typeof locales]
+  const currentLanguage = LANGUAGES.find((lang) => lang.code === i18n.resolvedLanguage)?.label
 
   const signUpSchema = createSignUpSchema(t)
 
-  useEffect(() => {
-    const language = localStorage.getItem('LANGUAGE')
-    if (language) {
-      i18n.changeLanguage(language)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const changeLanguage = (lng: 'en' | 'vi') => {
-    i18n.changeLanguage(lng)
-    localStorage.setItem('LANGUAGE', i18n.language)
-  }
+  const changeLanguage = useCallback(
+    (lang: string) => {
+      i18n.changeLanguage(lang)
+    },
+    [i18n]
+  )
 
   const {
     register,
@@ -44,7 +39,6 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
   const onSubmit = () => {
     // TODO: gọi api back-end
   }
-
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Popover>
@@ -56,12 +50,11 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
           </Button>
         </PopoverTrigger>
         <PopoverContent className='w-100 flex flex-col gap-2'>
-          <Button className='py-5' onClick={() => changeLanguage('vi')}>
-            Tiếng Việt
-          </Button>
-          <Button className='py-5 px-10' onClick={() => changeLanguage('en')}>
-            Tiếng Anh
-          </Button>
+          {LANGUAGES.map((lang) => (
+            <Button key={lang.code} className='py-5' onClick={() => changeLanguage(lang.code)}>
+              {lang.label}
+            </Button>
+          ))}
         </PopoverContent>
       </Popover>
 
