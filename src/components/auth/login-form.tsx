@@ -9,34 +9,30 @@ import { ChevronDown, Globe } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { createLoginSchema, type LoginFormData } from '@/components/auth/schemas/schemas'
+import { logInSchema } from '@/components/auth/schemas/schemas'
 import { useTranslation } from 'react-i18next'
 
 import { LANGUAGES } from '@/defines/language-constants'
 import { useCallback } from 'react'
+import type z from 'zod'
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
-  const { t, i18n } = useTranslation()
+  const { t, i18n } = useTranslation('auth')
   const currentLanguage = LANGUAGES.find((lang) => lang.code === i18n.resolvedLanguage)?.label
 
-  const logInSchema = createLoginSchema(t)
+  type LogInFormValue = z.infer<typeof logInSchema>
 
-  // TODO: sử dụng useCallBack
-  // const changeLanguage = (lang: string) => {
-  //   i18n.changeLanguage(lang)
-  // }
   const changeLanguage = useCallback(
     (lang: string) => {
       i18n.changeLanguage(lang)
     },
     [i18n]
   )
-
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<LoginFormData>({
+  } = useForm<LogInFormValue>({
     resolver: zodResolver(logInSchema)
   })
 
@@ -70,13 +66,13 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
                 <a href='/' className='mx-auto block w-fit text-center'>
                   <img src='/logo.svg' alt='Logo' />
                 </a>
-                <h1 className='text-2xl font-bold'>{t('auth.login.title')}</h1>
-                <p className='text-muted-foreground text-balance'>{t('auth.login.subtitle')}</p>
+                <h1 className='text-2xl font-bold'>{t('login.title')}</h1>
+                <p className='text-muted-foreground text-balance'>{t('login.subtitle')}</p>
               </div>
 
               <div className='flex flex-col gap-3'>
                 <Label htmlFor='email' className='block text-sm'>
-                  {t('auth.login.email')}
+                  {t('login.email')}
                 </Label>
                 <Input
                   type='text'
@@ -89,7 +85,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 
               <div className='flex flex-col gap-3'>
                 <Label htmlFor='password' className='block text-sm'>
-                  {t('auth.login.password')}
+                  {t('login.password')}
                 </Label>
                 <Input type='password' id='password' {...register('password')} />
                 {errors.password && (
@@ -98,12 +94,12 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
               </div>
 
               <Button type='submit' className='w-full' disabled={isSubmitting}>
-                {t('auth.login.button')}
+                {t('login.button')}
               </Button>
               <div className='text-center text-sm'>
-                {t('auth.login.noAccount')}{' '}
+                {t('login.noAccount')}{' '}
                 <a href='/signup' className='underline underline-offset-4'>
-                  {t('auth.login.signup')}
+                  {t('login.signup')}
                 </a>
               </div>
             </div>

@@ -9,17 +9,18 @@ import { ChevronDown, Globe } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { createSignUpSchema, type SignUpFormData } from '@/components/auth/schemas/schemas'
+import { signUpSchema } from '@/components/auth/schemas/schemas'
 import { Trans, useTranslation } from 'react-i18next'
 
 import { LANGUAGES } from '@/defines/language-constants'
 import { useCallback } from 'react'
+import type z from 'zod'
 
 export function SignupForm({ className, ...props }: React.ComponentProps<'div'>) {
-  const { t, i18n } = useTranslation()
+  const { t, i18n } = useTranslation('auth')
   const currentLanguage = LANGUAGES.find((lang) => lang.code === i18n.resolvedLanguage)?.label
 
-  const signUpSchema = createSignUpSchema(t)
+  type SignUpFormValue = z.infer<typeof signUpSchema>
 
   const changeLanguage = useCallback(
     (lang: string) => {
@@ -32,7 +33,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<SignUpFormData>({
+  } = useForm<SignUpFormValue>({
     resolver: zodResolver(signUpSchema)
   })
 
@@ -66,14 +67,14 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                 <a href='/' className='mx-auto block w-fit text-center'>
                   <img src='/logo.svg' alt='Logo' />
                 </a>
-                <h1 className='text-2xl font-bold'>{t('auth.signup.title')}</h1>
-                <p className='text-muted-foreground text-balance'>{t('auth.signup.subtitle')}</p>
+                <h1 className='text-2xl font-bold'>{t('signup.title')}</h1>
+                <p className='text-muted-foreground text-balance'>{t('signup.subtitle')}</p>
               </div>
 
               <div className='grid grid-cols-2 gap-3'>
                 <div className='space-y-2'>
                   <Label htmlFor='lastname' className='block text-sm'>
-                    {t('auth.signup.lastname')}
+                    {t('signup.lastname')}
                   </Label>
                   <Input type='text' id='lastname' {...register('lastname')} />
                   {errors.lastname && (
@@ -83,7 +84,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
 
                 <div className='space-y-2'>
                   <Label htmlFor='firstname' className='block text-sm'>
-                    {t('auth.signup.firstname')}
+                    {t('signup.firstname')}
                   </Label>
                   <Input type='text' id='firstname' {...register('firstname')} />
                   {errors.firstname && (
@@ -94,7 +95,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
 
               <div className='flex flex-col gap-3'>
                 <Label htmlFor='username' className='block text-sm'>
-                  {t('auth.signup.username')}
+                  {t('signup.username')}
                 </Label>
                 <Input type='text' id='username' placeholder='VTech' {...register('username')} />
                 {errors.username && (
@@ -104,7 +105,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
 
               <div className='flex flex-col gap-3'>
                 <Label htmlFor='email' className='block text-sm'>
-                  {t('auth.signup.email')}
+                  {t('signup.email')}
                 </Label>
                 <Input
                   type='text'
@@ -117,7 +118,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
 
               <div className='flex flex-col gap-3'>
                 <Label htmlFor='password' className='block text-sm'>
-                  {t('auth.signup.password')}
+                  {t('signup.password')}
                 </Label>
                 <Input type='password' id='password' {...register('password')} />
                 {errors.password && (
@@ -126,12 +127,12 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
               </div>
 
               <Button type='submit' className='w-full' disabled={isSubmitting}>
-                {t('auth.signup.button')}
+                {t('signup.button')}
               </Button>
               <div className='text-center text-sm'>
-                {t('auth.signup.hasAccount')}{' '}
+                {t('signup.hasAccount')}{' '}
                 <a href='/login' className='underline underline-offset-4'>
-                  {t('auth.signup.login')}
+                  {t('signup.login')}
                 </a>
               </div>
             </div>
@@ -147,7 +148,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
       </Card>
       <div className='text-sm text-balance px-6 text-center text-muted-foreground'>
         <Trans
-          i18nKey='auth.signup.term-privacy'
+          i18nKey='signup.term-privacy'
           components={{
             terms: <a href='#' className='underline underline-offset-4 hover:text-primary' />,
             privacy: <a href='#' className='underline underline-offset-4 hover:text-primary' />

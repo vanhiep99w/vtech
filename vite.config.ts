@@ -2,10 +2,18 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import path from 'path'
+import i18nextLoader from 'vite-plugin-i18next-loader'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tsconfigPaths()],
+  plugins: [
+    react(),
+    tsconfigPaths(),
+    i18nextLoader({
+      paths: ['./src/i18n/locales'],
+      namespaceResolution: 'basename'
+    })
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

@@ -1,9 +1,14 @@
 import 'i18next'
-import { defaultNS, resources } from '@/i18n/i18n'
+import enAuth from './locales/en/auth.json'
+import enCommon from './locales/en/common.json'
+import enProduct from './locales/en/product.json'
 
 declare module 'i18next' {
   interface CustomTypeOptions {
-    defaultNS: typeof defaultNS
-    resources: (typeof resources)['vi']
+    resources: {
+      auth: typeof enAuth
+      common: typeof enCommon
+      product: typeof enProduct
+    }
   }
 }
