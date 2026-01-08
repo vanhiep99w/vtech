@@ -1,10 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { LANGUAGES } from '@/defines/language-constants'
 import { Card } from '@components/ui/card'
-import { ChevronDown, DiamondPlus, Globe } from 'lucide-react'
-import { useCallback } from 'react'
+import { DiamondPlus } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 
@@ -16,13 +13,7 @@ const TestPage = () => {
     toast.warning('Cảnh báo quan trọng')
     toast.info('Thông tin cập nhật')
   }
-  const { t, i18n } = useTranslation('product')
-  const changeLanguage = useCallback(
-    (lang: string) => {
-      i18n.changeLanguage(lang)
-    },
-    [i18n]
-  )
+  const { t } = useTranslation('product')
   return (
     <>
       <Card className='p-6 border-0 bg-gradient-card shadow-custom-lg'>
@@ -38,23 +29,6 @@ const TestPage = () => {
         </div>
       </Card>
       <span>{t('addtocart')}</span>
-
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button variant='outline' className='flex flex-row'>
-            <Globe />
-
-            <ChevronDown />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className='w-100 flex flex-col gap-2'>
-          {LANGUAGES.map((lang) => (
-            <Button key={lang.code} className='py-5' onClick={() => changeLanguage(lang.code)}>
-              {lang.label}
-            </Button>
-          ))}
-        </PopoverContent>
-      </Popover>
     </>
   )
 }

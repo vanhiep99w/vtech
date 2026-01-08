@@ -1,33 +1,21 @@
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { ChevronDown, Globe } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 
-import { signUpSchema } from '@/components/auth/schemas/schemas'
+import { createSignUpSchema } from '@/components/auth/schemas/schemas'
 import { Trans, useTranslation } from 'react-i18next'
-
-import { LANGUAGES } from '@/defines/language-constants'
-import { useCallback } from 'react'
 import type z from 'zod'
+import LanguageSelector from '@/components/common/LanguageSelector'
 
 export function SignupForm({ className, ...props }: React.ComponentProps<'div'>) {
-  const { t, i18n } = useTranslation('auth')
-  const currentLanguage = LANGUAGES.find((lang) => lang.code === i18n.resolvedLanguage)?.label
-
+  const { t } = useTranslation('auth')
+  const signUpSchema = createSignUpSchema(t)
   type SignUpFormValue = z.infer<typeof signUpSchema>
-
-  const changeLanguage = useCallback(
-    (lang: string) => {
-      i18n.changeLanguage(lang)
-    },
-    [i18n]
-  )
 
   const {
     register,
@@ -42,23 +30,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
   }
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button variant='outline' className='flex flex-row'>
-            <Globe />
-            <span className='text-left'>{currentLanguage}</span>
-            <ChevronDown />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className='w-100 flex flex-col gap-2'>
-          {LANGUAGES.map((lang) => (
-            <Button key={lang.code} className='py-5' onClick={() => changeLanguage(lang.code)}>
-              {lang.label}
-            </Button>
-          ))}
-        </PopoverContent>
-      </Popover>
-
+      <LanguageSelector />
       <Card className='overflow-hidden p-0'>
         <CardContent className='grid p-0 md:grid-cols-2'>
           <form className='p-6 md:p-8' onSubmit={handleSubmit(onSubmit)}>
