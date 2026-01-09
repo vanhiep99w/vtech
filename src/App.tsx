@@ -1,3 +1,4 @@
+import LayoutAdmin from '@/pages/admin/LayoutAdmin'
 import LoginPage from '@/pages/auth/LoginPage'
 import SignupPage from '@/pages/auth/SignupPage'
 import NotFound404 from '@/pages/NotFound404'
@@ -24,6 +25,7 @@ function App() {
           <Route path='/signup' element={<SignupPage />} />
           {/* TODO: tạo protected route */}
           <Route path='/' element={<TestPage />} />
+          <Route path='/dashboard' element={<LayoutAdmin />} />
         </Routes>
       </BrowserRouter>
     </>
