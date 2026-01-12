@@ -1,0 +1,14 @@
+
+
+echo "---------- Running pre-commit checks... ----------"
+
+# Kiểm tra format và lint
+bun check:all
+
+# Nếu check:all fail thì dừng commit
+if [ $? -ne 0 ]; then
+  echo ">>> Pre-commit checks failed. Please fix the errors above."
+  exit 1
+fi
+
+echo ">>> All checks passed!"
