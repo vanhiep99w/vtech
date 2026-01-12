@@ -5,6 +5,7 @@ import enProduct from './locales/en/product.json'
 
 declare module 'i18next' {
   interface CustomTypeOptions {
+    defaultNS: 'common'
     resources: {
       auth: typeof enAuth
       common: typeof enCommon

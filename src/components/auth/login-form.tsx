@@ -1,22 +1,20 @@
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { cn } from '@/lib/utils'
 
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 
-import { createLogInSchema } from '@/components/auth/schemas/schemas'
+import { logInSchema } from '@/components/auth/schemas/schemas'
 import { useTranslation } from 'react-i18next'
 
-import type z from 'zod'
 import LanguageSelector from '@/components/common/LanguageSelector'
+import type z from 'zod'
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
   const { t } = useTranslation('auth')
-
-  const logInSchema = createLogInSchema(t)
   type LogInFormValue = z.infer<typeof logInSchema>
 
   const {

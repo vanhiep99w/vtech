@@ -1,16 +1,18 @@
-import * as React from 'react'
 import {
   AudioWaveform,
-  BookOpen,
-  Bot,
+  Box,
   Command,
-  Frame,
   GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal
+  ListCollapseIcon,
+  MessageCircleMore,
+  Settings,
+  ShoppingCart,
+  StickyNote,
+  Tags,
+  TicketPercent,
+  Users2
 } from 'lucide-react'
+import * as React from 'react'
 
 import { NavMain } from '@/components/admin/nav-main'
 import { NavProjects } from '@/components/admin/nav-projects'
@@ -27,8 +29,8 @@ import {
 // This is sample data.
 const data = {
   user: {
-    name: 'shadcn',
-    email: 'm@example.com',
+    name: 'VTech',
+    email: 'vtech@gmail.com',
     avatar: '/avatars/shadcn.jpg'
   },
   teams: [
@@ -50,48 +52,37 @@ const data = {
   ],
   navMain: [
     {
-      title: 'Playground',
+      title: 'Products',
       url: '#',
-      icon: SquareTerminal,
+      icon: Box,
       isActive: true,
       items: [
         {
-          title: 'History',
+          title: 'List Products',
           url: '#'
         },
         {
-          title: 'Starred',
+          title: 'Product Variant',
           url: '#'
         },
         {
-          title: 'Settings',
+          title: 'Colors',
+          url: '#'
+        },
+        {
+          title: 'Versions',
+          url: '#'
+        },
+        {
+          title: 'Specifications',
           url: '#'
         }
       ]
     },
     {
-      title: 'Models',
+      title: 'Orders',
       url: '#',
-      icon: Bot,
-      items: [
-        {
-          title: 'Genesis',
-          url: '#'
-        },
-        {
-          title: 'Explorer',
-          url: '#'
-        },
-        {
-          title: 'Quantum',
-          url: '#'
-        }
-      ]
-    },
-    {
-      title: 'Documentation',
-      url: '#',
-      icon: BookOpen,
+      icon: ShoppingCart,
       items: [
         {
           title: 'Introduction',
@@ -110,46 +101,43 @@ const data = {
           url: '#'
         }
       ]
-    },
-    {
-      title: 'Settings',
-      url: '#',
-      icon: Settings2,
-      items: [
-        {
-          title: 'General',
-          url: '#'
-        },
-        {
-          title: 'Team',
-          url: '#'
-        },
-        {
-          title: 'Billing',
-          url: '#'
-        },
-        {
-          title: 'Limits',
-          url: '#'
-        }
-      ]
     }
   ],
   projects: [
     {
-      name: 'Design Engineering',
+      name: 'Categories',
       url: '#',
-      icon: Frame
+      icon: ListCollapseIcon
     },
     {
-      name: 'Sales & Marketing',
+      name: 'Blog',
       url: '#',
-      icon: PieChart
+      icon: StickyNote
     },
     {
-      name: 'Travel',
+      name: 'Users',
       url: '#',
-      icon: Map
+      icon: Users2
+    },
+    {
+      name: 'Vouchers',
+      url: '#',
+      icon: TicketPercent
+    },
+    {
+      name: 'Tags',
+      url: '#',
+      icon: Tags
+    },
+    {
+      name: 'Reviews',
+      url: '#',
+      icon: MessageCircleMore
+    },
+    {
+      name: 'Settings',
+      url: '#',
+      icon: Settings
     }
   ]
 }

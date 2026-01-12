@@ -7,14 +7,13 @@ import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
-import { createSignUpSchema } from '@/components/auth/schemas/schemas'
+import { signUpSchema } from '@/components/auth/schemas/schemas'
+import LanguageSelector from '@/components/common/LanguageSelector'
 import { Trans, useTranslation } from 'react-i18next'
 import type z from 'zod'
-import LanguageSelector from '@/components/common/LanguageSelector'
 
 export function SignupForm({ className, ...props }: React.ComponentProps<'div'>) {
   const { t } = useTranslation('auth')
-  const signUpSchema = createSignUpSchema(t)
   type SignUpFormValue = z.infer<typeof signUpSchema>
 
   const {
@@ -120,6 +119,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
       </Card>
       <div className='text-sm text-balance px-6 text-center text-muted-foreground'>
         <Trans
+          ns='auth'
           i18nKey='signup.term-privacy'
           components={{
             terms: <a href='#' className='underline underline-offset-4 hover:text-primary' />,
