@@ -5,21 +5,11 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { LANGUAGES } from '@/defines/language-constants'
-import { useCallback, useId } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useLocaleLanguage } from '@/hooks/useLocaleLanguage'
+import { useId } from 'react'
 
 export default function LanguageSelector() {
-  const { i18n } = useTranslation('auth')
-
-  const currentLanguage = LANGUAGES.find((lang) => lang.code === i18n.resolvedLanguage)?.code
-
-  const changeLanguage = useCallback(
-    (lang: string) => {
-      i18n.changeLanguage(lang)
-    },
-    [i18n]
-  )
+  const { currentLanguage, changeLanguage, languages } = useLocaleLanguage()
 
   const id = useId()
   return (
@@ -33,7 +23,7 @@ export default function LanguageSelector() {
             <SelectValue placeholder='Select framework' />
           </SelectTrigger>
           <SelectContent className='[&_*[role=option]>span>svg]:text-muted-foreground/80 max-h-100 [&_*[role=option]]:pr-8 [&_*[role=option]]:pl-2 [&_*[role=option]>span]:right-2 [&_*[role=option]>span]:left-auto [&_*[role=option]>span]:flex [&_*[role=option]>span]:items-center [&_*[role=option]>span]:gap-2 [&_*[role=option]>span>svg]:shrink-0'>
-            {LANGUAGES.map((lang) => (
+            {languages.map((lang) => (
               <SelectItem key={lang.code} value={lang.code}>
                 <img src={lang.flag} alt={`${lang.label} flag`} className='h-4 w-5' />{' '}
                 <span className='truncate'>{lang.label}</span>
