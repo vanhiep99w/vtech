@@ -1,44 +1,59 @@
+// schemas.ts
 import { z } from 'zod'
+import {
+  NAME_MIN_LENGTH,
+  USERNAME_MIN_LENGTH,
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_LOWERCASE_REGEX,
+  PASSWORD_UPPERCASE_REGEX,
+  PASSWORD_NUMBER_REGEX,
+  PASSWORD_SPECIAL_REGEX
+} from '@/defines/auth-constants'
+import i18n from '@/i18n/i18n'
 
-const logInSchema = z.object({
-  email: z.string().min(1, 'Email không được để trống!').email('Email không hợp lệ !'),
+export const logInSchema = z.object({
+  email: z
+    .string()
+    .min(1, i18n.t('auth:errors.email.required'))
+    .email(i18n.t('auth:errors.email.invalid')),
   password: z
     .string()
-    .min(6, 'Mật khẩu phải có ít nhất 6 ký tự ! ')
-    .refine((val) => /[A-Z]/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 chữ hoa!'
+    .min(PASSWORD_MIN_LENGTH, i18n.t('auth:errors.password.min'))
+    .refine((val) => PASSWORD_UPPERCASE_REGEX.test(val), {
+      message: i18n.t('auth:errors.password.uppercase')
     })
-    .refine((val) => /[a-z]/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 chữ thường!'
+    .refine((val) => PASSWORD_LOWERCASE_REGEX.test(val), {
+      message: i18n.t('auth:errors.password.lowercase')
     })
-    .refine((val) => /\d/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 số!'
+    .refine((val) => PASSWORD_NUMBER_REGEX.test(val), {
+      message: i18n.t('auth:errors.password.number')
     })
-    .refine((val) => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt!'
+    .refine((val) => PASSWORD_SPECIAL_REGEX.test(val), {
+      message: i18n.t('auth:errors.password.special')
     })
 })
 
-const signUpSchema = z.object({
-  lastname: z.string().min(1, 'Họ bắt buộc phải có !'),
-  firstname: z.string().min(1, 'Tên bắt buộc phải có !'),
-  username: z.string().min(3, 'Tên đăng nhập phải có ít nhất 3 ký tự !'),
-  email: z.string().min(1, 'Email không được để trống!').email('Email không hợp lệ !'),
+export const signUpSchema = z.object({
+  lastname: z.string().min(NAME_MIN_LENGTH, i18n.t('auth:errors.lastname.required')),
+  firstname: z.string().min(NAME_MIN_LENGTH, i18n.t('auth:errors.firstname.required')),
+  username: z.string().min(USERNAME_MIN_LENGTH, i18n.t('auth:errors.username.min')),
+  email: z
+    .string()
+    .min(NAME_MIN_LENGTH, i18n.t('auth:errors.email.required'))
+    .email(i18n.t('auth:errors.email.invalid')),
   password: z
     .string()
-    .min(6, 'Mật khẩu phải có ít nhất 6 ký tự ! ')
-    .refine((val) => /[A-Z]/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 chữ hoa!'
+    .min(PASSWORD_MIN_LENGTH, i18n.t('auth:errors.password.min'))
+    .refine((val) => PASSWORD_UPPERCASE_REGEX.test(val), {
+      message: i18n.t('auth:errors.password.uppercase')
     })
-    .refine((val) => /[a-z]/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 chữ thường!'
+    .refine((val) => PASSWORD_LOWERCASE_REGEX.test(val), {
+      message: i18n.t('auth:errors.password.lowercase')
     })
-    .refine((val) => /\d/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 số!'
+    .refine((val) => PASSWORD_NUMBER_REGEX.test(val), {
+      message: i18n.t('auth:errors.password.number')
     })
-    .refine((val) => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(val), {
-      message: 'Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt!'
+    .refine((val) => PASSWORD_SPECIAL_REGEX.test(val), {
+      message: i18n.t('auth:errors.password.special')
     })
 })
-
-export { logInSchema, signUpSchema }
