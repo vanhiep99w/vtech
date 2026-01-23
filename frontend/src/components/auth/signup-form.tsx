@@ -9,12 +9,17 @@ import { useForm } from 'react-hook-form'
 
 import { signUpSchema } from '@/components/auth/schemas/schemas'
 import LanguageSelector from '@/components/common/LanguageSelector'
+import { useAuthStore } from '@/store/auth.store'
 import { Trans, useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 import type z from 'zod'
 
 export function SignupForm({ className, ...props }: React.ComponentProps<'div'>) {
   const { t } = useTranslation('auth')
   type SignUpFormValue = z.infer<typeof signUpSchema>
+  const navigate = useNavigate()
+  const { register: registerUser } = useAuthStore()
 
   const {
     register,
@@ -24,8 +29,22 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
     resolver: zodResolver(signUpSchema)
   })
 
-  const onSubmit = () => {
-    // TODO: gọi api back-end
+  const onSubmit = async (data: SignUpFormValue) => {
+    try {
+      await registerUser({
+        username: data.username,
+        email: data.email,
+        password: data.password
+      })
+      toast.success(t('signup.success'))
+      navigate('/login')
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message)
+      } else {
+        toast.error(t('signup.errors'))
+      }
+    }
   }
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
@@ -41,29 +60,6 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                 <h1 className='text-2xl font-bold'>{t('signup.title')}</h1>
                 <p className='text-muted-foreground text-balance'>{t('signup.subtitle')}</p>
               </div>
-
-              <div className='grid grid-cols-2 gap-3'>
-                <div className='space-y-2'>
-                  <Label htmlFor='lastname' className='block text-sm'>
-                    {t('signup.lastname')}
-                  </Label>
-                  <Input type='text' id='lastname' {...register('lastname')} />
-                  {errors.lastname && (
-                    <p className='text-destructive text-sm'>{errors.lastname.message}</p>
-                  )}
-                </div>
-
-                <div className='space-y-2'>
-                  <Label htmlFor='firstname' className='block text-sm'>
-                    {t('signup.firstname')}
-                  </Label>
-                  <Input type='text' id='firstname' {...register('firstname')} />
-                  {errors.firstname && (
-                    <p className='text-destructive text-sm'>{errors.firstname.message}</p>
-                  )}
-                </div>
-              </div>
-
               <div className='flex flex-col gap-3'>
                 <Label htmlFor='username' className='block text-sm'>
                   {t('signup.username')}

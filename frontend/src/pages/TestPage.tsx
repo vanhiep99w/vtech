@@ -1,3 +1,4 @@
+import Logout from '@/components/auth/Logout'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@components/ui/card'
@@ -29,6 +30,7 @@ const TestPage = () => {
         </div>
       </Card>
       <span>{t('addtocart')}</span>
+      <Logout />
     </>
   )
 }
