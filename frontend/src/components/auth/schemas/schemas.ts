@@ -34,8 +34,8 @@ export const logInSchema = z.object({
 })
 
 export const signUpSchema = z.object({
-  lastname: z.string().min(NAME_MIN_LENGTH, i18n.t('auth:errors.lastname.required')),
-  firstname: z.string().min(NAME_MIN_LENGTH, i18n.t('auth:errors.firstname.required')),
+  // lastname: z.string().min(NAME_MIN_LENGTH, i18n.t('auth:errors.lastname.required')),
+  // firstname: z.string().min(NAME_MIN_LENGTH, i18n.t('auth:errors.firstname.required')),
   username: z.string().min(USERNAME_MIN_LENGTH, i18n.t('auth:errors.username.min')),
   email: z
     .string()

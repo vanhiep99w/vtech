@@ -11,11 +11,15 @@ import { logInSchema } from '@/components/auth/schemas/schemas'
 import { useTranslation } from 'react-i18next'
 
 import LanguageSelector from '@/components/common/LanguageSelector'
+import { useAuthStore } from '@/store/auth.store'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 import type z from 'zod'
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
   const { t } = useTranslation('auth')
   type LogInFormValue = z.infer<typeof logInSchema>
+  const navigate = useNavigate()
 
   const {
     register,
@@ -25,8 +29,23 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
     resolver: zodResolver(logInSchema)
   })
 
-  const onSubmit = () => {
-    // TODO: gọi api back-end
+  const { login, roles } = useAuthStore()
+
+  const onSubmit = async (data: LogInFormValue) => {
+    try {
+      await login(data)
+      if (roles.includes('ADMIN')) {
+        navigate('/dashboard')
+      } else {
+        navigate('/profile')
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message)
+      } else {
+        toast.error('Login failed')
+      }
+    }
   }
 
   return (

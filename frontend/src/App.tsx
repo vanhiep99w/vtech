@@ -1,8 +1,10 @@
+import ProtectedRoute from '@/components/auth/ProtectedRoute'
 import LayoutAdmin from '@/pages/admin/LayoutAdmin'
 import LoginPage from '@/pages/auth/LoginPage'
 import SignupPage from '@/pages/auth/SignupPage'
 import NotFound404 from '@/pages/NotFound404'
 import TestPage from '@/pages/TestPage'
+import ProfilePage from '@/pages/user/ProfilePage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Toaster } from 'sonner'
 
@@ -24,8 +26,11 @@ function App() {
           <Route path='/login' element={<LoginPage />} />
           <Route path='/signup' element={<SignupPage />} />
           {/* TODO: tạo protected route */}
+          <Route element={<ProtectedRoute />}>
+            <Route path='/profile' element={<ProfilePage />} />
+            <Route path='/dashboard' element={<LayoutAdmin />} />
+          </Route>
           <Route path='/' element={<TestPage />} />
-          <Route path='/dashboard' element={<LayoutAdmin />} />
         </Routes>
       </BrowserRouter>
     </>
