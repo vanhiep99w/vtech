@@ -1,4 +1,6 @@
+import UserPage from '@/pages/admin/manage-user/page'
 import ProtectedRoute from '@/components/auth/ProtectedRoute'
+import DashboardHome from '@/pages/admin/dashboard/content/DashBoardHome'
 import LayoutAdmin from '@/pages/admin/LayoutAdmin'
 import LoginPage from '@/pages/auth/LoginPage'
 import SignupPage from '@/pages/auth/SignupPage'
@@ -28,7 +30,10 @@ function App() {
           {/* TODO: tạo protected route */}
           <Route element={<ProtectedRoute />}>
             <Route path='/profile' element={<ProfilePage />} />
-            <Route path='/dashboard' element={<LayoutAdmin />} />
+            <Route path='/dashboard' element={<LayoutAdmin />}>
+              <Route index element={<DashboardHome />} />
+              <Route path='users' element={<UserPage />} />
+            </Route>
           </Route>
           <Route path='/' element={<TestPage />} />
         </Routes>
