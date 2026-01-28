@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import i18n from '@/i18n/i18n'
 
 interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>
@@ -43,16 +44,16 @@ export function DataTableColumnHeader<TData, TValue>({
         <DropdownMenuContent align='start'>
           <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
             <ArrowUp />
-            Asc
+            {i18n.t('common:datatableHeader.sortAsc')}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
             <ArrowDown />
-            Desc
+            {i18n.t('common:datatableHeader.sortDesc')}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
             <EyeOff />
-            Hide
+            {i18n.t('common:datatableHeader.hide')}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

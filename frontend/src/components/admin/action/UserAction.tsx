@@ -1,0 +1,52 @@
+'use client'
+
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Edit, Eye, Trash2 } from 'lucide-react'
+import type { User } from '@/pages/admin/manage-user/columns'
+import { EditUserDialog } from '@/components/admin/data/EditUserDialog'
+
+interface UserActionsCellProps {
+  user: User
+}
+
+export function UserActionsCell({ user }: UserActionsCellProps) {
+  const [openEdit, setOpenEdit] = useState(false)
+
+  return (
+    <>
+      <div className='flex items-center justify-center gap-2'>
+        <Button
+          variant='ghost'
+          size='default'
+          className='h-8 px-2.5 hover:bg-yellow-100 hover:text-orange-700 dark:hover:bg-yellow-100/20'
+          onClick={() => setOpenEdit(true)}
+        >
+          <Edit className='h-4 w-4' />
+        </Button>
+
+        <Button
+          variant='ghost'
+          size='default'
+          className='h-8 px-2.5 hover:bg-blue-50 hover:text-blue-500 dark:hover:bg-blue-900/20 '
+          onClick={() => {
+            // TODO: Thêm logic view
+          }}
+        >
+          <Eye className='h-4 w-4' />
+        </Button>
+
+        <Button
+          variant='ghost'
+          size='default'
+          className='h-8 px-2.5 hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-900/20'
+          // TODO: Thêm logic delete
+        >
+          <Trash2 className='h-4 w-4' />
+        </Button>
+      </div>
+
+      <EditUserDialog open={openEdit} onOpenChange={setOpenEdit} user={user} />
+    </>
+  )
+}

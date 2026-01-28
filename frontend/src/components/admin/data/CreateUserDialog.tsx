@@ -1,3 +1,5 @@
+import { CreateUserForm } from '@/components/admin/data/CreateUserForm'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -5,26 +7,27 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
-import { CreateUserForm } from '@/components/admin/data/CreateUserForm'
+import { useTranslation } from 'react-i18next'
 
 export function CreateUserDialog() {
+  const { t } = useTranslation('user')
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size='default' className='hidden h-8 lg:flex'>
-          <Plus />
-          Create new
+        <Button className='ml-auto'>
+          <Plus className='mr-2 h-4 w-4' />
+          {t('create.button')}
         </Button>
       </DialogTrigger>
 
-      <DialogContent className='sm:max-w-[500px]'>
-        <DialogHeader>
-          <DialogTitle>Create new user</DialogTitle>
+      <DialogContent className='sm:max-w-[700px] p-0'>
+        <DialogHeader className='px-6 pt-6'>
+          <DialogTitle>{t('create.dialogTitle')}</DialogTitle>
         </DialogHeader>
-
-        <CreateUserForm />
+        <div className='max-h-[80vh] overflow-y-auto px-6 pb-6'>
+          <CreateUserForm />
+        </div>
       </DialogContent>
     </Dialog>
   )

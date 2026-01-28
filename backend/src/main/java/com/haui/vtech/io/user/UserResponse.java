@@ -3,6 +3,8 @@ package com.haui.vtech.io.user;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
 @Builder
 public class UserResponse {
@@ -13,4 +15,5 @@ public class UserResponse {
     private String phone;
     private String avatar;
     private Integer status;
+    private Set<String> roles;
 }

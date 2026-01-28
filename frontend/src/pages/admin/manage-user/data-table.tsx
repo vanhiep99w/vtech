@@ -1,5 +1,3 @@
-'use client'
-
 import { CreateUserDialog } from '@/components/admin/data/CreateUserDialog'
 import { DataTablePagination } from '@/components/admin/datatable/DataTablePagination'
 import { DataTableViewOptions } from '@/components/admin/datatable/DataTableViewOptions'
@@ -33,6 +31,7 @@ import {
 } from '@tanstack/react-table'
 import { X } from 'lucide-react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface DataTableProps<TData, TValue> {
   data: TData[]
@@ -69,29 +68,31 @@ export function DataTable<TData, TValue>({ data, columns }: DataTableProps<TData
     table.resetSorting()
   }
 
+  const { t } = useTranslation('user')
+
   return (
     <>
       <div className='flex items-center gap-2 py-4'>
         <Input
-          placeholder='Search user'
+          placeholder={t('filters.search')}
           value={(table.getColumn('user')?.getFilterValue() as string) ?? ''}
           onChange={(event) => table.getColumn('user')?.setFilterValue(event.target.value)}
           className='max-w-sm'
         />
         <Select
-          value={(table.getColumn('role')?.getFilterValue() as string) ?? 'all'}
+          value={(table.getColumn('roles')?.getFilterValue() as string) ?? 'all'}
           onValueChange={(value) =>
-            table.getColumn('role')?.setFilterValue(value === 'all' ? undefined : value)
+            table.getColumn('roles')?.setFilterValue(value === 'all' ? undefined : value)
           }
         >
           <SelectTrigger className='w-[150px]'>
-            <SelectValue placeholder='Role' />
+            <SelectValue placeholder={t('filters.role.label')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value='all'>All roles</SelectItem>
-            <SelectItem value='ADMIN'>Admin</SelectItem>
-            <SelectItem value='USER'>User</SelectItem>
-            <SelectItem value='STAFF'>Staff</SelectItem>
+            <SelectItem value='all'>{t('filters.role.all')}</SelectItem>
+            <SelectItem value='ADMIN'>{t('filters.role.ADMIN')}</SelectItem>
+            <SelectItem value='USER'>{t('filters.role.USER')}</SelectItem>
+            <SelectItem value='STAFF'>{t('filters.role.STAFF')}</SelectItem>
           </SelectContent>
         </Select>
         <Select
@@ -100,18 +101,18 @@ export function DataTable<TData, TValue>({ data, columns }: DataTableProps<TData
             table.getColumn('status')?.setFilterValue(value === 'all' ? undefined : value)
           }
         >
-          <SelectTrigger className='w-[150px]'>
-            <SelectValue placeholder='Status' />
+          <SelectTrigger className='w-[160px]'>
+            <SelectValue placeholder={t('filters.status.label')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value='all'>All status</SelectItem>
-            <SelectItem value='ACTIVE'>Active</SelectItem>
-            <SelectItem value='INACTIVE'>Inactive</SelectItem>
+            <SelectItem value='all'>{t('filters.status.all')}</SelectItem>
+            <SelectItem value='ACTIVE'>{t('filters.status.ACTIVE')}</SelectItem>
+            <SelectItem value='INACTIVE'>{t('filters.status.INACTIVE')}</SelectItem>
           </SelectContent>
         </Select>
         {isFiltered && (
           <Button size='default' className='h-8' onClick={handleResetFilters}>
-            Reset
+            {t('filters.reset')}
             <X />
           </Button>
         )}
@@ -149,7 +150,7 @@ export function DataTable<TData, TValue>({ data, columns }: DataTableProps<TData
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className='text-center'>
-                  No results.
+                  {t('table.noResults')}
                 </TableCell>
               </TableRow>
             )}

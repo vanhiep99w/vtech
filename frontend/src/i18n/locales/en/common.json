@@ -34,5 +34,24 @@
   "language": {
     "vietnamese": "Vietnamese",
     "english": "English"
+  },
+  "datatablePagination": {
+    "rowsSelected": "{{selected}} of {{total}} row(s) selected.",
+    "rowsPerPage": "Rows per page",
+    "page": "Page {{current}} of {{total}}",
+    "goToFirst": "Go to first page",
+    "goToPrevious": "Go to previous page",
+    "goToNext": "Go to next page",
+    "goToLast": "Go to last page"
+  },
+  "datatableHeader": {
+    "sortAsc": "ASC",
+    "sortDesc": "DESC",
+    "hide": "Hide column"
+  },
+
+  "datatableView": {
+    "view": "View",
+    "toggleColumns": "Toggle columns"
   }
 }

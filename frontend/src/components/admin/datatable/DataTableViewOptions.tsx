@@ -11,18 +11,21 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { type Table } from '@tanstack/react-table'
 import { Settings2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export function DataTableViewOptions<TData>({ table }: { table: Table<TData> }) {
+  const { t } = useTranslation('common')
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant='outline' size='default' className='ml-auto hidden h-8 lg:flex'>
           <Settings2 />
-          View
+          {t('datatableView.view')}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[150px]'>
-        <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+        <DropdownMenuLabel>{t('datatableView.toggleColumns')}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {table
           .getAllColumns()

@@ -14,6 +14,11 @@ public interface UserMapper {
 
     UserEntity toEntity(UserCreationRequest request);
 
+    @Mapping(target = "roles",
+            expression = "java(userEntity.getRoles() == null ? null : " +
+                    "userEntity.getRoles().stream()" +
+                    ".map(role -> role.getName())" +
+                    ".collect(java.util.stream.Collectors.toSet()))")
     UserResponse toUserResponse(UserEntity userEntity);
 
     ProfileUpdateResponse toProfileUpdateResponse(UserEntity userEntity);
