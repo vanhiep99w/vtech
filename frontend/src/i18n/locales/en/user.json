@@ -1,16 +1,19 @@
 {
   "create": {
     "button": "Create user",
-    "dialogTitle": "Create new user",
     "cardTitle": "Create New User",
     "description": "Fill in the details below to create a new user account.",
 
     "sections": {
       "personal": "Personal Information",
       "account": "Account Settings"
-    },
+    }
+  },
 
-    "submit": "Create User"
+  "dialogTitle": {
+    "create": "Create new user",
+    "update": "Update user",
+    "view": "User details"
   },
 
   "fields": {
@@ -63,7 +66,9 @@
         "ACTIVE": "Active",
         "INACTIVE": "Inactive"
       }
-    }
+    },
+    "createdAt": "Created at",
+    "updatedAt": "Updated at"
   },
 
   "table": {
@@ -99,7 +104,9 @@
   "actions": {
     "view": "View",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "close": "Close",
+    "submit": "Create User"
   },
 
   "list": "All users",

@@ -7,6 +7,8 @@ export interface UserResponse {
   avatar?: string | null
   status: number
   roles: string[]
+  createdAt: string
+  updatedAt: string
 }
 
 export type UpdateUserRequest = {

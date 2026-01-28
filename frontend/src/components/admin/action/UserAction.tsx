@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Edit, Eye, Trash2 } from 'lucide-react'
 import type { User } from '@/pages/admin/manage-user/columns'
 import { EditUserDialog } from '@/components/admin/data/EditUserDialog'
+import { ViewUserDialog } from '@/components/admin/data/ViewUserDialog'
 
 interface UserActionsCellProps {
   user: User
@@ -12,6 +13,7 @@ interface UserActionsCellProps {
 
 export function UserActionsCell({ user }: UserActionsCellProps) {
   const [openEdit, setOpenEdit] = useState(false)
+  const [openView, setOpenView] = useState(false)
 
   return (
     <>
@@ -30,7 +32,7 @@ export function UserActionsCell({ user }: UserActionsCellProps) {
           size='default'
           className='h-8 px-2.5 hover:bg-blue-50 hover:text-blue-500 dark:hover:bg-blue-900/20 '
           onClick={() => {
-            // TODO: Thêm logic view
+            setOpenView(true)
           }}
         >
           <Eye className='h-4 w-4' />
@@ -47,6 +49,7 @@ export function UserActionsCell({ user }: UserActionsCellProps) {
       </div>
 
       <EditUserDialog open={openEdit} onOpenChange={setOpenEdit} user={user} />
+      <ViewUserDialog open={openView} onOpenChange={setOpenView} user={user} />
     </>
   )
 }

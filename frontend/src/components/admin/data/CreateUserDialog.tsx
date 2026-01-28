@@ -23,7 +23,7 @@ export function CreateUserDialog() {
 
       <DialogContent className='sm:max-w-[700px] p-0'>
         <DialogHeader className='px-6 pt-6'>
-          <DialogTitle>{t('create.dialogTitle')}</DialogTitle>
+          <DialogTitle>{t('dialogTitle.create')}</DialogTitle>
         </DialogHeader>
         <div className='max-h-[80vh] overflow-y-auto px-6 pb-6'>
           <CreateUserForm />

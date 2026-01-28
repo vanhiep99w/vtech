@@ -1,6 +1,7 @@
 import { EditUserForm } from './EditUserForm'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import type { User } from '@/pages/admin/manage-user/columns'
+import { useTranslation } from 'react-i18next'
 
 interface EditUserDialogProps {
   open: boolean
@@ -9,11 +10,13 @@ interface EditUserDialogProps {
 }
 
 export function EditUserDialog({ open, onOpenChange, user }: EditUserDialogProps) {
+  const { t } = useTranslation('user')
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='sm:max-w-[700px] p-0'>
         <DialogHeader className='px-6 pt-6'>
-          <DialogTitle>Cập nhật người dùng</DialogTitle>
+          <DialogTitle>{t('dialogTitle.update')}</DialogTitle>
         </DialogHeader>
 
         <div className='max-h-[80vh] overflow-y-auto px-6 pb-6'>

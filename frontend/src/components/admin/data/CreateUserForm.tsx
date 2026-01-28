@@ -190,7 +190,7 @@ export function CreateUserForm() {
             <div className='flex justify-end gap-3 pt-4 border-t'>
               <Button type='submit' className='min-w-[100px]' disabled={isSubmitting}>
                 <UserPlus className='mr-2 h-4 w-4' />
-                {t('create.submit')}
+                {t('actions.submit')}
               </Button>
             </div>
           </div>

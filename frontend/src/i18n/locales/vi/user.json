@@ -1,16 +1,19 @@
 {
   "create": {
     "button": "Tạo người dùng",
-    "dialogTitle": "Tạo người dùng mới",
     "cardTitle": "Tạo người dùng mới",
     "description": "Vui lòng nhập thông tin bên dưới để tạo tài khoản người dùng.",
 
     "sections": {
       "personal": "Thông tin cá nhân",
       "account": "Thiết lập tài khoản"
-    },
+    }
+  },
 
-    "submit": "Tạo người dùng"
+  "dialogTitle": {
+    "create": "Tạo người dùng mới",
+    "update": "Cập nhật người dùng",
+    "view": "Thông tin chi tiết người dùng"
   },
 
   "fields": {
@@ -63,7 +66,9 @@
         "ACTIVE": "Hoạt động",
         "INACTIVE": "Ngừng hoạt động"
       }
-    }
+    },
+    "createdAt": "Ngày tạo",
+    "updatedAt": "Ngày cập nhật"
   },
 
   "table": {
@@ -99,7 +104,9 @@
   "actions": {
     "view": "Xem",
     "edit": "Chỉnh sửa",
-    "delete": "Xóa"
+    "delete": "Xóa",
+    "close": "Đóng",
+    "submit": "Tạo người dùng"
   },
 
   "list": "Danh sách người dùng",
