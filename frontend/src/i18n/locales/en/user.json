@@ -13,7 +13,8 @@
   "dialogTitle": {
     "create": "Create new user",
     "update": "Update user",
-    "view": "User details"
+    "view": "User details",
+    "delete": "Delete user"
   },
 
   "fields": {
@@ -106,7 +107,9 @@
     "edit": "Edit",
     "delete": "Delete",
     "close": "Close",
-    "submit": "Create User"
+    "submit": "Create User",
+    "cancel": "Cancel",
+    "confirm": "Comfirm"
   },
 
   "list": "All users",
@@ -115,7 +118,7 @@
       "create": "User created successfully!",
       "update": "User updated successfully!",
       "delete": "User deleted successfully!",
-      "deleteConfirm": "Are you sure you want to delete this user?"
+      "deleteConfirm": "Are you sure you want to delete user {{email}}? This action cannot be undone."
     },
     "error": {
       "create": "Failed to create user!",

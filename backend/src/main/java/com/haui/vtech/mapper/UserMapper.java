@@ -1,5 +1,6 @@
 package com.haui.vtech.mapper;
 
+import com.haui.vtech.entity.RoleEntity;
 import com.haui.vtech.entity.UserEntity;
 import com.haui.vtech.io.user.ProfileUpdateResponse;
 import com.haui.vtech.io.user.UserCreationRequest;
@@ -9,16 +10,16 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
     UserEntity toEntity(UserCreationRequest request);
 
     @Mapping(target = "roles",
-            expression = "java(userEntity.getRoles() == null ? null : " +
-                    "userEntity.getRoles().stream()" +
-                    ".map(role -> role.getName())" +
-                    ".collect(java.util.stream.Collectors.toSet()))")
+            expression = "java(mapRoleNames(userEntity))")
     UserResponse toUserResponse(UserEntity userEntity);
 
     ProfileUpdateResponse toProfileUpdateResponse(UserEntity userEntity);
@@ -27,4 +28,12 @@ public interface UserMapper {
     @Mapping(target = "email", ignore = true)
     @Mapping(target = "roles", ignore = true)
     void updateUser(@MappingTarget UserEntity userEntity, ProfileUpdateRequest request);
+
+    default Set<String> mapRoleNames(UserEntity userEntity) {
+        return (userEntity.getRoles() == null)
+                ? null
+                : userEntity.getRoles().stream()
+                .map(RoleEntity::getName)
+                .collect(Collectors.toSet());
+    }
 }

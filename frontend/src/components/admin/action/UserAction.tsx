@@ -6,6 +6,7 @@ import { Edit, Eye, Trash2 } from 'lucide-react'
 import type { User } from '@/pages/admin/manage-user/columns'
 import { EditUserDialog } from '@/components/admin/data/EditUserDialog'
 import { ViewUserDialog } from '@/components/admin/data/ViewUserDialog'
+import { DeleteUserDialog } from '@/components/admin/data/DeleteUserDialog'
 
 interface UserActionsCellProps {
   user: User
@@ -14,6 +15,7 @@ interface UserActionsCellProps {
 export function UserActionsCell({ user }: UserActionsCellProps) {
   const [openEdit, setOpenEdit] = useState(false)
   const [openView, setOpenView] = useState(false)
+  const [openDelete, setOpenDelete] = useState(false)
 
   return (
     <>
@@ -42,7 +44,9 @@ export function UserActionsCell({ user }: UserActionsCellProps) {
           variant='ghost'
           size='default'
           className='h-8 px-2.5 hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-900/20'
-          // TODO: Thêm logic delete
+          onClick={() => {
+            setOpenDelete(true)
+          }}
         >
           <Trash2 className='h-4 w-4' />
         </Button>
@@ -50,6 +54,12 @@ export function UserActionsCell({ user }: UserActionsCellProps) {
 
       <EditUserDialog open={openEdit} onOpenChange={setOpenEdit} user={user} />
       <ViewUserDialog open={openView} onOpenChange={setOpenView} user={user} />
+      <DeleteUserDialog
+        open={openDelete}
+        onOpenChange={setOpenDelete}
+        user={user}
+        onDeleted={() => window.location.reload()}
+      />
     </>
   )
 }

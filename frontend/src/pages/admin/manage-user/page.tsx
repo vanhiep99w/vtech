@@ -11,27 +11,26 @@ export default function UserPage() {
 
   const [data, setData] = useState<User[]>([])
   const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        setLoading(true)
-        const res = await getAllUsersApi()
-        setData(res)
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          toast.error(error.message)
-        } else {
-          toast.error('Load data failed')
-        }
-      } finally {
-        setLoading(false)
+  const fetchUsers = async () => {
+    try {
+      setLoading(true)
+      const res = await getAllUsersApi()
+      setData(res)
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message)
+      } else {
+        toast.error('Load data failed')
       }
+    } finally {
+      setLoading(false)
     }
-
+  }
+  useEffect(() => {
     fetchUsers()
   }, [])
 
+  // console.log('--------------test render--------')
   return (
     <div>
       <div className='mb-8 px-4 py-2 bg-secondary rounded-md'>

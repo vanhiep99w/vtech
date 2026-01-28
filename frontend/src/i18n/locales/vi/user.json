@@ -13,7 +13,8 @@
   "dialogTitle": {
     "create": "Tạo người dùng mới",
     "update": "Cập nhật người dùng",
-    "view": "Thông tin chi tiết người dùng"
+    "view": "Thông tin chi tiết người dùng",
+    "delete": "Xoá người dùng"
   },
 
   "fields": {
@@ -106,7 +107,9 @@
     "edit": "Chỉnh sửa",
     "delete": "Xóa",
     "close": "Đóng",
-    "submit": "Tạo người dùng"
+    "submit": "Tạo người dùng",
+    "cancel": "Huỷ",
+    "confirm": "Xác nhận"
   },
 
   "list": "Danh sách người dùng",
@@ -115,7 +118,7 @@
       "create": "Tạo người dùng thành công!",
       "update": "Cập nhật người dùng thành công!",
       "delete": "Xóa người dùng thành công!",
-      "deleteConfirm": "Bạn có chắc chắn muốn xóa người dùng này không?"
+      "deleteConfirm": "Bạn có chắc chắn muốn xóa người dùng {{email}} không? Hành động này không thể hoàn tác."
     },
     "error": {
       "create": "Tạo người dùng thất bại!",

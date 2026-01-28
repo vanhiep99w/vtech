@@ -13,3 +13,8 @@ export const updateUserApi = async (userId: string, payload: UpdateUserRequest) 
   const res = await api.put<ApiResponse<UpdateUserResponse>>(`/users/${userId}`, payload)
   return res.data.data
 }
+
+export const deleteUserApi = async (userId: string) => {
+  const res = await api.delete<ApiResponse<void>>(`/users/${userId}`)
+  return res.data
+}
