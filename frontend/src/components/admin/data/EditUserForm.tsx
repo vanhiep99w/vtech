@@ -15,6 +15,7 @@ import { Controller, useForm } from 'react-hook-form'
 import type { User } from '@/pages/admin/manage-user/columns'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 interface EditUserFormProps {
   user: User
@@ -27,7 +28,7 @@ export function EditUserForm({ user, onSuccess }: EditUserFormProps) {
     register,
     handleSubmit,
     control,
-    formState: { errors, isSubmitting }
+    formState: { errors }
   } = useForm<EditUserFormValues>({
     resolver: zodResolver(editUserSchema),
     defaultValues: {
@@ -39,29 +40,29 @@ export function EditUserForm({ user, onSuccess }: EditUserFormProps) {
     }
   })
 
-  const onSubmit = async (values: EditUserFormValues) => {
-    try {
-      await updateUserApi(user.id, {
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation({
+    mutationFn: (values: EditUserFormValues) =>
+      updateUserApi(user.id, {
         username: values.username,
         fullName: values.fullName,
         phone: values.phone,
         avatar: values.avatar,
         status: values.status === 'ACTIVE' ? 1 : 0
-      })
-
+      }),
+    onSuccess: () => {
       toast.success(t('message.success.update'))
+      queryClient.invalidateQueries({ queryKey: ['users'] })
       onSuccess()
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast.error(error.message)
-      } else {
-        toast.error(t('message.error.update'))
-      }
+    },
+    onError: () => {
+      toast.error(t('message.error.update'))
     }
-  }
+  })
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
+    <form onSubmit={handleSubmit((values) => mutation.mutate(values))} className='space-y-4'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
         <div className='space-y-2'>
           <Label>{t('fields.username.label')}</Label>
@@ -77,6 +78,7 @@ export function EditUserForm({ user, onSuccess }: EditUserFormProps) {
         <div className='space-y-2'>
           <Label>{t('fields.phone.label')}</Label>
           <Input {...register('phone')} />
+          {errors.phone && <p className='text-destructive text-sm'>{errors.phone.message}</p>}
         </div>
 
         <div className='space-y-2'>
@@ -114,7 +116,7 @@ export function EditUserForm({ user, onSuccess }: EditUserFormProps) {
         </div>
       </div>
       <div className='flex justify-end'>
-        <Button type='submit' disabled={isSubmitting}>
+        <Button type='submit' disabled={mutation.isPending}>
           {t('actions.edit')}
         </Button>
       </div>

@@ -9,40 +9,39 @@ import {
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import { Trash2 } from 'lucide-react'
-import { deleteUserApi } from '@/services/user/user.api'
-import { toast } from 'sonner'
-import type { User } from '@/pages/admin/manage-user/columns'
-import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
 import i18n from '@/i18n/i18n'
+import type { User } from '@/pages/admin/manage-user/columns'
+import { deleteUserApi } from '@/services/user/user.api'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { AxiosError } from 'axios'
+import { Trash2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
 
 interface DeleteUserDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   user: User
-  onDeleted: () => void
 }
 
-export function DeleteUserDialog({ open, onOpenChange, user, onDeleted }: DeleteUserDialogProps) {
+export function DeleteUserDialog({ open, onOpenChange, user }: DeleteUserDialogProps) {
   const { t } = useTranslation('user')
-  const [loading, setLoading] = useState(false)
 
-  const handleDelete = async () => {
-    try {
-      setLoading(true)
-      await deleteUserApi(user.id)
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation({
+    mutationFn: () => deleteUserApi(user.id),
+    onSuccess: () => {
       toast.success(t('message.success.delete'))
       onOpenChange(false)
-      onDeleted()
-    } catch (error: unknown) {
+
+      queryClient.invalidateQueries({ queryKey: ['users'] })
+    },
+    onError: (error: unknown) => {
       const err = error as AxiosError<{ message?: string }>
       toast.error(err.response?.data?.message || t('message.error.delete'))
-    } finally {
-      setLoading(false)
     }
-  }
+  })
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
@@ -55,9 +54,13 @@ export function DeleteUserDialog({ open, onOpenChange, user, onDeleted }: Delete
         </AlertDialogHeader>
 
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={loading}>{i18n.t('common:common.cancel')}</AlertDialogCancel>
+          <AlertDialogCancel>{i18n.t('common:common.cancel')}</AlertDialogCancel>
           <AlertDialogAction asChild>
-            <Button variant='destructive' onClick={handleDelete} disabled={loading}>
+            <Button
+              variant='destructive'
+              onClick={() => mutation.mutate()}
+              disabled={mutation.isPending}
+            >
               <Trash2 className=' h-4 w-4' />
               {t('actions.confirm')}
             </Button>

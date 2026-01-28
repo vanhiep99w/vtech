@@ -15,9 +15,9 @@ export const createUserSchema = z.object({
 })
 
 export const editUserSchema = z.object({
-  username: z.string().min(3),
+  username: z.string().min(3, i18n.t('auth:errors.username.min')),
   fullName: z.string().optional().nullable(),
-  phone: z.string().optional().nullable(),
+  phone: z.string().min(8, i18n.t('auth:errors.phone.min')),
   avatar: z.string().url().optional().nullable(),
   status: z.enum(['ACTIVE', 'INACTIVE'])
 })

@@ -54,12 +54,7 @@ export function UserActionsCell({ user }: UserActionsCellProps) {
 
       <EditUserDialog open={openEdit} onOpenChange={setOpenEdit} user={user} />
       <ViewUserDialog open={openView} onOpenChange={setOpenView} user={user} />
-      <DeleteUserDialog
-        open={openDelete}
-        onOpenChange={setOpenDelete}
-        user={user}
-        onDeleted={() => window.location.reload()}
-      />
+      <DeleteUserDialog open={openDelete} onOpenChange={setOpenDelete} user={user} />
     </>
   )
 }
