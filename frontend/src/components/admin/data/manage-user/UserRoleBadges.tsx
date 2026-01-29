@@ -1,26 +1,8 @@
-import { Crown, PencilLine, User2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-
-const roleConfig = {
-  ADMIN: {
-    label: 'Admin',
-    icon: <Crown className='h-4 w-4' />,
-    className: 'bg-blue-100 text-blue-700'
-  },
-  USER: {
-    label: 'User',
-    icon: <User2 className='h-4 w-4' />,
-    className: 'bg-orange-100 text-orange-700'
-  },
-  STAFF: {
-    label: 'Staff',
-    icon: <PencilLine className='h-4 w-4' />,
-    className: 'bg-purple-100 text-purple-700'
-  }
-} as const
+import { ROLE_CONFIG, type UserRole } from '@/defines/roleConfig'
 
 interface UserRoleBadgesProps {
-  roles?: string[]
+  roles?: UserRole[]
 }
 
 export function UserRoleBadges({ roles }: UserRoleBadgesProps) {
@@ -29,8 +11,7 @@ export function UserRoleBadges({ roles }: UserRoleBadgesProps) {
   return (
     <div className='flex flex-wrap gap-1'>
       {roles.map((role) => {
-        const config = roleConfig[role as keyof typeof roleConfig]
-        if (!config) return null
+        const config = ROLE_CONFIG[role]
 
         return (
           <div
