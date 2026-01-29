@@ -116,7 +116,7 @@ const data = {
     },
     {
       name: 'Users',
-      url: '#',
+      url: '/dashboard/users',
       icon: Users2
     },
     {
