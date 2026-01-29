@@ -1,4 +1,4 @@
-import { CreateUserDialog } from '@/components/admin/data/CreateUserDialog'
+import { CreateUserDialog } from '@/components/admin/data/manage-user/CreateUserDialog'
 import { DataTablePagination } from '@/components/admin/datatable/DataTablePagination'
 import { DataTableViewOptions } from '@/components/admin/datatable/DataTableViewOptions'
 import { Button } from '@/components/ui/button'

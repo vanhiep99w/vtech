@@ -128,7 +128,8 @@
       "fetchDetail": "Failed to fetch user details!",
       "required": "Please fill in all required information!",
       "emailInvalid": "Invalid email address!",
-      "phoneInvalid": "Invalid phone number!"
+      "phoneInvalid": "Invalid phone number!",
+      "roleRequired": "Please select a role for the user"
     }
   }
 }

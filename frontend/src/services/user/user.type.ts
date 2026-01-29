@@ -17,6 +17,7 @@ export type UpdateUserRequest = {
   phone?: string | null
   avatar?: string | null
   status: number
+  roles?: string[]
 }
 
 export type UpdateUserResponse = {

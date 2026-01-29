@@ -1,4 +1,4 @@
-import { EditUserForm } from './EditUserForm'
+import { EditUserForm } from '@/components/admin/data/manage-user/EditUserForm'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import type { User } from '@/pages/admin/manage-user/columns'
 import { useTranslation } from 'react-i18next'

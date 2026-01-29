@@ -17,6 +17,12 @@ import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
+const VALID_ROLES = ['ADMIN', 'USER', 'STAFF'] as const
+
+const isValidRole = (role: unknown): role is 'ADMIN' | 'USER' | 'STAFF' => {
+  return role === 'ADMIN' || role === 'USER' || role === 'STAFF'
+}
+
 interface EditUserFormProps {
   user: User
   onSuccess: () => void
@@ -36,7 +42,8 @@ export function EditUserForm({ user, onSuccess }: EditUserFormProps) {
       fullName: user.fullName ?? '',
       phone: user.phone ?? '',
       avatar: user.avatar ?? '',
-      status: user.status === 1 ? 'ACTIVE' : 'INACTIVE'
+      status: user.status === 1 ? 'ACTIVE' : 'INACTIVE',
+      roles: (user.roles ?? []).filter(isValidRole)
     }
   })
 
@@ -49,7 +56,8 @@ export function EditUserForm({ user, onSuccess }: EditUserFormProps) {
         fullName: values.fullName,
         phone: values.phone,
         avatar: values.avatar,
-        status: values.status === 'ACTIVE' ? 1 : 0
+        status: values.status === 'ACTIVE' ? 1 : 0,
+        roles: values.roles
       }),
     onSuccess: () => {
       toast.success(t('message.success.update'))
@@ -67,7 +75,7 @@ export function EditUserForm({ user, onSuccess }: EditUserFormProps) {
         <div className='space-y-2'>
           <Label>{t('fields.username.label')}</Label>
           <Input {...register('username')} />
-          {errors.username && <p className='text-destructive'>{errors.username.message}</p>}
+          {errors.username && <p className='text-destructive text-sm'>{errors.username.message}</p>}
         </div>
 
         <div className='space-y-2'>
@@ -113,6 +121,29 @@ export function EditUserForm({ user, onSuccess }: EditUserFormProps) {
               </Select>
             )}
           />
+        </div>
+
+        <div className='space-y-2'>
+          <Label>{t('fields.role.label')}</Label>
+          <Controller
+            control={control}
+            name='roles'
+            render={({ field }) => (
+              <Select value={field.value?.[0]} onValueChange={(value) => field.onChange([value])}>
+                <SelectTrigger>
+                  <SelectValue placeholder={t('fields.role.placeholder')} />
+                </SelectTrigger>
+                <SelectContent>
+                  {VALID_ROLES.map((role) => (
+                    <SelectItem key={role} value={role}>
+                      {t(`fields.role.options.${role}`)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          />
+          {errors.roles && <p className='text-destructive text-sm'>{errors.roles.message}</p>}
         </div>
       </div>
       <div className='flex justify-end'>

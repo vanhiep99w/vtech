@@ -1,6 +1,6 @@
 import { UserActionsCell } from '@/components/admin/action/UserAction'
-import { UserRoleBadges } from '@/components/admin/data/UserRoleBadges'
-import { UserStatusBadge } from '@/components/admin/data/UserStatusBadges'
+import { UserRoleBadges } from '@/components/admin/data/manage-user/UserRoleBadges'
+import { UserStatusBadge } from '@/components/admin/data/manage-user/UserStatusBadges'
 import { DataTableColumnHeader } from '@/components/admin/datatable/DataTableColumnHeader'
 import { Checkbox } from '@/components/ui/checkbox'
 import i18n from '@/i18n/i18n'

@@ -1,4 +1,7 @@
-import { createUserSchema, type CreateUserFormValues } from '@/components/admin/data/user.schema'
+import {
+  createUserSchema,
+  type CreateUserFormValues
+} from '@/components/admin/data/manage-user/user.schema'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'

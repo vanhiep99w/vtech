@@ -1,4 +1,4 @@
-import { CreateUserForm } from '@/components/admin/data/CreateUserForm'
+import { CreateUserForm } from '@/components/admin/data/manage-user/CreateUserForm'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,

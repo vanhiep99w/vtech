@@ -5,8 +5,8 @@ import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import type { User } from '@/pages/admin/manage-user/columns'
 import { useTranslation } from 'react-i18next'
-import { UserRoleBadges } from '@/components/admin/data/UserRoleBadges'
-import { UserStatusBadge } from '@/components/admin/data/UserStatusBadges'
+import { UserRoleBadges } from '@/components/admin/data/manage-user/UserRoleBadges'
+import { UserStatusBadge } from '@/components/admin/data/manage-user/UserStatusBadges'
 
 interface ViewUserDialogProps {
   open: boolean

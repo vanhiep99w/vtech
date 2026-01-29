@@ -1,8 +1,9 @@
 package com.haui.vtech.io.user;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
+
+import java.util.Set;
 
 @Data
 public class ProfileUpdateRequest {
@@ -12,4 +13,5 @@ public class ProfileUpdateRequest {
     private String phone;
     private String avatar;
     private Integer status;
+    private Set<String> roles;
 }

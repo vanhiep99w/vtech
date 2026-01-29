@@ -19,7 +19,10 @@ export const editUserSchema = z.object({
   fullName: z.string().optional().nullable(),
   phone: z.string().min(8, i18n.t('auth:errors.phone.min')),
   avatar: z.string().url().optional().nullable(),
-  status: z.enum(['ACTIVE', 'INACTIVE'])
+  status: z.enum(['ACTIVE', 'INACTIVE']),
+  roles: z
+    .array(z.enum(['ADMIN', 'USER', 'STAFF']))
+    .length(1, i18n.t('user:message.error.roleRequired'))
 })
 
 export type CreateUserFormValues = z.infer<typeof createUserSchema>

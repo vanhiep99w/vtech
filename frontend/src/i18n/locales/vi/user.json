@@ -128,7 +128,8 @@
       "fetchDetail": "Lấy thông tin người dùng thất bại!",
       "required": "Vui lòng điền đầy đủ thông tin bắt buộc!",
       "emailInvalid": "Email không hợp lệ!",
-      "phoneInvalid": "Số điện thoại không hợp lệ!"
+      "phoneInvalid": "Số điện thoại không hợp lệ!",
+      "roleRequired": "Vui lòng chọn một vai trò cho người dùng"
     }
   }
 }

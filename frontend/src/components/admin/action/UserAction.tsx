@@ -4,9 +4,9 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Edit, Eye, Trash2 } from 'lucide-react'
 import type { User } from '@/pages/admin/manage-user/columns'
-import { EditUserDialog } from '@/components/admin/data/EditUserDialog'
-import { ViewUserDialog } from '@/components/admin/data/ViewUserDialog'
-import { DeleteUserDialog } from '@/components/admin/data/DeleteUserDialog'
+import { EditUserDialog } from '@/components/admin/data/manage-user/EditUserDialog'
+import { ViewUserDialog } from '@/components/admin/data/manage-user/ViewUserDialog'
+import { DeleteUserDialog } from '@/components/admin/data/manage-user/DeleteUserDialog'
 
 interface UserActionsCellProps {
   user: User
