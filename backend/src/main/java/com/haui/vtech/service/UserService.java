@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -75,6 +76,18 @@ public class UserService {
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         userMapper.updateUser(userEntity, request);
+        if (request.getRoles() != null && !request.getRoles().isEmpty()) {
+
+            Set<String> roleNames = request.getRoles();
+            List<RoleEntity> roleEntities = roleRepository.findByNameIn(roleNames);
+
+            if (roleEntities.size() != roleNames.size()) {
+                throw new AppException(ErrorCode.ROLE_NOT_FOUND);
+            }
+
+            userEntity.setRoles(new HashSet<>(roleEntities));
+        }
+
 
         return userMapper.toProfileUpdateResponse(userRepository.save(userEntity));
     }
