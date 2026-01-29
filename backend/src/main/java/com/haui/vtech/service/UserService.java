@@ -78,13 +78,17 @@ public class UserService {
         userMapper.updateUser(userEntity, request);
         if (request.getRoles() != null && !request.getRoles().isEmpty()) {
 
-            Set<RoleEntity> roles = request.getRoles().stream()
-                    .map(roleName -> roleRepository.findByName(roleName)
-                            .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND)))
-                    .collect(Collectors.toSet());
+            Set<String> roleNames = request.getRoles();
+            List<RoleEntity> roleEntities = roleRepository.findByNameIn(roleNames);
 
-            userEntity.setRoles(roles);
+            if (roleEntities.size() != roleNames.size()) {
+                throw new AppException(ErrorCode.ROLE_NOT_FOUND);
+            }
+
+            userEntity.setRoles(new HashSet<>(roleEntities));
         }
+
+
         return userMapper.toProfileUpdateResponse(userRepository.save(userEntity));
     }
 

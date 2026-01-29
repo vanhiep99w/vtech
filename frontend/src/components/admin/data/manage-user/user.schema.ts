@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import i18n from '@/i18n/i18n'
+import { UserRole, UserStatus } from '@/defines/user.enum'
 
 export const createUserSchema = z.object({
   username: z.string().min(3, i18n.t('auth:errors.username.min')),
@@ -10,8 +11,8 @@ export const createUserSchema = z.object({
   fullName: z.string().min(3, i18n.t('auth:errors.fullName.min')),
   phone: z.string().min(8, i18n.t('auth:errors.phone.min')),
   password: z.string().min(6, i18n.t('auth:errors.password.min')),
-  role: z.enum(['ADMIN', 'USER', 'STAFF']),
-  status: z.enum(['ACTIVE', 'INACTIVE'])
+  role: z.nativeEnum(UserRole),
+  status: z.nativeEnum(UserStatus)
 })
 
 export const editUserSchema = z.object({
@@ -19,10 +20,8 @@ export const editUserSchema = z.object({
   fullName: z.string().optional().nullable(),
   phone: z.string().min(8, i18n.t('auth:errors.phone.min')),
   avatar: z.string().url().optional().nullable(),
-  status: z.enum(['ACTIVE', 'INACTIVE']),
-  roles: z
-    .array(z.enum(['ADMIN', 'USER', 'STAFF']))
-    .length(1, i18n.t('user:message.error.roleRequired'))
+  status: z.nativeEnum(UserStatus),
+  roles: z.array(z.nativeEnum(UserRole)).length(1, i18n.t('user:message.error.roleRequired'))
 })
 
 export type CreateUserFormValues = z.infer<typeof createUserSchema>

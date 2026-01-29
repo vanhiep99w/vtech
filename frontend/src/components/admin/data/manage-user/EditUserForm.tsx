@@ -16,12 +16,7 @@ import type { User } from '@/pages/admin/manage-user/columns'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-
-const VALID_ROLES = ['ADMIN', 'USER', 'STAFF'] as const
-
-const isValidRole = (role: unknown): role is 'ADMIN' | 'USER' | 'STAFF' => {
-  return role === 'ADMIN' || role === 'USER' || role === 'STAFF'
-}
+import { NumberToUserStatus, UserRole, UserStatus, UserStatusToNumber } from '@/defines/user.enum'
 
 interface EditUserFormProps {
   user: User
@@ -42,8 +37,10 @@ export function EditUserForm({ user, onSuccess }: EditUserFormProps) {
       fullName: user.fullName ?? '',
       phone: user.phone ?? '',
       avatar: user.avatar ?? '',
-      status: user.status === 1 ? 'ACTIVE' : 'INACTIVE',
-      roles: (user.roles ?? []).filter(isValidRole)
+      status: NumberToUserStatus[user.status],
+      roles: user.roles?.filter((r): r is UserRole =>
+        Object.values(UserRole).includes(r as UserRole)
+      )
     }
   })
 
@@ -56,7 +53,7 @@ export function EditUserForm({ user, onSuccess }: EditUserFormProps) {
         fullName: values.fullName,
         phone: values.phone,
         avatar: values.avatar,
-        status: values.status === 'ACTIVE' ? 1 : 0,
+        status: UserStatusToNumber[values.status],
         roles: values.roles
       }),
     onSuccess: () => {
@@ -105,18 +102,11 @@ export function EditUserForm({ user, onSuccess }: EditUserFormProps) {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value='ACTIVE' className='text-green-600'>
-                    <span className='flex items-center gap-2'>
-                      <div className='h-2 w-2 rounded-full bg-green-500' />
-                      {t('fields.status.options.ACTIVE')}
-                    </span>
-                  </SelectItem>
-                  <SelectItem value='INACTIVE' className='text-muted-foreground'>
-                    <span className='flex items-center gap-2'>
-                      <div className='h-2 w-2 rounded-full bg-gray-400' />
-                      {t('fields.status.options.INACTIVE')}
-                    </span>
-                  </SelectItem>
+                  {Object.values(UserStatus).map((status) => (
+                    <SelectItem key={status} value={status}>
+                      {t(`fields.status.options.${status}`)}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             )}
@@ -129,12 +119,15 @@ export function EditUserForm({ user, onSuccess }: EditUserFormProps) {
             control={control}
             name='roles'
             render={({ field }) => (
-              <Select value={field.value?.[0]} onValueChange={(value) => field.onChange([value])}>
+              <Select
+                value={field.value?.[0]}
+                onValueChange={(value) => field.onChange([value as UserRole])}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder={t('fields.role.placeholder')} />
                 </SelectTrigger>
                 <SelectContent>
-                  {VALID_ROLES.map((role) => (
+                  {Object.values(UserRole).map((role) => (
                     <SelectItem key={role} value={role}>
                       {t(`fields.role.options.${role}`)}
                     </SelectItem>
