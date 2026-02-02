@@ -24,7 +24,9 @@ import org.springframework.web.filter.CorsFilter;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final String[] PUBLIC_ENDPOINTS = {"/api/v2/users/register", "/api/v2/login", "/api/v2/introspect", "/api/v2/logout", "/api/v2/refresh"};
+    private final String[] PUBLIC_POST_ENDPOINTS = {"/api/v2/users/register", "/api/v2/login", "/api/v2/introspect", "/api/v2/logout", "/api/v2/refresh"};
+
+    private final String[] PUBLIC_GET_ENDPOINTS = {"/api/v2/categories/**"};
 
     @Autowired
     private CustomJwtDecoder customJwtDecoder;
@@ -38,7 +40,8 @@ public class SecurityConfig {
                 .cors(cors -> {})
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
-                    .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 ->
                         oauth2.jwt(jwtConfigurer ->
