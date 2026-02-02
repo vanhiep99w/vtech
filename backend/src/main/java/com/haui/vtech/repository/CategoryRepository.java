@@ -22,4 +22,6 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, String
     List<CategoryEntity> findByParentId(String parentId);
 
     Optional<CategoryEntity> findBySlug(String slug);
+
+    List<CategoryEntity> findAllByStatus(Integer status);
 }

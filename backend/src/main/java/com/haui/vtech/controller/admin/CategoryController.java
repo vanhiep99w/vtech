@@ -1,12 +1,11 @@
 package com.haui.vtech.controller.admin;
 
 import com.haui.vtech.controller.BaseController;
-import com.haui.vtech.entity.CategoryEntity;
 import com.haui.vtech.io.ApiResponse;
 import com.haui.vtech.io.category.CategoryCreateRequest;
 import com.haui.vtech.io.category.CategoryResponse;
+import com.haui.vtech.io.category.CategoryTreeResponse;
 import com.haui.vtech.io.category.CategoryUpdateRequest;
-import com.haui.vtech.repository.CategoryRepository;
 import com.haui.vtech.service.CategoryService;
 import com.haui.vtech.util.MessageUtil;
 import jakarta.validation.Valid;
@@ -35,6 +34,7 @@ public class CategoryController extends BaseController {
     public ApiResponse<List<CategoryResponse>> getAll() {
         return ApiResponse.<List<CategoryResponse>>builder()
                 .data(categoryService.findAll())
+//                .data(categoryService.findAllByStatus())
                 .build();
     }
 
@@ -64,8 +64,17 @@ public class CategoryController extends BaseController {
     @DeleteMapping("/{categoryId}")
     public ApiResponse<Void> delete(@PathVariable String categoryId) {
         categoryService.delete(categoryId);
+//        categoryService.deleteSoft(categoryId);
         return ApiResponse.<Void>builder()
                 .message(messageUtil.getMesage("deleted.success"))
                 .build();
     }
+
+    @GetMapping("/tree")
+    public ApiResponse<List<CategoryTreeResponse>> getTree() {
+        return ApiResponse.<List<CategoryTreeResponse>>builder()
+                .data(categoryService.getCategoryTree())
+                .build();
+    }
+
 }
