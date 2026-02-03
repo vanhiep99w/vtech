@@ -1,5 +1,9 @@
 import type { ApiResponse } from '@/services/auth/auth.type'
-import type { CategoryResponse, CreateCategoryPayload } from '@/services/category/category.type'
+import type {
+  CategoryResponse,
+  CreateCategoryPayload,
+  UpdateCategoryPayload
+} from '@/services/category/category.type'
 import { api } from '@/utils/axiosCustomize'
 
 export const getAllCategoryApi = async () => {
@@ -14,5 +18,9 @@ export const createCategoryApi = async (payload: CreateCategoryPayload) => {
 }
 
 // TODO: gọi api edit
+export const updateCategoryApi = async (categoryId: string, payload: UpdateCategoryPayload) => {
+  const res = await api.put<ApiResponse<CategoryResponse>>(`/categories/${categoryId}`, payload)
+  return res.data.data
+}
 
 // TODO: gọi api delete
