@@ -75,7 +75,7 @@ export function CreateCategoryForm({ onSuccess }: CreateCategoryFormProps) {
       <CardHeader className='px-0 pt-0'>
         <div className='flex items-center gap-2'>
           <FolderPlus className='h-5 w-5 text-primary' />
-          <CardTitle>{t('create.title', 'Tạo danh mục')}</CardTitle>
+          <CardTitle>{t('titles.create')}</CardTitle>
         </div>
       </CardHeader>
 
@@ -83,18 +83,15 @@ export function CreateCategoryForm({ onSuccess }: CreateCategoryFormProps) {
 
       <CardContent className='px-0 pt-6'>
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
-          {/* ===== BASIC INFO ===== */}
           <div className='space-y-4'>
-            <h3 className='text-lg font-medium'>Thông tin cơ bản</h3>
+            <h3 className='text-lg font-medium'>{t('sections.basicInfo')}</h3>
 
             <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-              {/* ===== LEFT: TEXT INFO ===== */}
               <div className='md:col-span-2 space-y-4'>
-                {/* Category Name */}
                 <div className='space-y-2'>
-                  <Label>Tên danh mục *</Label>
+                  <Label>{t('fields.categoryName.label')}</Label>
                   <Input
-                    placeholder='Ví dụ: iPhone X'
+                    placeholder={t('fields.categoryName.placeholder')}
                     {...register('categoryName')}
                     className={errors.categoryName ? 'border-destructive' : ''}
                   />
@@ -103,29 +100,27 @@ export function CreateCategoryForm({ onSuccess }: CreateCategoryFormProps) {
                   )}
                 </div>
 
-                {/* Slug */}
                 <div className='space-y-2'>
-                  <Label>Slug *</Label>
+                  <Label>{t('fields.slug.label')}</Label>
                   <Input
-                    placeholder='iphone-x'
+                    placeholder={t('fields.slug.placeholder')}
                     {...register('slug')}
                     className={errors.slug ? 'border-destructive' : ''}
                   />
                   {errors.slug && <p className='text-sm text-destructive'>{errors.slug.message}</p>}
                 </div>
 
-                {/* Description */}
                 <div className='space-y-2'>
-                  <Label>Mô tả</Label>
-                  <Input placeholder='Mô tả danh mục' {...register('categoryDesc')} />
+                  <Label>{t('fields.categoryDesc.label')}</Label>
+                  <Input
+                    placeholder={t('fields.categoryDesc.placeholder')}
+                    {...register('categoryDesc')}
+                  />
                 </div>
               </div>
 
-              {/* ===== RIGHT: THUMBNAIL ===== */}
               <div className='space-y-3'>
-                <Label>Thumbnail</Label>
-
-                {/* Preview */}
+                <Label>{t('fields.thumbnailUrl.label')}</Label>
                 <div className='w-full aspect-video rounded-md border bg-muted flex items-center justify-center overflow-hidden'>
                   <img
                     src='https://ui.shadcn.com/avatars/02.png'
@@ -134,8 +129,10 @@ export function CreateCategoryForm({ onSuccess }: CreateCategoryFormProps) {
                   />
                 </div>
 
-                {/* URL input */}
-                <Input placeholder='https://example.com/image.png' {...register('thumbnailUrl')} />
+                <Input
+                  placeholder={t('fields.thumbnailUrl.placeholder')}
+                  {...register('thumbnailUrl')}
+                />
                 {errors.thumbnailUrl && (
                   <p className='text-sm text-destructive'>{errors.thumbnailUrl.message}</p>
                 )}
@@ -145,20 +142,18 @@ export function CreateCategoryForm({ onSuccess }: CreateCategoryFormProps) {
 
           <Separator />
 
-          {/* ===== RELATION & MEDIA ===== */}
           <div className='space-y-4'>
-            <h3 className='text-lg font-medium'>Phân loại & hiển thị</h3>
+            <h3 className='text-lg font-medium'>{t('sections.classification')}</h3>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-              {/* Parent */}
               <div className='space-y-2'>
-                <Label>Danh mục cha</Label>
+                <Label>{t('fields.parent.label')}</Label>
                 <Controller
                   control={control}
                   name='parentId'
                   render={({ field }) => (
                     <Select value={field.value ?? ''} onValueChange={field.onChange}>
                       <SelectTrigger>
-                        <SelectValue placeholder='Chọn danh mục cha' />
+                        <SelectValue placeholder={t('fields.parent.placeholder')} />
                       </SelectTrigger>
                       <SelectContent>
                         {categories.map((item) => (
@@ -172,9 +167,8 @@ export function CreateCategoryForm({ onSuccess }: CreateCategoryFormProps) {
                 />
               </div>
 
-              {/* Display Order */}
               <div className='space-y-2'>
-                <Label>Thứ tự hiển thị</Label>
+                <Label>{t('fields.displayOrder.label')}</Label>
                 <Input
                   type='number'
                   min={0}
@@ -189,11 +183,10 @@ export function CreateCategoryForm({ onSuccess }: CreateCategoryFormProps) {
             </div>
           </div>
 
-          {/* ===== ACTIONS ===== */}
           <div className='flex justify-end gap-3 pt-4 border-t'>
             <Button type='submit' disabled={mutation.isPending}>
               <FolderPlus className='mr-2 h-4 w-4' />
-              Tạo danh mục
+              {t('actions.create')}
             </Button>
           </div>
         </form>

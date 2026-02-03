@@ -68,7 +68,7 @@ export function DataTable<TData, TValue>({ data, columns }: DataTableProps<TData
     table.resetSorting()
   }
 
-  const { t } = useTranslation('user')
+  const { t } = useTranslation('category')
 
   return (
     <>

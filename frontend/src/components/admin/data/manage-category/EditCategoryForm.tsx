@@ -28,7 +28,7 @@ interface EditCategoryFormProps {
 }
 
 export function EditCategoryForm({ category, onSuccess }: EditCategoryFormProps) {
-  const { t } = useTranslation('user')
+  const { t } = useTranslation('category')
   const {
     register,
     handleSubmit,
@@ -57,7 +57,7 @@ export function EditCategoryForm({ category, onSuccess }: EditCategoryFormProps)
   const mutation = useMutation({
     mutationFn: (values: EditCategoryFormValues) => updateCategoryApi(category.id, values),
     onSuccess: () => {
-      toast.success('Cập nhật thành công')
+      toast.success(t('message.success.update'))
       queryClient.invalidateQueries({ queryKey: ['categories'] })
       onSuccess()
     },
@@ -74,34 +74,30 @@ export function EditCategoryForm({ category, onSuccess }: EditCategoryFormProps)
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-        {/* Category name */}
         <div className='space-y-2'>
-          <Label>Tên danh mục</Label>
+          <Label>{t('fields.categoryName.label')}</Label>
           <Input {...register('categoryName')} />
           {errors.categoryName && (
             <p className='text-destructive text-sm'>{errors.categoryName.message}</p>
           )}
         </div>
 
-        {/* Slug */}
         <div className='space-y-2'>
-          <Label>Slug</Label>
+          <Label>{t('fields.slug.label')}</Label>
           <Input {...register('slug')} />
           {errors.slug && <p className='text-destructive text-sm'>{errors.slug.message}</p>}
         </div>
 
-        {/* Thumbnail */}
         <div className='space-y-2'>
-          <Label>Thumbnail URL</Label>
+          <Label>{t('fields.thumbnailUrl.label')}</Label>
           <Input {...register('thumbnailUrl')} />
           {errors.thumbnailUrl && (
             <p className='text-destructive text-sm'>{errors.thumbnailUrl.message}</p>
           )}
         </div>
 
-        {/* Display order */}
         <div className='space-y-2'>
-          <Label>Thứ tự hiển thị</Label>
+          <Label>{t('fields.displayOrder.label')}</Label>
           <Input
             type='number'
             min={0}
@@ -110,9 +106,8 @@ export function EditCategoryForm({ category, onSuccess }: EditCategoryFormProps)
           />
         </div>
 
-        {/* Parent category */}
         <div className='space-y-2'>
-          <Label>Danh mục cha</Label>
+          <Label>{t('fields.parent.label')}</Label>
           <Controller
             control={control}
             name='parentId'
@@ -122,10 +117,10 @@ export function EditCategoryForm({ category, onSuccess }: EditCategoryFormProps)
                 onValueChange={(value) => field.onChange(value === 'none' ? null : value)}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder='Không có' />
+                  <SelectValue placeholder={t('fields.parent.placeholder')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value='none'>Không có</SelectItem>
+                  <SelectItem value='none'>{t('fields.parent.none')}</SelectItem>
                   {categories.map((item) => (
                     <SelectItem key={item.id} value={item.id}>
                       {item.categoryName}
@@ -137,9 +132,8 @@ export function EditCategoryForm({ category, onSuccess }: EditCategoryFormProps)
           />
         </div>
 
-        {/* Status */}
         <div className='space-y-2'>
-          <Label>Trạng thái</Label>
+          <Label>{t('fields.status.label')}</Label>
           <Controller
             control={control}
             name='status'
@@ -152,8 +146,8 @@ export function EditCategoryForm({ category, onSuccess }: EditCategoryFormProps)
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value='1'>Hoạt động</SelectItem>
-                  <SelectItem value='0'>Ẩn</SelectItem>
+                  <SelectItem value='1'>{t('fields.status.options.ACTIVE')}</SelectItem>
+                  <SelectItem value='0'>{t('fields.status.options.INACTIVE')}</SelectItem>
                 </SelectContent>
               </Select>
             )}
@@ -162,14 +156,14 @@ export function EditCategoryForm({ category, onSuccess }: EditCategoryFormProps)
 
         {/* Description */}
         <div className='space-y-2 md:col-span-2'>
-          <Label>Mô tả</Label>
+          <Label>{t('fields.categoryDesc.label')}</Label>
           <Input {...register('categoryDesc')} />
         </div>
       </div>
 
       <div className='flex justify-end'>
         <Button type='submit' disabled={mutation.isPending}>
-          Cập nhật
+          {t('actions.edit')}
         </Button>
       </div>
     </form>

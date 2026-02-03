@@ -26,7 +26,7 @@ export default function CategoryPage() {
   return (
     <div>
       <div className='mb-8 px-4 py-2 bg-secondary rounded-md'>
-        <h1 className='font-semibolds'>{t('list')}</h1>
+        <h1 className='font-semibolds'>{t('titles.list')}</h1>
       </div>
       {isLoading ? <UserTableSkeleton /> : <DataTable columns={columns} data={data} />}
     </div>

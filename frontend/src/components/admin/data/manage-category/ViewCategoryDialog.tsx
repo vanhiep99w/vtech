@@ -14,7 +14,7 @@ interface ViewUserDialogProps {
 }
 
 export function ViewCategoryDialog({ open, onOpenChange, category }: ViewUserDialogProps) {
-  const { t } = useTranslation('user')
+  const { t } = useTranslation('category')
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -36,15 +36,15 @@ export function ViewCategoryDialog({ open, onOpenChange, category }: ViewUserDia
             <CardContent className='space-y-6'>
               <div className='space-y-3'>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                  <Info label='Tên danh mục' value={category.categoryName} />
-                  <Info label='Slug' value={category.slug} />
+                  <Info label={t('fields.categoryName.label')} value={category.categoryName} />
+                  <Info label={t('fields.slug.label')} value={category.slug} />
                 </div>
               </div>
 
               <div className='space-y-3'>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                  <Info label='Danh mục cha' value={category.parentName} />
-                  <Info label='Mô tả' value={category.categoryDesc} />
+                  <Info label={t('fields.parent.label')} value={category.parentName} />
+                  <Info label={t('fields.categoryDesc.label')} value={category.categoryDesc} />
                 </div>
               </div>
 

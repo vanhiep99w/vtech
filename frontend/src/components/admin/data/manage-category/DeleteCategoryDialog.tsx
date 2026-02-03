@@ -26,7 +26,7 @@ interface DeleteCategoryDialogProps {
 }
 
 export function DeleteCategoryDialog({ open, onOpenChange, category }: DeleteCategoryDialogProps) {
-  const { t } = useTranslation('user')
+  const { t } = useTranslation('category')
 
   const queryClient = useQueryClient()
 
@@ -48,8 +48,10 @@ export function DeleteCategoryDialog({ open, onOpenChange, category }: DeleteCat
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{t('dialogTitle.delete')}</AlertDialogTitle>
-          <AlertDialogDescription>{t('message.success.deleteConfirm')}</AlertDialogDescription>
+          <AlertDialogTitle>{t('titles.delete')}</AlertDialogTitle>
+          <AlertDialogDescription>
+            {t('message.success.deleteConfirm', { categoryName: category.categoryName })}
+          </AlertDialogDescription>
         </AlertDialogHeader>
 
         <AlertDialogFooter>
