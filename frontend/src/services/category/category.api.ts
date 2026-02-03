@@ -24,3 +24,7 @@ export const updateCategoryApi = async (categoryId: string, payload: UpdateCateg
 }
 
 // TODO: gọi api delete
+export const deleteCategoryApi = async (categoryId: string) => {
+  const res = await api.delete<ApiResponse<void>>(`/categories/${categoryId}`)
+  return res.data
+}

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import type { Category } from '@/pages/admin/manage-category/columns'
 import { Edit, Eye, Trash2 } from 'lucide-react'
 import { useState } from 'react'
+import { DeleteCategoryDialog } from '@/components/admin/data/manage-category/DeleteCategoryDialog'
 
 interface CategoryActionsCellProps {
   category: Category
@@ -12,7 +13,7 @@ interface CategoryActionsCellProps {
 export function CategoryActionsCell({ category }: CategoryActionsCellProps) {
   const [openEdit, setOpenEdit] = useState(false)
   const [openView, setOpenView] = useState(false)
-  // const [openDelete, setOpenDelete] = useState(false)
+  const [openDelete, setOpenDelete] = useState(false)
 
   return (
     <>
@@ -42,7 +43,7 @@ export function CategoryActionsCell({ category }: CategoryActionsCellProps) {
           size='default'
           className='h-8 px-2.5 hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-900/20'
           onClick={() => {
-            // setOpenDelete(true)
+            setOpenDelete(true)
           }}
         >
           <Trash2 className='h-4 w-4' />
@@ -51,6 +52,7 @@ export function CategoryActionsCell({ category }: CategoryActionsCellProps) {
 
       <ViewCategoryDialog open={openView} onOpenChange={setOpenView} category={category} />
       <EditCategoryDialog open={openEdit} onOpenChange={setOpenEdit} category={category} />
+      <DeleteCategoryDialog open={openDelete} onOpenChange={setOpenDelete} category={category} />
     </>
   )
 }
