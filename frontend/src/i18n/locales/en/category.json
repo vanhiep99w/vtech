@@ -17,6 +17,7 @@
   },
   "filters": {
     "search": "Search category",
+    "category": "All category",
     "status": {
       "label": "Status",
       "all": "All status",

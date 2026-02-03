@@ -18,6 +18,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
+import type { Category } from '@/pages/admin/manage-category/columns'
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -70,6 +71,8 @@ export function DataTable<TData, TValue>({ data, columns }: DataTableProps<TData
 
   const { t } = useTranslation('category')
 
+  const parentCategories = (data as Category[]).filter((c) => !c.parentId)
+
   return (
     <>
       <div className='flex items-center gap-2 py-4'>
@@ -79,6 +82,27 @@ export function DataTable<TData, TValue>({ data, columns }: DataTableProps<TData
           onChange={(event) => table.getColumn('category')?.setFilterValue(event.target.value)}
           className='max-w-sm'
         />
+        <Select
+          value={(table.getColumn('parentId')?.getFilterValue() as string) ?? 'all'}
+          onValueChange={(value) =>
+            table.getColumn('parentId')?.setFilterValue(value === 'all' ? undefined : value)
+          }
+        >
+          <SelectTrigger className='w-[200px]'>
+            <SelectValue placeholder={t('fields.parent.placeholder')} />
+          </SelectTrigger>
+
+          <SelectContent>
+            <SelectItem value='all'>{t('filters.category')}</SelectItem>
+
+            {parentCategories.map((parent) => (
+              <SelectItem key={parent.id} value={parent.id}>
+                {parent.categoryName}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
         <Select
           value={(table.getColumn('status')?.getFilterValue() as string) ?? 'all'}
           onValueChange={(value) =>

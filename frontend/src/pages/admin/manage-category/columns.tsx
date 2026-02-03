@@ -53,8 +53,7 @@ export const columns: ColumnDef<Category>[] = [
       return (
         <div className='flex items-center gap-3'>
           <img
-            // src={category.thumbnailUrl ?? 'https://ui.shadcn.com/avatars/02.png'}
-            src={'https://ui.shadcn.com/avatars/02.png'}
+            src={category.thumbnailUrl ?? 'https://ui.shadcn.com/avatars/02.png'}
             alt={category.categoryName}
             className='h-9 w-9 rounded-full object-cover border'
           />
@@ -68,17 +67,26 @@ export const columns: ColumnDef<Category>[] = [
     }
   },
   {
-    accessorKey: 'parentName',
+    accessorKey: 'parentId',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={i18n.t('category:table.columns.parent')} />
-    )
+    ),
+    cell: ({ row }) => row.original.parentName,
+    filterFn: (row, columnId, filterValue: string) => {
+      if (!filterValue) return true
+      return row.getValue<string | null>(columnId) === filterValue
+    }
   },
   {
     accessorKey: 'status',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={i18n.t('category:table.columns.status')} />
     ),
-    cell: ({ row }) => <UserStatusBadge status={row.getValue('status')} />
+    cell: ({ row }) => <UserStatusBadge status={row.getValue('status')} />,
+    filterFn: (row, columnId, filterValue: string) => {
+      if (filterValue === undefined) return true
+      return String(row.getValue<number>(columnId)) === filterValue
+    }
   },
   {
     id: 'actions',

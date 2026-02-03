@@ -17,6 +17,7 @@
   },
   "filters": {
     "search": "Tìm kiếm danh mục",
+    "category": "Tất cả danh mục",
     "status": {
       "label": "Trạng thái",
       "all": "Tất cả trạng thái",
