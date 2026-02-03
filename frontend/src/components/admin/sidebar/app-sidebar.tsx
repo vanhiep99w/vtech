@@ -106,7 +106,7 @@ const data = {
   projects: [
     {
       name: 'Categories',
-      url: '#',
+      url: '/dashboard/categories',
       icon: ListCollapseIcon
     },
     {

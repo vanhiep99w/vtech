@@ -16,6 +16,7 @@ public class CategoryResponse {
     private String categoryDesc;
     private String thumbnailUrl;
     private String parentId;
+    private String parentName;
     private Integer displayOrder;
     private Integer status;
     private LocalDateTime createdAt;

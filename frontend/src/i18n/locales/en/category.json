@@ -1,0 +1,25 @@
+{
+  "table": {
+    "columns": {
+      "category": "Category",
+      "parent": "Parent Category",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "noResults": "No results found"
+  },
+  "list": "All categories",
+  "filters": {
+    "search": "Search category"
+  },
+  "actions": {
+    "create": "Create category",
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "close": "Close",
+    "submit": "Create User",
+    "cancel": "Cancel",
+    "confirm": "Comfirm"
+  }
+}

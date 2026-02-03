@@ -1,0 +1,25 @@
+{
+  "table": {
+    "columns": {
+      "category": "Danh mục",
+      "parent": "Danh mục cha",
+      "status": "Trạng thái",
+      "actions": "Thao tác"
+    },
+    "noResults": "Không có dữ liệu"
+  },
+  "list": "Danh sách danh mục",
+  "filters": {
+    "search": "Tìm kiếm danh mục"
+  },
+  "actions": {
+    "create": "Tạo danh mục",
+    "view": "Xem",
+    "edit": "Chỉnh sửa",
+    "delete": "Xóa",
+    "close": "Đóng",
+    "submit": "Tạo người dùng",
+    "cancel": "Huỷ",
+    "confirm": "Xác nhận"
+  }
+}

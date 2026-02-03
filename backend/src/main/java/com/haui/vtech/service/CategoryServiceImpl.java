@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +40,25 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public List<CategoryResponse> findAll() {
-        return categoryRepository.findAll().stream().map(categoryMapper::toResponse).toList();
+        List<CategoryEntity> categories = categoryRepository.findAll();
+
+        Map<String, String> categoryNameMap = categories.stream()
+                .collect(Collectors.toMap(
+                        CategoryEntity::getId,
+                        CategoryEntity::getCategoryName
+                ));
+
+        return categories.stream().map(category -> {
+            CategoryResponse response = categoryMapper.toResponse(category);
+
+            if (category.getParentId() != null) {
+                response.setParentName(
+                        categoryNameMap.get(category.getParentId())
+                );
+            }
+
+            return response;
+        }).toList();
     }
 
     @Override
