@@ -13,7 +13,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: false
@@ -26,4 +26,16 @@ jwt:
   signerKey: ${JWT_SIGNER_KEY}
   valid-duration: 3600
   refreshable-duration: 36000
+
+security:
+  public:
+    post-endpoints:
+      - /api/v2/users/register
+      - /api/v2/login
+      - /api/v2/introspect
+      - /api/v2/logout
+      - /api/v2/refresh
+    get-endpoints:
+      - /api/v2/categories/**
+
 
