@@ -43,8 +43,10 @@
     "slug": {
       "required": "Slug không được để trống"
     },
-    "thumbnailUrl": {
-      "invalid": "Thumbnail không hợp lệ"
+    "thumbnail": {
+      "invalid": "Thumbnail không hợp lệ",
+      "invalidType": "Chỉ cho phép ảnh JPG, PNG, WEBP",
+      "maxSize": "Dung lượng ảnh tối đa 5MB"
     },
     "displayOrder": {
       "invalid": "Thứ tự hiển thị phải là số nguyên",
@@ -69,7 +71,7 @@
     },
     "thumbnailUrl": {
       "label": "Hình ảnh",
-      "placeholder": "Nhập URL hình ảnh"
+      "placeholder": "Click để thêm ảnh"
     },
     "parent": {
       "label": "Danh mục cha",

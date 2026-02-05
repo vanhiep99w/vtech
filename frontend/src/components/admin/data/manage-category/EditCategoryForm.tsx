@@ -21,6 +21,8 @@ import { toast } from 'sonner'
 import { getAllCategoryApi, updateCategoryApi } from '@/services/category/category.api'
 import type { AxiosError } from 'axios'
 import type { ApiErrorResponse } from '@/defines/error.type'
+import { useState } from 'react'
+import { ACCEPTED_IMAGE_TYPES } from '@/defines/upload-image'
 
 interface EditCategoryFormProps {
   category: Category
@@ -33,6 +35,7 @@ export function EditCategoryForm({ category, onSuccess }: EditCategoryFormProps)
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors }
   } = useForm<EditCategoryFormValues>({
     resolver: zodResolver(editCategorySchema),
@@ -40,7 +43,6 @@ export function EditCategoryForm({ category, onSuccess }: EditCategoryFormProps)
       categoryName: category.categoryName,
       slug: category.slug,
       categoryDesc: category.categoryDesc ?? '',
-      thumbnailUrl: category.thumbnailUrl ?? '',
       parentId: category.parentId ?? null,
       displayOrder: category.displayOrder ?? 1,
       status: category.status
@@ -71,6 +73,8 @@ export function EditCategoryForm({ category, onSuccess }: EditCategoryFormProps)
     mutation.mutate(values)
   }
 
+  const [preview, setPreview] = useState<string | null>(category.thumbnailUrl ?? null)
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
@@ -88,11 +92,41 @@ export function EditCategoryForm({ category, onSuccess }: EditCategoryFormProps)
           {errors.slug && <p className='text-destructive text-sm'>{errors.slug.message}</p>}
         </div>
 
-        <div className='space-y-2'>
+        <div className='space-y-2 md:col-span-2'>
           <Label>{t('fields.thumbnailUrl.label')}</Label>
-          <Input {...register('thumbnailUrl')} />
-          {errors.thumbnailUrl && (
-            <p className='text-destructive text-sm'>{errors.thumbnailUrl.message}</p>
+
+          <label
+            htmlFor='thumbnail'
+            className={`block w-full aspect-video rounded-md border bg-muted overflow-hidden cursor-pointer relative group 
+              ${errors.thumbnail ? 'border-destructive' : ''}`}
+          >
+            {preview ? (
+              <img src={preview} className='object-cover w-full h-full' />
+            ) : (
+              <div className='flex items-center justify-center h-full text-muted-foreground text-sm'>
+                {t('fields.thumbnailUrl.placeholder')}
+              </div>
+            )}
+
+            <div className='absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-sm font-medium'></div>
+          </label>
+
+          <Input
+            id='thumbnail'
+            type='file'
+            accept={ACCEPTED_IMAGE_TYPES.join(',')}
+            className='hidden'
+            onChange={(e) => {
+              const file = e.target.files?.[0]
+              if (!file) return
+
+              setPreview(URL.createObjectURL(file))
+              setValue('thumbnail', file, { shouldValidate: true })
+            }}
+          />
+
+          {errors.thumbnail && (
+            <p className='text-destructive text-sm'>{errors.thumbnail.message}</p>
           )}
         </div>
 

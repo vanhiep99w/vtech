@@ -2,6 +2,7 @@ import { CategoryActionsCell } from '@/components/admin/action/CategoryAction'
 import { UserStatusBadge } from '@/components/admin/data/manage-user/UserStatusBadges'
 import { DataTableColumnHeader } from '@/components/admin/datatable/DataTableColumnHeader'
 import { Checkbox } from '@/components/ui/checkbox'
+import { IMGAE_NOT_FOUND } from '@/defines/upload-image'
 import i18n from '@/i18n/i18n'
 import { type ColumnDef } from '@tanstack/react-table'
 
@@ -53,7 +54,7 @@ export const columns: ColumnDef<Category>[] = [
       return (
         <div className='flex items-center gap-3'>
           <img
-            src={category.thumbnailUrl ?? 'https://ui.shadcn.com/avatars/02.png'}
+            src={category.thumbnailUrl ?? IMGAE_NOT_FOUND}
             alt={category.categoryName}
             className='h-9 w-9 rounded-full object-cover border'
           />

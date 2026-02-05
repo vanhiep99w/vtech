@@ -13,13 +13,57 @@ export const getAllCategoryApi = async () => {
 
 // TODO: gọi api create
 export const createCategoryApi = async (payload: CreateCategoryPayload) => {
-  const res = await api.post<ApiResponse<CategoryResponse>>('/categories', payload)
+  const formData = new FormData()
+
+  formData.append('categoryName', payload.categoryName)
+  formData.append('slug', payload.slug)
+
+  if (payload.categoryDesc) {
+    formData.append('categoryDesc', payload.categoryDesc)
+  }
+
+  if (payload.parentId) {
+    formData.append('parentId', payload.parentId)
+  }
+
+  if (payload.displayOrder !== undefined) {
+    formData.append('displayOrder', payload.displayOrder.toString())
+  }
+
+  if (payload.thumbnail) {
+    formData.append('thumbnail', payload.thumbnail)
+  }
+
+  const res = await api.post<ApiResponse<CategoryResponse>>('/categories', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+
   return res.data.data
 }
 
 // TODO: gọi api edit
 export const updateCategoryApi = async (categoryId: string, payload: UpdateCategoryPayload) => {
-  const res = await api.put<ApiResponse<CategoryResponse>>(`/categories/${categoryId}`, payload)
+  const formData = new FormData()
+
+  formData.append('categoryName', payload.categoryName)
+  formData.append('slug', payload.slug)
+  formData.append('status', String(payload.status))
+
+  if (payload.categoryDesc) formData.append('categoryDesc', payload.categoryDesc)
+
+  if (payload.parentId) formData.append('parentId', payload.parentId)
+
+  if (payload.displayOrder !== undefined)
+    formData.append('displayOrder', String(payload.displayOrder))
+
+  if (payload.thumbnail) formData.append('thumbnail', payload.thumbnail)
+
+  const res = await api.put<ApiResponse<CategoryResponse>>(`/categories/${categoryId}`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  })
+
   return res.data.data
 }
 

@@ -16,17 +16,17 @@ export interface CreateCategoryPayload {
   categoryName: string
   slug: string
   categoryDesc?: string
-  thumbnailUrl?: string
   parentId?: string | null
   displayOrder?: number
+  thumbnail?: File | null
 }
 
 export interface UpdateCategoryPayload {
   categoryName: string
   slug: string
   categoryDesc?: string
-  thumbnailUrl?: string
   parentId?: string | null
   displayOrder?: number
   status: number
+  thumbnail?: File | null
 }

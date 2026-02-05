@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-// import { Textarea } from '@/components/ui/textarea'
 import {
   Select,
   SelectContent,
@@ -15,10 +14,14 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
+import type { ApiErrorResponse } from '@/defines/error.type'
+import { ACCEPTED_IMAGE_TYPES } from '@/defines/upload-image'
 import { createCategoryApi, getAllCategoryApi } from '@/services/category/category.api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import type { AxiosError } from 'axios'
 import { FolderPlus } from 'lucide-react'
+import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
@@ -34,6 +37,7 @@ export function CreateCategoryForm({ onSuccess }: CreateCategoryFormProps) {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors }
   } = useForm<CreateCategoryFormValues>({
     resolver: zodResolver(createCategorySchema),
@@ -47,19 +51,18 @@ export function CreateCategoryForm({ onSuccess }: CreateCategoryFormProps) {
     queryFn: getAllCategoryApi
   })
 
-  // const parentCategories = categories.filter((c) => !c.parentId)
-
   const queryClient = useQueryClient()
 
   const mutation = useMutation({
     mutationFn: createCategoryApi,
     onSuccess: () => {
-      toast.success('Tạo danh mục thành công')
+      toast.success(t('message.success.create'))
       queryClient.invalidateQueries({ queryKey: ['categories'] })
       onSuccess()
     },
-    onError: () => {
-      toast.error('Tạo danh mục thất bại')
+    onError: (error: AxiosError<ApiErrorResponse>) => {
+      const message = error.response?.data?.message ?? t('message.error.update')
+      toast.error(message)
     }
   })
 
@@ -69,6 +72,8 @@ export function CreateCategoryForm({ onSuccess }: CreateCategoryFormProps) {
       parentId: data.parentId || null
     })
   }
+
+  const [preview, setPreview] = useState<string | null>(null)
 
   return (
     <Card className='border-none shadow-none'>
@@ -119,22 +124,46 @@ export function CreateCategoryForm({ onSuccess }: CreateCategoryFormProps) {
                 </div>
               </div>
 
-              <div className='space-y-3'>
+              <div className='space-y-2'>
                 <Label>{t('fields.thumbnailUrl.label')}</Label>
-                <div className='w-full aspect-video rounded-md border bg-muted flex items-center justify-center overflow-hidden'>
-                  <img
-                    src='https://ui.shadcn.com/avatars/02.png'
-                    alt='thumbnail-preview'
-                    className='object-cover w-full h-full'
-                  />
-                </div>
+
+                <label
+                  htmlFor='thumbnail'
+                  className={`block w-full aspect-video rounded-md border bg-muted overflow-hidden cursor-pointer relative group
+                    ${errors.thumbnail ? 'border-destructive' : ''}`}
+                >
+                  {preview ? (
+                    <img src={preview} className='object-cover w-full h-full' />
+                  ) : (
+                    <div className='flex items-center justify-center h-full text-muted-foreground text-sm'>
+                      {t('fields.thumbnailUrl.placeholder')}
+                    </div>
+                  )}
+
+                  <div
+                    className='absolute inset-0 bg-black/40 opacity-0
+                      group-hover:opacity-100 transition
+                      flex items-center justify-center
+                      text-white text-sm font-medium'
+                  ></div>
+                </label>
 
                 <Input
-                  placeholder={t('fields.thumbnailUrl.placeholder')}
-                  {...register('thumbnailUrl')}
+                  id='thumbnail'
+                  type='file'
+                  accept={ACCEPTED_IMAGE_TYPES.join(',')}
+                  className='hidden'
+                  onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (!file) return
+
+                    setPreview(URL.createObjectURL(file))
+                    setValue('thumbnail', file, { shouldValidate: true })
+                  }}
                 />
-                {errors.thumbnailUrl && (
-                  <p className='text-sm text-destructive'>{errors.thumbnailUrl.message}</p>
+
+                {errors.thumbnail && (
+                  <p className='text-sm text-destructive'>{errors.thumbnail.message}</p>
                 )}
               </div>
             </div>

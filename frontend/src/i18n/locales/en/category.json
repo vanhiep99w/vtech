@@ -43,8 +43,10 @@
     "slug": {
       "required": "Slug is required"
     },
-    "thumbnailUrl": {
-      "invalid": "Invalid thumbnail URL"
+    "thumbnail": {
+      "invalid": "Invalid thumbnail URL",
+      "invalidType": "Only JPG, PNG, WEBP images are allowed",
+      "maxSize": "Maximum image size is 5MB"
     },
     "displayOrder": {
       "invalid": "Display order must be an integer",
@@ -69,7 +71,7 @@
     },
     "thumbnailUrl": {
       "label": "Thumbnail",
-      "placeholder": "Enter image URL"
+      "placeholder": "Click to add image"
     },
     "parent": {
       "label": "Parent category",
