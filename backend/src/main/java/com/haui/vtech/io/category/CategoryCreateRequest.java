@@ -16,10 +16,6 @@ public class CategoryCreateRequest {
     private String slug;
 
     private String categoryDesc;
-
-    private String thumbnailUrl;
-
     private String parentId;
-
     private Integer displayOrder;
 }

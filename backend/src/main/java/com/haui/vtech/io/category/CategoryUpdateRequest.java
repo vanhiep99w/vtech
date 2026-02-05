@@ -16,7 +16,6 @@ public class CategoryUpdateRequest {
     private String slug;
 
     private String categoryDesc;
-    private String thumbnailUrl;
     private String parentId;
     private Integer displayOrder;
     private Integer status;

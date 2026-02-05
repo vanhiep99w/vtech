@@ -39,6 +39,9 @@ public enum ErrorCode {
     CATEGORY_PARENT_NOT_FOUND(5004, "category.parent.not.found", HttpStatus.BAD_REQUEST),
     CATEGORY_PARENT_INVALID(5005, "category.parent.invalid", HttpStatus.BAD_REQUEST),
     CATEGORY_HAS_CHILD(5006, "category.has.child", HttpStatus.BAD_REQUEST),
+
+    FILE_TYPE_INVALID(6000, "file.type.invalid", HttpStatus.BAD_REQUEST),
+    FILE_TOO_LARGE(6001, "file.too.large", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

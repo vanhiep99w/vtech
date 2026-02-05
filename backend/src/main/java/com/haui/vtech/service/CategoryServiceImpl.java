@@ -1,6 +1,7 @@
 package com.haui.vtech.service;
 
 import com.haui.vtech.entity.CategoryEntity;
+import com.haui.vtech.enums.ImageFolder;
 import com.haui.vtech.exception.AppException;
 import com.haui.vtech.exception.ErrorCode;
 import com.haui.vtech.io.category.CategoryCreateRequest;
@@ -12,7 +13,9 @@ import com.haui.vtech.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,20 +28,32 @@ public class CategoryServiceImpl implements CategoryService{
 
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
+    private final S3Service s3Service;
 
     @Override
-    public CategoryResponse create(CategoryCreateRequest request) {
+    public CategoryResponse create(CategoryCreateRequest request, MultipartFile thumbnail) {
         log.info("Create category started | request={}", request);
 
         if(categoryRepository.existsBySlug(request.getSlug())) {
             log.warn("Create category failed | slug existed={}", request.getSlug());
             throw new AppException(ErrorCode.CATEGORY_SLUG_EXISTED);
         }
+
         if(request.getParentId() != null && !categoryRepository.existsById(request.getParentId())){
             log.warn("Create category failed | parent not found={}", request.getParentId());
             throw new AppException(ErrorCode.CATEGORY_PARENT_NOT_FOUND);
         }
         CategoryEntity newCategory = categoryMapper.toEntity(request);
+
+        if (thumbnail != null && !thumbnail.isEmpty()) {
+            try {
+                String imageUrl = s3Service.uploadImage(thumbnail, ImageFolder.CATEGORY);
+                newCategory.setThumbnailUrl(imageUrl);
+            } catch (IOException e) {
+                throw new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION);
+            }
+        }
+
         CategoryEntity savedCategory = categoryRepository.save(newCategory);
 
         log.info("Create category success | id={}", savedCategory.getId());
@@ -90,7 +105,7 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public CategoryResponse update(String id, CategoryUpdateRequest request) {
+    public CategoryResponse update(String id, CategoryUpdateRequest request, MultipartFile thumbnail) {
         log.info("Update category started | id={}, request={}", id, request);
         CategoryEntity category = categoryRepository.findById(id)
                 .orElseThrow(() -> {
@@ -122,6 +137,16 @@ public class CategoryServiceImpl implements CategoryService{
         } else {
             log.info("Remove category parent | id={}, oldParentId={}", id, category.getParentId());
             category.setParentId(null);
+        }
+
+        if (thumbnail != null && !thumbnail.isEmpty()) {
+            try {
+                String imageUrl = s3Service.uploadImage(thumbnail, ImageFolder.CATEGORY);
+                category.setThumbnailUrl(imageUrl);
+            } catch (IOException e) {
+                log.error("Update category thumbnail failed", e);
+                throw new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION);
+            }
         }
 
         categoryMapper.updateEntity(category, request);
