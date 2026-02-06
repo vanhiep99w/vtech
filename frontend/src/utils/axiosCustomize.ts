@@ -4,7 +4,7 @@ import { clearToken, getToken, setToken } from '@/utils/authStorage'
 import axios from 'axios'
 
 export const api = axios.create({
-  baseURL: 'http://localhost:8080/api/v2',
+  baseURL: 'http://localhost:8080/api/v1',
   headers: {
     'Content-Type': 'application/json'
   }

@@ -42,12 +42,12 @@ aws:
 security:
   public:
     post-endpoints:
-      - /api/v2/users/register
-      - /api/v2/login
-      - /api/v2/introspect
-      - /api/v2/logout
-      - /api/v2/refresh
+      - /api/v1/users/register
+      - /api/v1/login
+      - /api/v1/introspect
+      - /api/v1/logout
+      - /api/v1/refresh
     get-endpoints:
-      - /api/v2/categories/**
+      - /api/v1/categories/**
 
 
