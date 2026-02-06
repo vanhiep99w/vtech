@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
         ApiResponse apiResponse = new ApiResponse();
 
         apiResponse.setCode(errorCode.getCode());
-        apiResponse.setMessage(messageUtil.getMesage(errorCode.getMessage()));
+        apiResponse.setMessage(messageUtil.getMesage(errorCode.getMessage(), ex.getMessageArgs()));
 
         return ResponseEntity
                 .status(errorCode.getStatusCode())

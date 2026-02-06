@@ -36,12 +36,12 @@ public class CategoryServiceImpl implements CategoryService{
 
         if(categoryRepository.existsBySlug(request.getSlug())) {
             log.warn("Create category failed | slug existed={}", request.getSlug());
-            throw new AppException(ErrorCode.CATEGORY_SLUG_EXISTED);
+            throw new AppException(ErrorCode.CATEGORY_SLUG_EXISTED, request.getSlug());
         }
 
         if(request.getParentId() != null && !categoryRepository.existsById(request.getParentId())){
             log.warn("Create category failed | parent not found={}", request.getParentId());
-            throw new AppException(ErrorCode.CATEGORY_PARENT_NOT_FOUND);
+            throw new AppException(ErrorCode.CATEGORY_PARENT_NOT_FOUND, request.getParentId());
         }
         CategoryEntity newCategory = categoryMapper.toEntity(request);
 
@@ -88,7 +88,7 @@ public class CategoryServiceImpl implements CategoryService{
                 categoryRepository.findById(id)
                         .orElseThrow(() -> {
                             log.warn("Category not found | id={}", id);
-                            return new AppException(ErrorCode.CATEGORY_NOT_FOUND);
+                            return new AppException(ErrorCode.CATEGORY_NOT_FOUND, id);
                         })
         );
 
@@ -110,14 +110,14 @@ public class CategoryServiceImpl implements CategoryService{
         CategoryEntity category = categoryRepository.findById(id)
                 .orElseThrow(() -> {
                     log.warn("Category not found | id={}", id);
-                    return new AppException(ErrorCode.CATEGORY_NOT_FOUND);
+                    return new AppException(ErrorCode.CATEGORY_NOT_FOUND, id);
                 });
 
         // Validate slug uniqueness
         if (!category.getSlug().equals(request.getSlug())
                 && categoryRepository.existsBySlug(request.getSlug())) {
             log.warn("Update category failed | slug existed={}", request.getSlug());
-            throw new AppException(ErrorCode.CATEGORY_SLUG_EXISTED);
+            throw new AppException(ErrorCode.CATEGORY_SLUG_EXISTED, request.getSlug());
         }
 
         // Validate parent category
@@ -158,11 +158,11 @@ public class CategoryServiceImpl implements CategoryService{
     public void delete(String id) {
         log.info("Delete category started | id={}", id);
         CategoryEntity category = categoryRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND, id));
 
         if (categoryRepository.existsByParentId(id)) {
             log.warn("Delete category failed | has child | id={}", id);
-            throw new AppException(ErrorCode.CATEGORY_HAS_CHILD);
+            throw new AppException(ErrorCode.CATEGORY_HAS_CHILD, category.getCategoryName());
         }
 
         categoryRepository.deleteById(id);
@@ -172,10 +172,10 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public void deleteSoft(String id) {
         CategoryEntity category = categoryRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND, id));
 
         if (categoryRepository.existsByParentId(id)) {
-            throw new AppException(ErrorCode.CATEGORY_HAS_CHILD);
+            throw new AppException(ErrorCode.CATEGORY_HAS_CHILD, category.getCategoryName());
         }
         category.setStatus(0);
         categoryRepository.save(category);
