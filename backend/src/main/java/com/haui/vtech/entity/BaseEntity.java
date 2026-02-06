@@ -1,5 +1,6 @@
 package com.haui.vtech.entity;
 
+import com.github.f4b6a3.uuid.UuidCreator;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +9,6 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
 
@@ -21,8 +21,6 @@ import java.time.LocalDateTime;
 public abstract class BaseEntity {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.UUID)
-    @UuidGenerator(style = UuidGenerator.Style.TIME)
     @Column(name = "id", length = 36, nullable = false, updatable = false)
     private String id;
 
@@ -39,6 +37,9 @@ public abstract class BaseEntity {
 
     @PrePersist
     public void prePersist() {
+        if (id == null) {
+            id = UuidCreator.getTimeOrderedEpoch().toString();
+        }
         status = 1;
     }
 
