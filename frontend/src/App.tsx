@@ -9,6 +9,7 @@ import TestPage from '@/pages/TestPage'
 import ProfilePage from '@/pages/user/ProfilePage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Toaster } from 'sonner'
+import CategoryPage from '@/pages/admin/manage-category/page'
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path='/dashboard' element={<LayoutAdmin />}>
               <Route index element={<DashboardHome />} />
               <Route path='users' element={<UserPage />} />
+              <Route path='categories' element={<CategoryPage />} />~
             </Route>
           </Route>
           <Route path='/' element={<TestPage />} />

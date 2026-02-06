@@ -2,7 +2,6 @@ package com.haui.vtech.config;
 
 import com.haui.vtech.util.MessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -24,13 +23,14 @@ import org.springframework.web.filter.CorsFilter;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final String[] PUBLIC_ENDPOINTS = {"/api/v2/users/register", "/api/v2/login", "/api/v2/introspect", "/api/v2/logout", "/api/v2/refresh"};
-
     @Autowired
     private CustomJwtDecoder customJwtDecoder;
 
     @Autowired
     private MessageUtil messageUtil;
+
+    @Autowired
+    private SecurityProperties securityProperties;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -38,7 +38,8 @@ public class SecurityConfig {
                 .cors(cors -> {})
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
-                    .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.POST, securityProperties.getPostEndpoints().toArray(new String[0])).permitAll()
+                        .requestMatchers(HttpMethod.GET, securityProperties.getGetEndpoints().toArray(new String[0])).permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 ->
                         oauth2.jwt(jwtConfigurer ->
