@@ -34,7 +34,7 @@ public class UserService {
 
     public UserResponse createUser(UserCreationRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new AppException(ErrorCode.EMAIL_EXSISTED);
+            throw new AppException(ErrorCode.EMAIL_EXSISTED, request.getEmail());
         }
 
         UserEntity newUser = userMapper.toEntity(request);
@@ -67,7 +67,7 @@ public class UserService {
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
         return userMapper.toUserResponse(userRepository.findByEmail(name)
-                .orElseThrow(() -> new AppException(ErrorCode.EMAIL_NOT_EXSISTED)));
+                .orElseThrow(() -> new AppException(ErrorCode.EMAIL_NOT_EXSISTED, name)));
     }
 
     @PostAuthorize("returnObject.email == authentication.name || hasRole('ADMIN')")
@@ -112,7 +112,7 @@ public class UserService {
                 .getName();
 
         UserEntity user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new AppException(ErrorCode.EMAIL_NOT_EXSISTED));
+                .orElseThrow(() -> new AppException(ErrorCode.EMAIL_NOT_EXSISTED, email));
 
         //  Kiểm tra mật khẩu cũ đúng
         if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {

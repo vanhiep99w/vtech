@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.text.ParseException;
 
 @RestController
-@RequestMapping("/api/v2")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class LoginController {
 
