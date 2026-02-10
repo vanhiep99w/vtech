@@ -8,4 +8,5 @@
     <include file="classpath:db/changelog/changes/001-initial-schema.xml"/>
     <include file="classpath:db/changelog/changes/002-insert-roles.xml"/>
     <include file="classpath:db/changelog/changes/003-create-categories-table.xml"/>
+    <include file="classpath:db/changelog/changes/004-create-brands-table.xml"/>
 </databaseChangeLog>
