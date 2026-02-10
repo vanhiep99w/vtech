@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "brands")
 @Getter
@@ -32,4 +34,8 @@ public class BrandEntity extends BaseEntity {
 
     @Column(name = "display_order")
     private Integer displayOrder;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
 }

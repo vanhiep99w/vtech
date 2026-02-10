@@ -19,4 +19,5 @@ public class BrandResponse {
     private Integer status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
 }

@@ -23,4 +23,8 @@ public interface BrandService {
     void delete(String id);
 
     void deleteSoft(String id);
+
+    List<BrandResponse> getAllInTrash();
+
+    void restore(String id);
 }

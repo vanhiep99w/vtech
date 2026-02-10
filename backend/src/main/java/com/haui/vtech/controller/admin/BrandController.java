@@ -67,10 +67,33 @@ public class BrandController extends BaseController {
     }
 
     @DeleteMapping("/{brandId}")
+    public ApiResponse<Void> deleteSoftBrand(@PathVariable String brandId) {
+        brandService.deleteSoft(brandId);
+        return ApiResponse.<Void>builder()
+                .message(messageUtil.getMesage("deleted.soft.success"))
+                .build();
+    }
+
+    @DeleteMapping("/trash/{brandId}")
     public ApiResponse<Void> deleteBrand(@PathVariable String brandId) {
         brandService.delete(brandId);
         return ApiResponse.<Void>builder()
                 .message(messageUtil.getMesage("deleted.success"))
+                .build();
+    }
+
+    @GetMapping("/trash")
+    public ApiResponse<List<BrandResponse>> getAllInTrash() {
+        return ApiResponse.<List<BrandResponse>>builder()
+                .data(brandService.getAllInTrash())
+                .build();
+    }
+
+    @PatchMapping("/trash/{brandId}/restore")
+    public ApiResponse<Void> restoreBrand(@PathVariable String brandId) {
+        brandService.restore(brandId);
+        return ApiResponse.<Void>builder()
+                .message(messageUtil.getMesage("restored.success"))
                 .build();
     }
 }

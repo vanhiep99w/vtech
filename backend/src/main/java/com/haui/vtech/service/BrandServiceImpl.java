@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -27,7 +28,7 @@ public class BrandServiceImpl implements BrandService {
     public BrandResponse create(BrandCreateRequest request, MultipartFile brandLogo) {
 
         if(brandRepository.existsBySlug(request.getSlug())) {
-            throw new AppException(ErrorCode.BRAND_SLUG_EXISTED);
+            throw new AppException(ErrorCode.BRAND_SLUG_EXISTED, request.getSlug());
         }
 
         BrandEntity newBrand = brandMapper.toBrandEntity(request);
@@ -43,7 +44,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public List<BrandResponse> findAll() {
-        return brandRepository.findAll().stream().map(brandMapper::toBrandResponse).toList();
+        return brandRepository.findByStatus(1).stream().map(brandMapper::toBrandResponse).toList();
     }
 
     @Override
@@ -85,7 +86,7 @@ public class BrandServiceImpl implements BrandService {
         BrandEntity brand = brandRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND, id));
 
-        brandRepository.deleteById(id);
+        brandRepository.delete(brand);
     }
 
     @Override
@@ -93,7 +94,29 @@ public class BrandServiceImpl implements BrandService {
         BrandEntity brand = brandRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND, id));
 
+        if (brand.getDeletedAt() != null) {
+            return;
+        }
+
         brand.setStatus(0);
+        brand.setDeletedAt(LocalDateTime.now());
+
+        brandRepository.save(brand);
+    }
+
+    @Override
+    public List<BrandResponse> getAllInTrash() {
+        return brandRepository.findAllByStatusAndDeletedAtIsNotNullOrderByDeletedAtDesc(0)
+                .stream().map(brandMapper::toBrandResponse).toList();
+    }
+
+    @Override
+    public void restore(String id) {
+        BrandEntity brand = brandRepository.findByIdAndDeletedAtIsNotNull(id)
+                .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND, id));
+
+        brand.setStatus(1);
+        brand.setDeletedAt(null);
 
         brandRepository.save(brand);
     }

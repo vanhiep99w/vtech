@@ -64,5 +64,14 @@
             <dropTable tableName="brands"/>
         </rollback>
     </changeSet>
+    <changeSet id="008-add-deleted-at-to-brands" author="dongdang">
+        <addColumn tableName="brands">
+            <column name="deleted_at" type="TIMESTAMP"/>
+        </addColumn>
+
+        <createIndex tableName="brands" indexName="idx_brand_deleted_at">
+            <column name="deleted_at"/>
+        </createIndex>
+    </changeSet>
 
 </databaseChangeLog>
