@@ -34,8 +34,8 @@ public class BrandServiceImpl implements BrandService {
         BrandEntity newBrand = brandMapper.toBrandEntity(request);
 
         if(brandLogo != null && !brandLogo.isEmpty()) {
-            String brandUrrl = s3Service.uploadImage(brandLogo, ImageFolder.BRAND);
-            newBrand.setBrandLogo(brandUrrl);
+            String brandUrl = s3Service.uploadImage(brandLogo, ImageFolder.BRAND);
+            newBrand.setBrandLogo(brandUrl);
         }
 
         BrandEntity savedBrand = brandRepository.save(newBrand);

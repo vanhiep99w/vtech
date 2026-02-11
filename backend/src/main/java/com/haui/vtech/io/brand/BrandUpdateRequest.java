@@ -17,6 +17,4 @@ public class BrandUpdateRequest {
     private String brandDesc;
 
     private Integer displayOrder;
-
-    private Integer status;
 }
