@@ -63,10 +63,19 @@ export const deleteSoftBrandApi = async (brandId: string) => {
 }
 
 // TODO: api get all in trash
-export const getAllInTrash = async () => {
-  const res = await api.get<ApiResponse<BrandReponse>>('/brands/trash')
+export const getAllBrandInTrashApi = async () => {
+  const res = await api.get<ApiResponse<BrandReponse[]>>('/brands/trash')
   return res.data.data
 }
 
 // TODO: api restore
+export const restoreBrandApi = async (brandId: string) => {
+  const res = await api.patch<ApiResponse<void>>(`/brands/trash/${brandId}/restore`)
+  return res.data
+}
+
 // TODO: api delete hash
+export const deleteHardBrandApi = async (brandId: string) => {
+  const res = await api.delete<ApiResponse<void>>(`/brands/trash/${brandId}`)
+  return res.data
+}

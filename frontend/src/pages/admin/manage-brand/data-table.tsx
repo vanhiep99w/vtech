@@ -1,4 +1,5 @@
 import { CreateBrandDialog } from '@/components/admin/data/manage-brand/CreateBrandDialog'
+import { TrashBrandDialog } from '@/components/admin/data/manage-brand/trash/TrashBrandDialog'
 import { DataTablePagination } from '@/components/admin/datatable/DataTablePagination'
 import { DataTableViewOptions } from '@/components/admin/datatable/DataTableViewOptions'
 import { Input } from '@/components/ui/input'
@@ -65,6 +66,7 @@ export function DataTable<TData, TValue>({ data, columns }: DataTableProps<TData
 
         <DataTableViewOptions table={table} />
         <CreateBrandDialog />
+        <TrashBrandDialog />
       </div>
 
       <div className='overflow-hidden rounded-md border mb-5'>

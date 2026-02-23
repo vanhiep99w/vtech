@@ -12,31 +12,30 @@ import { Button } from '@/components/ui/button'
 import type { ApiErrorResponse } from '@/defines/error.type'
 import i18n from '@/i18n/i18n'
 import type { Brand } from '@/pages/admin/manage-brand/columns'
-import { deleteSoftBrandApi } from '@/services/brand/brand.api'
+import { deleteHardBrandApi } from '@/services/brand/brand.api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { AxiosError } from 'axios'
 import { Trash2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 
-interface DeleteBrandDialogProps {
+interface HardDeleteBrandDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   brand: Brand
 }
 
-export function DeleteBrandDialog({ open, onOpenChange, brand }: DeleteBrandDialogProps) {
+export function HardDeleteBrandDialog({ open, onOpenChange, brand }: HardDeleteBrandDialogProps) {
   const { t } = useTranslation('brand')
-
   const queryClient = useQueryClient()
 
   const mutation = useMutation({
-    mutationFn: () => deleteSoftBrandApi(brand.id),
+    mutationFn: () => deleteHardBrandApi(brand.id),
     onSuccess: () => {
       toast.success(t('message.success.delete'))
+
       onOpenChange(false)
 
-      queryClient.invalidateQueries({ queryKey: ['brands'] })
       queryClient.invalidateQueries({ queryKey: ['brands-trash'] })
     },
     onError: (error: AxiosError<ApiErrorResponse>) => {
@@ -51,19 +50,22 @@ export function DeleteBrandDialog({ open, onOpenChange, brand }: DeleteBrandDial
         <AlertDialogHeader>
           <AlertDialogTitle>{t('titles.delete')}</AlertDialogTitle>
           <AlertDialogDescription>
-            {t('message.confirm.softDelete', { brandName: brand.brandName })}
+            {t('message.confirm.hardDelete', {
+              brandName: brand.brandName
+            })}
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         <AlertDialogFooter>
           <AlertDialogCancel>{i18n.t('common:common.cancel')}</AlertDialogCancel>
+
           <AlertDialogAction asChild>
             <Button
               variant='destructive'
               onClick={() => mutation.mutate()}
               disabled={mutation.isPending}
             >
-              <Trash2 className=' h-4 w-4' />
+              <Trash2 className='h-4 w-4' />
               {t('actions.confirm')}
             </Button>
           </AlertDialogAction>

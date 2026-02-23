@@ -13,7 +13,8 @@
     "create": "Create Brand",
     "edit": "Edit Brand",
     "view": "Brand Details",
-    "delete": "Delete Brand"
+    "delete": "Delete Brand",
+    "trash": "Trash"
   },
   "filters": {
     "search": "Search brand"
@@ -79,21 +80,30 @@
     },
     "createdAt": "Created at",
     "updatedAt": "Updated at",
-    "deleteAt": "Deleted at"
+    "deletedAt": "Deleted at"
+  },
+  "trash": {
+    "trashEmpty": "Trash is empty",
+    "remainingDays": "{{days}} days left before permanent deletion"
   },
   "message": {
     "success": {
       "create": "Brand created successfully!",
       "update": "Brand updated successfully!",
       "delete": "Brand deleted successfully!",
-      "deleteConfirm": "Are you sure you want to delete brand '{{brandName}}' ? This action cannot be undone."
+      "restore": "Brand restored successfully!"
+    },
+    "confirm": {
+      "softDelete": "Are you sure you want to delete the brand '{{brandName}}'? After deletion, please check the trash.",
+      "hardDelete": "Are you sure you want to delete brand '{{brandName}}' ? This action cannot be undone."
     },
     "error": {
       "create": "Failed to create brand!",
       "update": "Failed to update brand!",
       "delete": "Failed to delete brand!",
       "fetch": "Failed to fetch brand list!",
-      "fetchDetail": "Failed to fetch brand details!"
+      "fetchDetail": "Failed to fetch brand details!",
+      "restore": "Failed to restore brand!"
     }
   }
 }

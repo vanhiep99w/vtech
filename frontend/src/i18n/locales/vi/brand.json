@@ -13,7 +13,8 @@
     "create": "Tạo thương hiệu",
     "edit": "Chỉnh sửa thương hiệu",
     "view": "Thông tin thương hiệu",
-    "delete": "Xoá thương hiệu"
+    "delete": "Xoá thương hiệu",
+    "trash": "Thùng rác"
   },
   "filters": {
     "search": "Tìm kiếm thương hiệu"
@@ -81,19 +82,28 @@
     "updatedAt": "Ngày cập nhật",
     "deletedAt": "Ngày xoá"
   },
+  "trash": {
+    "trashEmpty": "Thùng rác trống",
+    "remainingDays": "Còn {{days}} ngày trước khi xoá vĩnh viễn"
+  },
   "message": {
     "success": {
       "create": "Tạo thương hiệu thành công!",
       "update": "Cập nhật thương hiệu thành công!",
       "delete": "Xóa thương hiệu thành công!",
-      "deleteConfirm": "Bạn có chắc chắn muốn xóa thương hiệu '{{brandName}}' không? Hành động này không thể hoàn tác."
+      "restore": "Khôi phục thương hiệu thành công!"
+    },
+    "confirm": {
+      "softDelete": "Bạn có chắc chắn muốn xóa thương hiệu '{{brandName}}' không? Sau khi xoá hãy kiểm tra thùng rác.",
+      "hardDelete": "Bạn có chắc chắn muốn xóa thương hiệu '{{brandName}}' không? Hành động này không thể hoàn tác."
     },
     "error": {
       "create": "Tạo thương hiệu thất bại!",
       "update": "Cập nhật thương hiệu thất bại!",
       "delete": "Xóa thương hiệu thất bại!",
       "fetch": "Lấy danh sách thương hiệu thất bại!",
-      "fetchDetail": "Lấy thông tin thương hiệu thất bại!"
+      "fetchDetail": "Lấy thông tin thương hiệu thất bại!",
+      "restore": "Khôi phục thương hiệu thất bại!"
     }
   }
 }
