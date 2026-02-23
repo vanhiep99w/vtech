@@ -7,17 +7,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
-import type { ApiErrorResponse } from '@/defines/error.type'
 import { ACCEPTED_IMAGE_TYPES } from '@/defines/upload-image'
+import { useAppMutation } from '@/hooks/useAppMutation'
 import { createBrandApi } from '@/services/brand/brand.api'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import type { AxiosError } from 'axios'
 import { FolderPlus } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
 
 interface CreateBrandFormProps {
   onSuccess: () => void
@@ -38,20 +35,13 @@ export function CreateBrandForm({ onSuccess }: CreateBrandFormProps) {
     }
   })
 
-  const queryClient = useQueryClient()
-
-  const mutation = useMutation({
-    mutationFn: createBrandApi,
-    onSuccess: () => {
-      toast.success(t('message.success.create'))
-      queryClient.invalidateQueries({ queryKey: ['brands'] })
-      onSuccess()
-    },
-    onError: (error: AxiosError<ApiErrorResponse>) => {
-      const message = error.response?.data?.message ?? t('message.error.update')
-      toast.error(message)
-    }
-  })
+  const mutation = useAppMutation(
+    createBrandApi,
+    'brands',
+    t('message.success.create'),
+    t('message.error.create'),
+    onSuccess
+  )
 
   const onSubmit = async (data: CreateBrandFormValues) => {
     mutation.mutate({

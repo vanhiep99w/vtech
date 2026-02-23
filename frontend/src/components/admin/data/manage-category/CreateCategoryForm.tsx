@@ -14,17 +14,15 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
-import type { ApiErrorResponse } from '@/defines/error.type'
 import { ACCEPTED_IMAGE_TYPES } from '@/defines/upload-image'
+import { useAppMutation } from '@/hooks/useAppMutation'
+import { useFetchData } from '@/hooks/useFetchData'
 import { createCategoryApi, getAllCategoryApi } from '@/services/category/category.api'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import type { AxiosError } from 'axios'
 import { FolderPlus } from 'lucide-react'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
 
 interface CreateCategoryFormProps {
   onSuccess: () => void
@@ -46,25 +44,15 @@ export function CreateCategoryForm({ onSuccess }: CreateCategoryFormProps) {
     }
   })
 
-  const { data: categories = [] } = useQuery({
-    queryKey: ['categories'],
-    queryFn: getAllCategoryApi
-  })
+  const { data: categories = [] } = useFetchData('categories', getAllCategoryApi)
 
-  const queryClient = useQueryClient()
-
-  const mutation = useMutation({
-    mutationFn: createCategoryApi,
-    onSuccess: () => {
-      toast.success(t('message.success.create'))
-      queryClient.invalidateQueries({ queryKey: ['categories'] })
-      onSuccess()
-    },
-    onError: (error: AxiosError<ApiErrorResponse>) => {
-      const message = error.response?.data?.message ?? t('message.error.update')
-      toast.error(message)
-    }
-  })
+  const mutation = useAppMutation(
+    createCategoryApi,
+    'categories',
+    t('message.success.create'),
+    t('message.error.create'),
+    onSuccess
+  )
 
   const onSubmit = async (data: CreateCategoryFormValues) => {
     mutation.mutate({

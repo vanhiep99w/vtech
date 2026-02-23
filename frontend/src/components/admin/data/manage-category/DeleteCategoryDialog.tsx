@@ -9,15 +9,12 @@ import {
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import type { ApiErrorResponse } from '@/defines/error.type'
+import { useAppMutation } from '@/hooks/useAppMutation'
 import i18n from '@/i18n/i18n'
 import type { Category } from '@/pages/admin/manage-category/columns'
 import { deleteCategoryApi } from '@/services/category/category.api'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import type { AxiosError } from 'axios'
 import { Trash2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
 
 interface DeleteCategoryDialogProps {
   open: boolean
@@ -28,21 +25,12 @@ interface DeleteCategoryDialogProps {
 export function DeleteCategoryDialog({ open, onOpenChange, category }: DeleteCategoryDialogProps) {
   const { t } = useTranslation('category')
 
-  const queryClient = useQueryClient()
-
-  const mutation = useMutation({
-    mutationFn: () => deleteCategoryApi(category.id),
-    onSuccess: () => {
-      toast.success(t('message.success.delete'))
-      onOpenChange(false)
-
-      queryClient.invalidateQueries({ queryKey: ['categories'] })
-    },
-    onError: (error: AxiosError<ApiErrorResponse>) => {
-      const message = error.response?.data?.message ?? t('message.error.delete')
-      toast.error(message)
-    }
-  })
+  const mutation = useAppMutation(
+    () => deleteCategoryApi(category.id),
+    'categories',
+    t('message.success.delete'),
+    t('message.error.delete')
+  )
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>

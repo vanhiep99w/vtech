@@ -6,19 +6,16 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import type { ApiErrorResponse } from '@/defines/error.type'
 import { ACCEPTED_IMAGE_TYPES } from '@/defines/upload-image'
+import { useAppMutation } from '@/hooks/useAppMutation'
 import type { Brand } from '@/pages/admin/manage-brand/columns'
 import { updateBrandApi } from '@/services/brand/brand.api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Separator } from '@radix-ui/react-select'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import type { AxiosError } from 'axios'
 import { FolderEdit } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
 
 interface EditBrandFormProps {
   brand: Brand
@@ -42,20 +39,13 @@ export function EditBrandForm({ brand, onSuccess }: EditBrandFormProps) {
     }
   })
 
-  const queryClient = useQueryClient()
-
-  const mutation = useMutation({
-    mutationFn: (values: EditBrandFormValues) => updateBrandApi(brand.id, values),
-    onSuccess: () => {
-      toast.success(t('message.success.update'))
-      queryClient.invalidateQueries({ queryKey: ['brands'] })
-      onSuccess()
-    },
-    onError: (error: AxiosError<ApiErrorResponse>) => {
-      const message = error.response?.data?.message ?? t('message.error.update')
-      toast.error(message)
-    }
-  })
+  const mutation = useAppMutation(
+    (values: EditBrandFormValues) => updateBrandApi(brand.id, values),
+    'brands',
+    t('message.success.update'),
+    t('message.error.update'),
+    onSuccess
+  )
 
   const onSubmit = (values: EditBrandFormValues) => {
     mutation.mutate(values)

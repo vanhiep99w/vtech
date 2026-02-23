@@ -9,15 +9,12 @@ import {
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import type { ApiErrorResponse } from '@/defines/error.type'
+import { useAppMutation } from '@/hooks/useAppMutation'
 import i18n from '@/i18n/i18n'
 import type { Brand } from '@/pages/admin/manage-brand/columns'
 import { deleteHardBrandApi } from '@/services/brand/brand.api'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import type { AxiosError } from 'axios'
 import { Trash2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
 
 interface HardDeleteBrandDialogProps {
   open: boolean
@@ -27,22 +24,13 @@ interface HardDeleteBrandDialogProps {
 
 export function HardDeleteBrandDialog({ open, onOpenChange, brand }: HardDeleteBrandDialogProps) {
   const { t } = useTranslation('brand')
-  const queryClient = useQueryClient()
 
-  const mutation = useMutation({
-    mutationFn: () => deleteHardBrandApi(brand.id),
-    onSuccess: () => {
-      toast.success(t('message.success.delete'))
-
-      onOpenChange(false)
-
-      queryClient.invalidateQueries({ queryKey: ['brands-trash'] })
-    },
-    onError: (error: AxiosError<ApiErrorResponse>) => {
-      const message = error.response?.data?.message ?? t('message.error.delete')
-      toast.error(message)
-    }
-  })
+  const mutation = useAppMutation(
+    () => deleteHardBrandApi(brand.id),
+    'brands-trash',
+    t('message.success.delete'),
+    t('message.error.delete')
+  )
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>

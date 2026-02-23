@@ -1,3 +1,4 @@
+import { HardDeleteBrandDialog } from '@/components/admin/data/manage-brand/trash/HardDeleteBrandDialog'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -7,41 +8,26 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog'
 import { IMGAE_NOT_FOUND } from '@/defines/upload-image'
-import { getAllBrandInTrashApi, restoreBrandApi } from '@/services/brand/brand.api'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { RotateCcwSquare, Trash2 } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
-import { format, addDays, differenceInDays } from 'date-fns'
-import { toast } from 'sonner'
-import type { AxiosError } from 'axios'
-import type { ApiErrorResponse } from '@/defines/error.type'
-import { useState } from 'react'
+import { useAppMutation } from '@/hooks/useAppMutation'
+import { useFetchData } from '@/hooks/useFetchData'
 import type { Brand } from '@/pages/admin/manage-brand/columns'
-import { HardDeleteBrandDialog } from '@/components/admin/data/manage-brand/trash/HardDeleteBrandDialog'
+import { getAllBrandInTrashApi, restoreBrandApi } from '@/services/brand/brand.api'
+import { addDays, differenceInDays, format } from 'date-fns'
+import { RotateCcwSquare, Trash2 } from 'lucide-react'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export function TrashBrandDialog() {
   const { t } = useTranslation('brand')
 
-  const { data = [] } = useQuery({
-    queryKey: ['brands-trash'],
-    queryFn: getAllBrandInTrashApi
-  })
+  const { data = [] } = useFetchData('brands-trash', getAllBrandInTrashApi)
 
-  const queryClient = useQueryClient()
-
-  const mutation = useMutation({
-    mutationFn: (brandId: string) => restoreBrandApi(brandId),
-    onSuccess: () => {
-      toast.success(t('message.success.restore'))
-
-      queryClient.invalidateQueries({ queryKey: ['brands'] })
-      queryClient.invalidateQueries({ queryKey: ['brands-trash'] })
-    },
-    onError: (error: AxiosError<ApiErrorResponse>) => {
-      const message = error.response?.data?.message ?? t('message.error.restore')
-      toast.error(message)
-    }
-  })
+  const mutation = useAppMutation(
+    (brandId: string) => restoreBrandApi(brandId),
+    ['brands', 'brands-trash'],
+    t('message.success.restore'),
+    t('message.error.restore')
+  )
 
   const [selectedBrand, setSelectedBrand] = useState<Brand | null>(null)
   const [openDelete, setOpenDelete] = useState(false)
