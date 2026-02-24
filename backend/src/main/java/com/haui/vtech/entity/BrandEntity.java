@@ -1,8 +1,7 @@
 package com.haui.vtech.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.haui.vtech.enums.BrandStatus;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,4 +37,15 @@ public class BrandEntity extends BaseEntity {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    private BrandStatus status;
+
+    @PrePersist
+    public void prePersist() {
+        super.prePersist();
+        if (status == null) {
+            status = BrandStatus.ACTIVE;
+        }
+    }
 }

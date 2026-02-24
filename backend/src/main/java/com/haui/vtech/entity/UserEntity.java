@@ -37,6 +37,9 @@ public class UserEntity extends BaseEntity{
     @Column(name = "avatar", length = 500)
     private String avatar;
 
+    @Column(name = "status")
+    private Integer status;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "user_roles",

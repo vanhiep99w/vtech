@@ -36,4 +36,7 @@ public class CategoryEntity extends BaseEntity{
     @Column(name = "display_order")
     private Integer displayOrder;
 
+    @Column(name = "status")
+    private Integer status;
+
 }

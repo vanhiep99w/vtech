@@ -20,5 +20,8 @@ public class RoleEntity extends BaseEntity {
 
     @Column(name = "name", nullable = false, unique = true, length = 50)
     private String name;
+
+    @Column(name = "status")
+    private Integer status;
 }
 

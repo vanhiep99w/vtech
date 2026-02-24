@@ -1,6 +1,7 @@
 package com.haui.vtech.schedule;
 
 import com.haui.vtech.entity.BrandEntity;
+import com.haui.vtech.enums.BrandStatus;
 import com.haui.vtech.repository.BrandRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +28,7 @@ public class BrandCleanupScheduler {
         LocalDateTime expiredTime = LocalDateTime.now().minusMinutes(expireMinutes);
 
         List<BrandEntity> expiredBrands =
-                brandRepository.findAllByStatusAndDeletedAtBefore(0, expiredTime);
+                brandRepository.findAllByStatusAndDeletedAtBefore(BrandStatus.INACTIVE, expiredTime);
 
         if (!expiredBrands.isEmpty()) {
             brandRepository.deleteAll(expiredBrands);
