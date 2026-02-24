@@ -1,6 +1,8 @@
 package com.haui.vtech.service;
 
 import com.haui.vtech.enums.ImageFolder;
+import com.haui.vtech.exception.AppException;
+import com.haui.vtech.exception.ErrorCode;
 import com.haui.vtech.util.FileValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,22 +24,24 @@ public class S3Service {
     @Value("${aws.s3.bucket}")
     private String bucketName;
 
-    public String uploadImage(MultipartFile file, ImageFolder folder) throws IOException {
+    public String uploadImage(MultipartFile file, ImageFolder folder) {
+        try {
+            FileValidator.validateImage(file);
 
-        FileValidator.validateImage(file);
+            String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+            String key = folder.getFolder() + "/" + fileName;
 
-        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-        String key = folder.getFolder() + "/" + fileName;
+            PutObjectRequest request = PutObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(key)
+                    .contentType(file.getContentType())
+                    .build();
 
-        PutObjectRequest request = PutObjectRequest.builder()
-                .bucket(bucketName)
-                .key(key)
-                .contentType(file.getContentType())
-                .build();
-
-        s3Client.putObject(request,
-                RequestBody.fromBytes(file.getBytes()));
-
-        return "https://" + bucketName + ".s3.amazonaws.com/" + key;
+            s3Client.putObject(request,
+                    RequestBody.fromBytes(file.getBytes()));
+            return "https://" + bucketName + ".s3.amazonaws.com/" + key;
+        } catch (IOException e) {
+            throw new AppException(ErrorCode.UPLOAD_IMAGE_FAILED);
+        }
     }
 }

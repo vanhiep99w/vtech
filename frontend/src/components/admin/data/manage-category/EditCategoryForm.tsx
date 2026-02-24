@@ -1,3 +1,7 @@
+import {
+  editCategorySchema,
+  type EditCategoryFormValues
+} from '@/components/admin/data/manage-category/category.schema'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -8,21 +12,15 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { ACCEPTED_IMAGE_TYPES } from '@/defines/upload-image'
+import { useAppMutation } from '@/hooks/useAppMutation'
+import { useFetchData } from '@/hooks/useFetchData'
 import type { Category } from '@/pages/admin/manage-category/columns'
+import { getAllCategoryApi, updateCategoryApi } from '@/services/category/category.api'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import {
-  editCategorySchema,
-  type EditCategoryFormValues
-} from '@/components/admin/data/manage-category/category.schema'
-import { toast } from 'sonner'
-import { getAllCategoryApi, updateCategoryApi } from '@/services/category/category.api'
-import type { AxiosError } from 'axios'
-import type { ApiErrorResponse } from '@/defines/error.type'
-import { useState } from 'react'
-import { ACCEPTED_IMAGE_TYPES } from '@/defines/upload-image'
 
 interface EditCategoryFormProps {
   category: Category
@@ -49,25 +47,15 @@ export function EditCategoryForm({ category, onSuccess }: EditCategoryFormProps)
     }
   })
 
-  const { data: categories = [] } = useQuery({
-    queryKey: ['categories'],
-    queryFn: getAllCategoryApi
-  })
+  const { data: categories = [] } = useFetchData('categories', getAllCategoryApi)
 
-  const queryClient = useQueryClient()
-
-  const mutation = useMutation({
-    mutationFn: (values: EditCategoryFormValues) => updateCategoryApi(category.id, values),
-    onSuccess: () => {
-      toast.success(t('message.success.update'))
-      queryClient.invalidateQueries({ queryKey: ['categories'] })
-      onSuccess()
-    },
-    onError: (error: AxiosError<ApiErrorResponse>) => {
-      const message = error.response?.data?.message ?? t('message.error.update')
-      toast.error(message)
-    }
-  })
+  const mutation = useAppMutation(
+    (values: EditCategoryFormValues) => updateCategoryApi(category.id, values),
+    'categories',
+    t('message.success.update'),
+    t('message.error.update'),
+    onSuccess
+  )
 
   const onSubmit = (values: EditCategoryFormValues) => {
     mutation.mutate(values)

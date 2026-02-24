@@ -46,12 +46,8 @@ public class CategoryServiceImpl implements CategoryService{
         CategoryEntity newCategory = categoryMapper.toEntity(request);
 
         if (thumbnail != null && !thumbnail.isEmpty()) {
-            try {
-                String imageUrl = s3Service.uploadImage(thumbnail, ImageFolder.CATEGORY);
-                newCategory.setThumbnailUrl(imageUrl);
-            } catch (IOException e) {
-                throw new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION);
-            }
+            String imageUrl = s3Service.uploadImage(thumbnail, ImageFolder.CATEGORY);
+            newCategory.setThumbnailUrl(imageUrl);
         }
 
         CategoryEntity savedCategory = categoryRepository.save(newCategory);
@@ -140,13 +136,8 @@ public class CategoryServiceImpl implements CategoryService{
         }
 
         if (thumbnail != null && !thumbnail.isEmpty()) {
-            try {
-                String imageUrl = s3Service.uploadImage(thumbnail, ImageFolder.CATEGORY);
-                category.setThumbnailUrl(imageUrl);
-            } catch (IOException e) {
-                log.error("Update category thumbnail failed", e);
-                throw new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION);
-            }
+            String imageUrl = s3Service.uploadImage(thumbnail, ImageFolder.CATEGORY);
+            category.setThumbnailUrl(imageUrl);
         }
 
         categoryMapper.updateEntity(category, request);

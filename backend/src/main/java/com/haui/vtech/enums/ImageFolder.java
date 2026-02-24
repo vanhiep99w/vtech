@@ -3,7 +3,9 @@ package com.haui.vtech.enums;
 public enum ImageFolder {
     PRODUCT("product"),
     CATEGORY("category"),
-    USER("user");
+    USER("user"),
+    BRAND("brand")
+    ;
 
     private final String folder;
 

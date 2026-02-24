@@ -1,14 +1,14 @@
 import { UserTableSkeleton } from '@/components/common/LoadingTable'
 import { useFetchData } from '@/hooks/useFetchData'
-import { columns } from '@/pages/admin/manage-category/columns'
-import { DataTable } from '@/pages/admin/manage-category/data-table'
-import { getAllCategoryApi } from '@/services/category/category.api'
+import { columns } from '@/pages/admin/manage-brand/columns'
+import { DataTable } from '@/pages/admin/manage-brand/data-table'
+import { getAllBrandApi } from '@/services/brand/brand.api'
 import { useTranslation } from 'react-i18next'
 
-export default function CategoryPage() {
-  const { t } = useTranslation('category')
+export default function BrandPage() {
+  const { t } = useTranslation('brand')
 
-  const { data, isLoading } = useFetchData('categories', getAllCategoryApi)
+  const { data, isLoading } = useFetchData('brands', getAllBrandApi)
 
   return (
     <div>

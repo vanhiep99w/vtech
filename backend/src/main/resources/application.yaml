@@ -39,6 +39,11 @@ aws:
     access-key: ${AWS_ACCESS_KEY}
     secret-key: ${AWS_SECRET_KEY}
 
+cleanup-data:
+#  expire-minutes: 1
+  expire-minutes: 43200
+  cleanup-rate-ms: 60000
+
 security:
   public:
     post-endpoints:
@@ -49,5 +54,6 @@ security:
       - /api/v1/refresh
     get-endpoints:
       - /api/v1/categories/**
+      - /api/v1/brands/**
 
 

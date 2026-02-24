@@ -1,6 +1,7 @@
 import {
   AudioWaveform,
   Box,
+  CircleStar,
   Command,
   GalleryVerticalEnd,
   ListCollapseIcon,
@@ -108,6 +109,11 @@ const data = {
       name: 'Categories',
       url: '/dashboard/categories',
       icon: ListCollapseIcon
+    },
+    {
+      name: 'Brands',
+      url: '/dashboard/brands',
+      icon: CircleStar
     },
     {
       name: 'Blog',

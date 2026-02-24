@@ -11,23 +11,23 @@ import {
 import { Button } from '@/components/ui/button'
 import { useAppMutation } from '@/hooks/useAppMutation'
 import i18n from '@/i18n/i18n'
-import type { Category } from '@/pages/admin/manage-category/columns'
-import { deleteCategoryApi } from '@/services/category/category.api'
+import type { Brand } from '@/pages/admin/manage-brand/columns'
+import { deleteSoftBrandApi } from '@/services/brand/brand.api'
 import { Trash2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
-interface DeleteCategoryDialogProps {
+interface DeleteBrandDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  category: Category
+  brand: Brand
 }
 
-export function DeleteCategoryDialog({ open, onOpenChange, category }: DeleteCategoryDialogProps) {
-  const { t } = useTranslation('category')
+export function DeleteBrandDialog({ open, onOpenChange, brand }: DeleteBrandDialogProps) {
+  const { t } = useTranslation('brand')
 
   const mutation = useAppMutation(
-    () => deleteCategoryApi(category.id),
-    'categories',
+    () => deleteSoftBrandApi(brand.id),
+    ['brands', 'brands-trash'],
     t('message.success.delete'),
     t('message.error.delete')
   )
@@ -38,7 +38,7 @@ export function DeleteCategoryDialog({ open, onOpenChange, category }: DeleteCat
         <AlertDialogHeader>
           <AlertDialogTitle>{t('titles.delete')}</AlertDialogTitle>
           <AlertDialogDescription>
-            {t('message.success.deleteConfirm', { categoryName: category.categoryName })}
+            {t('message.confirm.softDelete', { brandName: brand.brandName })}
           </AlertDialogDescription>
         </AlertDialogHeader>
 

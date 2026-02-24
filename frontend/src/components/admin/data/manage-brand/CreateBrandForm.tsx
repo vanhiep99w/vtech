@@ -1,63 +1,51 @@
 import {
-  createCategorySchema,
-  type CreateCategoryFormValues
-} from '@/components/admin/data/manage-category/category.schema'
+  createBrandSchema,
+  type CreateBrandFormValues
+} from '@/components/admin/data/manage-brand/brand.schema'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { ACCEPTED_IMAGE_TYPES } from '@/defines/upload-image'
 import { useAppMutation } from '@/hooks/useAppMutation'
-import { useFetchData } from '@/hooks/useFetchData'
-import { createCategoryApi, getAllCategoryApi } from '@/services/category/category.api'
+import { createBrandApi } from '@/services/brand/brand.api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FolderPlus } from 'lucide-react'
 import { useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-interface CreateCategoryFormProps {
+interface CreateBrandFormProps {
   onSuccess: () => void
 }
 
-export function CreateCategoryForm({ onSuccess }: CreateCategoryFormProps) {
-  const { t } = useTranslation('category')
+export function CreateBrandForm({ onSuccess }: CreateBrandFormProps) {
+  const { t } = useTranslation('brand')
 
   const {
     register,
     handleSubmit,
-    control,
     setValue,
     formState: { errors }
-  } = useForm<CreateCategoryFormValues>({
-    resolver: zodResolver(createCategorySchema),
+  } = useForm<CreateBrandFormValues>({
+    resolver: zodResolver(createBrandSchema),
     defaultValues: {
       displayOrder: 1
     }
   })
 
-  const { data: categories = [] } = useFetchData('categories', getAllCategoryApi)
-
   const mutation = useAppMutation(
-    createCategoryApi,
-    'categories',
+    createBrandApi,
+    'brands',
     t('message.success.create'),
     t('message.error.create'),
     onSuccess
   )
 
-  const onSubmit = async (data: CreateCategoryFormValues) => {
+  const onSubmit = async (data: CreateBrandFormValues) => {
     mutation.mutate({
-      ...data,
-      parentId: data.parentId || null
+      ...data
     })
   }
 
@@ -77,19 +65,17 @@ export function CreateCategoryForm({ onSuccess }: CreateCategoryFormProps) {
       <CardContent className='px-0 pt-6'>
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
           <div className='space-y-4'>
-            <h3 className='text-lg font-medium'>{t('sections.basicInfo')}</h3>
-
             <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
               <div className='md:col-span-2 space-y-4'>
                 <div className='space-y-2'>
-                  <Label>{t('fields.categoryName.label')}</Label>
+                  <Label>{t('fields.brandName.label')}</Label>
                   <Input
-                    placeholder={t('fields.categoryName.placeholder')}
-                    {...register('categoryName')}
-                    className={errors.categoryName ? 'border-destructive' : ''}
+                    placeholder={t('fields.brandName.placeholder')}
+                    {...register('brandName')}
+                    className={errors.brandName ? 'border-destructive' : ''}
                   />
-                  {errors.categoryName && (
-                    <p className='text-sm text-destructive'>{errors.categoryName.message}</p>
+                  {errors.brandName && (
+                    <p className='text-sm text-destructive'>{errors.brandName.message}</p>
                   )}
                 </div>
 
@@ -104,27 +90,27 @@ export function CreateCategoryForm({ onSuccess }: CreateCategoryFormProps) {
                 </div>
 
                 <div className='space-y-2'>
-                  <Label>{t('fields.categoryDesc.label')}</Label>
+                  <Label>{t('fields.brandDesc.label')}</Label>
                   <Input
-                    placeholder={t('fields.categoryDesc.placeholder')}
-                    {...register('categoryDesc')}
+                    placeholder={t('fields.brandDesc.placeholder')}
+                    {...register('brandDesc')}
                   />
                 </div>
               </div>
 
               <div className='space-y-2'>
-                <Label>{t('fields.thumbnailUrl.label')}</Label>
+                <Label>{t('fields.brandLogo.label')}</Label>
 
                 <label
-                  htmlFor='thumbnail'
+                  htmlFor='brandLogo'
                   className={`block w-full aspect-video rounded-md border bg-muted overflow-hidden cursor-pointer relative group
-                    ${errors.thumbnail ? 'border-destructive' : ''}`}
+                    ${errors.brandLogo ? 'border-destructive' : ''}`}
                 >
                   {preview ? (
                     <img src={preview} className='object-cover w-full h-full' />
                   ) : (
                     <div className='flex items-center justify-center h-full text-muted-foreground text-sm'>
-                      {t('fields.thumbnailUrl.placeholder')}
+                      {t('fields.brandLogo.placeholder')}
                     </div>
                   )}
 
@@ -137,7 +123,7 @@ export function CreateCategoryForm({ onSuccess }: CreateCategoryFormProps) {
                 </label>
 
                 <Input
-                  id='thumbnail'
+                  id='brandLogo'
                   type='file'
                   accept={ACCEPTED_IMAGE_TYPES.join(',')}
                   className='hidden'
@@ -146,42 +132,13 @@ export function CreateCategoryForm({ onSuccess }: CreateCategoryFormProps) {
                     if (!file) return
 
                     setPreview(URL.createObjectURL(file))
-                    setValue('thumbnail', file, { shouldValidate: true })
+                    setValue('brandLogo', file, { shouldValidate: true })
                   }}
                 />
 
-                {errors.thumbnail && (
-                  <p className='text-sm text-destructive'>{errors.thumbnail.message}</p>
+                {errors.brandLogo && (
+                  <p className='text-sm text-destructive'>{errors.brandLogo.message}</p>
                 )}
-              </div>
-            </div>
-          </div>
-
-          <Separator />
-
-          <div className='space-y-4'>
-            <h3 className='text-lg font-medium'>{t('sections.classification')}</h3>
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-              <div className='space-y-2'>
-                <Label>{t('fields.parent.label')}</Label>
-                <Controller
-                  control={control}
-                  name='parentId'
-                  render={({ field }) => (
-                    <Select value={field.value ?? ''} onValueChange={field.onChange}>
-                      <SelectTrigger>
-                        <SelectValue placeholder={t('fields.parent.placeholder')} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {categories.map((item) => (
-                          <SelectItem key={item.id} value={item.id}>
-                            {item.categoryName}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  )}
-                />
               </div>
 
               <div className='space-y-2'>
