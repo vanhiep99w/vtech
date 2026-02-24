@@ -65,7 +65,8 @@
       "placeholder": "Chọn trạng thái",
       "options": {
         "ACTIVE": "Hoạt động",
-        "INACTIVE": "Ngừng hoạt động"
+        "INACTIVE": "Ngừng hoạt động",
+        "BLOCKED": "Bị khoá"
       }
     },
     "createdAt": "Ngày tạo",
@@ -97,7 +98,8 @@
       "label": "Trạng thái",
       "all": "Tất cả trạng thái",
       "ACTIVE": "Hoạt động",
-      "INACTIVE": "Ngừng hoạt động"
+      "INACTIVE": "Ngừng hoạt động",
+      "BLOCKED": "Bị khoá"
     },
     "reset": "Đặt lại"
   },

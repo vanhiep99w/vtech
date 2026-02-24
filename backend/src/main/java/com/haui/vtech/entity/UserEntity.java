@@ -1,5 +1,7 @@
 package com.haui.vtech.entity;
 
+import com.github.f4b6a3.uuid.UuidCreator;
+import com.haui.vtech.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -37,8 +39,11 @@ public class UserEntity extends BaseEntity{
     @Column(name = "avatar", length = 500)
     private String avatar;
 
-    @Column(name = "status")
-    private Integer status;
+//    @Column(name = "status")
+//    private UserStatus status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    private UserStatus status;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
@@ -48,6 +53,14 @@ public class UserEntity extends BaseEntity{
     )
     private Set<RoleEntity> roles;
 
-
+    @PrePersist
+    public void prePersistUser() {
+        if (getId() == null) {
+            setId(UuidCreator.getTimeOrderedEpoch().toString());
+        }
+        if (status == null) {
+            status = UserStatus.ACTIVE;
+        }
+    }
 
 }

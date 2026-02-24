@@ -3,6 +3,7 @@ import { UserRoleBadges } from '@/components/admin/data/manage-user/UserRoleBadg
 import { UserStatusBadge } from '@/components/admin/data/manage-user/UserStatusBadges'
 import { DataTableColumnHeader } from '@/components/admin/datatable/DataTableColumnHeader'
 import { Checkbox } from '@/components/ui/checkbox'
+import type { UserStatus } from '@/defines/user.enum'
 import i18n from '@/i18n/i18n'
 import { type ColumnDef } from '@tanstack/react-table'
 
@@ -13,7 +14,7 @@ export type User = {
   fullName?: string | null
   phone?: string | null
   avatar?: string | null
-  status: number
+  status: UserStatus
   roles: string[]
   createdAt: string
   updatedAt: string
@@ -99,12 +100,11 @@ export const columns: ColumnDef<User>[] = [
       <DataTableColumnHeader column={column} title={i18n.t('user:table.columns.status')} />
     ),
     filterFn: (row, columnId, filterValue) => {
-      const status = row.getValue(columnId) as number
+      const status = row.getValue(columnId) as string
 
-      if (filterValue === 'ACTIVE') return status === 1
-      if (filterValue === 'INACTIVE') return status === 0
+      if (!filterValue) return true
 
-      return true
+      return status === filterValue
     },
     cell: ({ row }) => <UserStatusBadge status={row.getValue('status')} />
   },

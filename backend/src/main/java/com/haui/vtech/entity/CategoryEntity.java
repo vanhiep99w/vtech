@@ -1,7 +1,9 @@
 package com.haui.vtech.entity;
 
+import com.github.f4b6a3.uuid.UuidCreator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,4 +41,13 @@ public class CategoryEntity extends BaseEntity{
     @Column(name = "status")
     private Integer status;
 
+    @PrePersist
+    public void prePersistCategory() {
+        if (getId() == null) {
+            setId(UuidCreator.getTimeOrderedEpoch().toString());
+        }
+        if (status == null) {
+            status = 1;
+        }
+    }
 }

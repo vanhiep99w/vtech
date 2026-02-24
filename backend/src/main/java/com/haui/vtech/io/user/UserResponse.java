@@ -1,6 +1,7 @@
 package com.haui.vtech.io.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.haui.vtech.enums.UserStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,7 +17,7 @@ public class UserResponse {
     private String fullName;
     private String phone;
     private String avatar;
-    private Integer status;
+    private UserStatus status;
     private Set<String> roles;
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")

@@ -1,5 +1,6 @@
 package com.haui.vtech.io.user;
 
+import com.haui.vtech.enums.UserStatus;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -12,6 +13,6 @@ public class ProfileUpdateRequest {
     private String fullName;
     private String phone;
     private String avatar;
-    private Integer status;
+    private UserStatus status;
     private Set<String> roles;
 }
