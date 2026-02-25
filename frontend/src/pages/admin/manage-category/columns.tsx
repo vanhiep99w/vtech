@@ -1,5 +1,5 @@
 import { CategoryActionsCell } from '@/components/admin/action/CategoryAction'
-import { UserStatusBadge } from '@/components/admin/data/manage-user/UserStatusBadges'
+import { CategoryStatusBadge } from '@/components/admin/data/manage-category/CategoryStatusBadges'
 import { DataTableColumnHeader } from '@/components/admin/datatable/DataTableColumnHeader'
 import { Checkbox } from '@/components/ui/checkbox'
 import { IMGAE_NOT_FOUND } from '@/defines/upload-image'
@@ -83,7 +83,7 @@ export const columns: ColumnDef<Category>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={i18n.t('category:table.columns.status')} />
     ),
-    cell: ({ row }) => <UserStatusBadge status={row.getValue('status')} />,
+    cell: ({ row }) => <CategoryStatusBadge status={row.getValue('status')} />,
     filterFn: (row, columnId, filterValue: string) => {
       if (filterValue === undefined) return true
       return String(row.getValue<number>(columnId)) === filterValue
