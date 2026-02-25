@@ -39,8 +39,6 @@ public class UserEntity extends BaseEntity{
     @Column(name = "avatar", length = 500)
     private String avatar;
 
-//    @Column(name = "status")
-//    private UserStatus status;
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
     private UserStatus status;

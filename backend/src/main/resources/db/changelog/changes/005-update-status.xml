@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+          http://www.liquibase.org/xml/ns/dbchangelog
+          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- USERS -->
+    <changeSet id="009-1-update-users-status" author="dongdang">
+        <addColumn tableName="users">
+            <column name="status_new" type="VARCHAR(20)" defaultValue="ACTIVE"/>
+        </addColumn>
+        <update tableName="users">
+            <column name="status_new" value="ACTIVE"/>
+            <where>status = 1</where>
+        </update>
+
+        <update tableName="users">
+            <column name="status_new" value="INACTIVE"/>
+            <where>status = 0</where>
+        </update>
+
+        <dropColumn tableName="users" columnName="status"/>
+
+        <renameColumn tableName="users"
+                      oldColumnName="status_new"
+                      newColumnName="status"
+                      columnDataType="VARCHAR(20)"/>
+
+    </changeSet>
+
+    <!-- BRANDS -->
+    <changeSet id="009-2-update-brands-status" author="dongdang">
+
+        <addColumn tableName="brands">
+            <column name="status_new" type="VARCHAR(20)" defaultValue="ACTIVE"/>
+        </addColumn>
+
+        <update tableName="brands">
+            <column name="status_new" value="ACTIVE"/>
+            <where>status = 1</where>
+        </update>
+
+        <update tableName="brands">
+            <column name="status_new" value="INACTIVE"/>
+            <where>status = 0</where>
+        </update>
+
+        <dropColumn tableName="brands" columnName="status"/>
+
+        <renameColumn tableName="brands"
+                      oldColumnName="status_new"
+                      newColumnName="status"
+                      columnDataType="VARCHAR(20)"/>
+
+    </changeSet>
+
+</databaseChangeLog>

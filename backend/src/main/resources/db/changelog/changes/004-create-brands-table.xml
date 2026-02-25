@@ -41,8 +41,7 @@
             <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-
-            <column name="status" type="VARCHAR(20)" defaultValue="ACTIVE">
+            <column name="status" type="INT" defaultValue="1">
                 <constraints nullable="false"/>
             </column>
         </createTable>
