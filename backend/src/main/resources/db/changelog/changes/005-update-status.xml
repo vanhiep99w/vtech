@@ -56,14 +56,13 @@
 
     </changeSet>
 
+    <!-- CATEGORIES -->
     <changeSet id="009-3-update-categories-status" author="dongdang">
 
-        <!-- 1. Add new column -->
         <addColumn tableName="categories">
             <column name="status_new" type="VARCHAR(20)" defaultValue="ACTIVE"/>
         </addColumn>
 
-        <!-- 2. Migrate data -->
         <update tableName="categories">
             <column name="status_new" value="ACTIVE"/>
             <where>status = 1</where>
@@ -74,15 +73,33 @@
             <where>status = 0</where>
         </update>
 
-        <!-- 3. Drop old column -->
         <dropColumn tableName="categories" columnName="status"/>
 
-        <!-- 4. Rename -->
         <renameColumn tableName="categories"
                       oldColumnName="status_new"
                       newColumnName="status"
                       columnDataType="VARCHAR(20)"/>
 
+    </changeSet>
+
+    <changeSet id="010-fix-status-default" author="dongdang">
+        <addDefaultValue
+                tableName="categories"
+                columnName="status"
+                defaultValue="ACTIVE"
+                columnDataType="VARCHAR(20)"/>
+
+        <addDefaultValue
+                tableName="brands"
+                columnName="status"
+                defaultValue="ACTIVE"
+                columnDataType="VARCHAR(20)"/>
+
+        <addDefaultValue
+                tableName="users"
+                columnName="status"
+                defaultValue="ACTIVE"
+                columnDataType="VARCHAR(20)"/>
     </changeSet>
 
 </databaseChangeLog>

@@ -7,10 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 
 @Entity
+@DynamicInsert
 @Table(name = "brands")
 @Getter
 @Setter
@@ -41,11 +43,4 @@ public class BrandEntity extends BaseEntity {
     @Column(name = "status", nullable = false, length = 20)
     private BrandStatus status;
 
-    @PrePersist
-    public void prePersist() {
-        super.prePersist();
-        if (status == null) {
-            status = BrandStatus.ACTIVE;
-        }
-    }
 }

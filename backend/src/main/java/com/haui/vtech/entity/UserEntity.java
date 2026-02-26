@@ -5,10 +5,12 @@ import com.haui.vtech.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.util.Set;
 
 @Entity
+@DynamicInsert
 @Table(name = "users", indexes = {
         @Index(name = "idx_user_email", columnList = "email"),
         @Index(name = "idx_user_status", columnList = "status"),
@@ -50,13 +52,5 @@ public class UserEntity extends BaseEntity{
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<RoleEntity> roles;
-
-    @PrePersist
-    public void prePersistUser() {
-        super.prePersist();
-        if (status == null) {
-            status = UserStatus.ACTIVE;
-        }
-    }
 
 }

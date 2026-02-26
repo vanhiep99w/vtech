@@ -33,7 +33,7 @@ public interface BrandRepository extends JpaRepository<BrandEntity, String> {
     @Modifying
     @Query("""
         update BrandEntity b
-        set b.status = com.haui.vtech.enums.BrandStatus.INACTIVE,
+        set b.status = INACTIVE,
             b.deletedAt = :deletedAt
         where b.id = :id
           and b.deletedAt is null
@@ -46,7 +46,7 @@ public interface BrandRepository extends JpaRepository<BrandEntity, String> {
     @Modifying
     @Query("""
         update BrandEntity b
-        set b.status = com.haui.vtech.enums.BrandStatus.ACTIVE,
+        set b.status = ACTIVE,
             b.deletedAt = null
         where b.id = :id
           and b.deletedAt is not null
