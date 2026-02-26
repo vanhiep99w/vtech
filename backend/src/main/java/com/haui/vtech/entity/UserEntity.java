@@ -53,9 +53,7 @@ public class UserEntity extends BaseEntity{
 
     @PrePersist
     public void prePersistUser() {
-        if (getId() == null) {
-            setId(UuidCreator.getTimeOrderedEpoch().toString());
-        }
+        super.prePersist();
         if (status == null) {
             status = UserStatus.ACTIVE;
         }

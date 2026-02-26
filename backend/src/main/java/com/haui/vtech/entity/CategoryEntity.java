@@ -42,9 +42,7 @@ public class CategoryEntity extends BaseEntity{
 
     @PrePersist
     public void prePersistCategory() {
-        if (getId() == null) {
-            setId(UuidCreator.getTimeOrderedEpoch().toString());
-        }
+        super.prePersist();
         if (status == null) {
             status = CategoryStatus.ACTIVE;
         }
