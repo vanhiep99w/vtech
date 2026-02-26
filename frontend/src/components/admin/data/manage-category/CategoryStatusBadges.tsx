@@ -1,4 +1,5 @@
 import { CategoryStatus } from '@/defines/category.enum'
+import { colorMap } from '@/defines/colorMap'
 import { cn } from '@/lib/utils'
 import { useTranslation } from 'react-i18next'
 
@@ -10,11 +11,6 @@ export function CategoryStatusBadge({ status }: CategoryStatusBadgeProps) {
   const { t } = useTranslation('category')
 
   if (!status) return <span>-</span>
-
-  const colorMap = {
-    ACTIVE: 'bg-green-300/30 text-green-600',
-    INACTIVE: 'bg-red-300/30 text-red-600'
-  }
 
   return (
     <span

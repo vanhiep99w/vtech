@@ -157,24 +157,6 @@ export function EditCategoryForm({ category, onSuccess }: EditCategoryFormProps)
 
         <div className='space-y-2'>
           <Label>{t('fields.status.label')}</Label>
-          {/* <Controller
-            control={control}
-            name='status'
-            render={({ field }) => (
-              <Select
-                value={String(field.value)}
-                onValueChange={(value) => field.onChange(Number(value))}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value='1'>{t('fields.status.options.ACTIVE')}</SelectItem>
-                  <SelectItem value='0'>{t('fields.status.options.INACTIVE')}</SelectItem>
-                </SelectContent>
-              </Select>
-            )}
-          /> */}
           <Controller
             control={control}
             name='status'
@@ -195,7 +177,6 @@ export function EditCategoryForm({ category, onSuccess }: EditCategoryFormProps)
           />
         </div>
 
-        {/* Description */}
         <div className='space-y-2 md:col-span-2'>
           <Label>{t('fields.categoryDesc.label')}</Label>
           <Input {...register('categoryDesc')} />

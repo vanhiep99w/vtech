@@ -1,3 +1,4 @@
+import { colorMap } from '@/defines/colorMap'
 import type { UserStatus } from '@/defines/user.enum'
 import { cn } from '@/lib/utils'
 import { useTranslation } from 'react-i18next'
@@ -10,12 +11,6 @@ export function UserStatusBadge({ status }: UserStatusBadgeProps) {
   const { t } = useTranslation('user')
 
   if (!status) return <span>-</span>
-
-  const colorMap = {
-    ACTIVE: 'bg-green-300/30 text-green-600',
-    INACTIVE: 'bg-red-300/30 text-red-600',
-    BLOCKED: 'bg-yellow-300/30 text-yellow-700'
-  }
 
   return (
     <span
