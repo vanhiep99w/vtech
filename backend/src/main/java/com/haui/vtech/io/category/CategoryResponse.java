@@ -1,5 +1,6 @@
 package com.haui.vtech.io.category;
 
+import com.haui.vtech.enums.CategoryStatus;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +19,7 @@ public class CategoryResponse {
     private String parentId;
     private String parentName;
     private Integer displayOrder;
-    private Integer status;
+    private CategoryStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

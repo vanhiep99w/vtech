@@ -1,6 +1,7 @@
 package com.haui.vtech.service;
 
 import com.haui.vtech.entity.CategoryEntity;
+import com.haui.vtech.enums.CategoryStatus;
 import com.haui.vtech.enums.ImageFolder;
 import com.haui.vtech.exception.AppException;
 import com.haui.vtech.exception.ErrorCode;
@@ -168,13 +169,13 @@ public class CategoryServiceImpl implements CategoryService{
         if (categoryRepository.existsByParentId(id)) {
             throw new AppException(ErrorCode.CATEGORY_HAS_CHILD, category.getCategoryName());
         }
-        category.setStatus(0);
+        category.setStatus(CategoryStatus.INACTIVE);
         categoryRepository.save(category);
     }
 
     @Override
     public List<CategoryResponse> findAllByStatus() {
-        return categoryRepository.findAllByStatus(1).stream().map(categoryMapper::toResponse).toList();
+        return categoryRepository.findAllByStatus(CategoryStatus.ACTIVE).stream().map(categoryMapper::toResponse).toList();
     }
 
     @Override

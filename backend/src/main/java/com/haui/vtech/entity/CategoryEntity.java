@@ -1,10 +1,8 @@
 package com.haui.vtech.entity;
 
 import com.github.f4b6a3.uuid.UuidCreator;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import com.haui.vtech.enums.CategoryStatus;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,8 +36,9 @@ public class CategoryEntity extends BaseEntity{
     @Column(name = "display_order")
     private Integer displayOrder;
 
-    @Column(name = "status")
-    private Integer status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    private CategoryStatus status;
 
     @PrePersist
     public void prePersistCategory() {
@@ -47,7 +46,7 @@ public class CategoryEntity extends BaseEntity{
             setId(UuidCreator.getTimeOrderedEpoch().toString());
         }
         if (status == null) {
-            status = 1;
+            status = CategoryStatus.ACTIVE;
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.haui.vtech.io.category;
 
+import com.haui.vtech.enums.CategoryStatus;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,5 +19,5 @@ public class CategoryUpdateRequest {
     private String categoryDesc;
     private String parentId;
     private Integer displayOrder;
-    private Integer status;
+    private CategoryStatus status;
 }

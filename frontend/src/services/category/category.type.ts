@@ -1,3 +1,5 @@
+import type { CategoryStatus } from '@/defines/category.enum'
+
 export interface CategoryResponse {
   id: string
   categoryName: string
@@ -7,7 +9,7 @@ export interface CategoryResponse {
   parentId?: string | null
   parentName?: string | null
   displayOrder: number
-  status: number
+  status: CategoryStatus
   createdAt: string
   updatedAt: string
 }
@@ -27,6 +29,6 @@ export interface UpdateCategoryPayload {
   categoryDesc?: string
   parentId?: string | null
   displayOrder?: number
-  status: number
+  status: CategoryStatus
   thumbnail?: File | null
 }
