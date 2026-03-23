@@ -1,7 +1,8 @@
 import { CategoryActionsCell } from '@/components/admin/action/CategoryAction'
-import { UserStatusBadge } from '@/components/admin/data/manage-user/UserStatusBadges'
+import { CategoryStatusBadge } from '@/components/admin/data/manage-category/CategoryStatusBadges'
 import { DataTableColumnHeader } from '@/components/admin/datatable/DataTableColumnHeader'
 import { Checkbox } from '@/components/ui/checkbox'
+import type { CategoryStatus } from '@/defines/category.enum'
 import { IMGAE_NOT_FOUND } from '@/defines/upload-image'
 import i18n from '@/i18n/i18n'
 import { type ColumnDef } from '@tanstack/react-table'
@@ -15,7 +16,7 @@ export type Category = {
   parentId?: string | null
   parentName?: string | null
   displayOrder: number
-  status: number
+  status: CategoryStatus
   createdAt: string
   updatedAt: string
 }
@@ -83,11 +84,14 @@ export const columns: ColumnDef<Category>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={i18n.t('category:table.columns.status')} />
     ),
-    cell: ({ row }) => <UserStatusBadge status={row.getValue('status')} />,
-    filterFn: (row, columnId, filterValue: string) => {
-      if (filterValue === undefined) return true
-      return String(row.getValue<number>(columnId)) === filterValue
-    }
+    filterFn: (row, columnId, filterValue) => {
+      const status = row.getValue(columnId) as string
+
+      if (!filterValue) return true
+
+      return status === filterValue
+    },
+    cell: ({ row }) => <CategoryStatusBadge status={row.getValue('status')} />
   },
   {
     id: 'actions',

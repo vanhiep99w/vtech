@@ -1,6 +1,7 @@
 package com.haui.vtech.repository;
 
 import com.haui.vtech.entity.BrandEntity;
+import com.haui.vtech.enums.BrandStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,21 +19,21 @@ public interface BrandRepository extends JpaRepository<BrandEntity, String> {
 
     Optional<BrandEntity> findBySlug(String slug);
 
-    List<BrandEntity> findByStatus(Integer status);
+    List<BrandEntity> findByStatus(BrandStatus status);
 
     List<BrandEntity> findAllByStatusAndDeletedAtBefore(
-            Integer status,
+            BrandStatus status,
             LocalDateTime time
     );
 
-    List<BrandEntity> findAllByStatusAndDeletedAtIsNotNullOrderByDeletedAtDesc(Integer status);
+    List<BrandEntity> findAllByStatusAndDeletedAtIsNotNullOrderByDeletedAtDesc(BrandStatus status);
 
     Optional<BrandEntity> findByIdAndDeletedAtIsNotNull(String id);
 
     @Modifying
     @Query("""
         update BrandEntity b
-        set b.status = 0,
+        set b.status = INACTIVE,
             b.deletedAt = :deletedAt
         where b.id = :id
           and b.deletedAt is null
@@ -45,7 +46,7 @@ public interface BrandRepository extends JpaRepository<BrandEntity, String> {
     @Modifying
     @Query("""
         update BrandEntity b
-        set b.status = 1,
+        set b.status = ACTIVE,
             b.deletedAt = null
         where b.id = :id
           and b.deletedAt is not null

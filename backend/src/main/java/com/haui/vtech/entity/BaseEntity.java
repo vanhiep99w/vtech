@@ -32,15 +32,11 @@ public abstract class BaseEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "status")
-    private Integer status;
-
     @PrePersist
     public void prePersist() {
         if (id == null) {
             id = UuidCreator.getTimeOrderedEpoch().toString();
         }
-        status = 1;
     }
 
 }

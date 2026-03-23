@@ -1,3 +1,4 @@
+import { CategoryStatus } from '@/defines/category.enum'
 import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/defines/upload-image'
 import i18n from '@/i18n/i18n'
 import { z } from 'zod'
@@ -33,7 +34,7 @@ export const editCategorySchema = z.object({
     .number()
     .int(i18n.t('category:schema.displayOrder.invalid'))
     .min(0, i18n.t('category:schema.displayOrder.min')),
-  status: z.number().int(i18n.t('category:schema.status.invalid')),
+  status: z.nativeEnum(CategoryStatus),
   thumbnail: z
     .instanceof(File)
     .optional()

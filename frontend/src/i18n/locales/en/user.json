@@ -65,7 +65,8 @@
       "placeholder": "Select status",
       "options": {
         "ACTIVE": "Active",
-        "INACTIVE": "Inactive"
+        "INACTIVE": "Inactive",
+        "BLOCKED": "Blocked"
       }
     },
     "createdAt": "Created at",
@@ -97,7 +98,8 @@
       "label": "Status",
       "all": "All status",
       "ACTIVE": "Active",
-      "INACTIVE": "Inactive"
+      "INACTIVE": "Inactive",
+      "BLOCKED": "Blocked"
     },
     "reset": "Reset"
   },

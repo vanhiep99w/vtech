@@ -1,6 +1,7 @@
 package com.haui.vtech.service;
 
 import com.haui.vtech.entity.BrandEntity;
+import com.haui.vtech.enums.BrandStatus;
 import com.haui.vtech.enums.ImageFolder;
 import com.haui.vtech.exception.AppException;
 import com.haui.vtech.exception.ErrorCode;
@@ -54,7 +55,7 @@ public class BrandServiceImpl implements BrandService {
     public List<BrandResponse> findAll() {
         log.info("Find all brands started");
 
-        return brandRepository.findByStatus(1).stream().map(brandMapper::toBrandResponse).toList();
+        return brandRepository.findByStatus(BrandStatus.ACTIVE).stream().map(brandMapper::toBrandResponse).toList();
     }
 
     @Override
@@ -127,7 +128,7 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public List<BrandResponse> getAllInTrash() {
         log.info("Get brands in trash started");
-        return brandRepository.findAllByStatusAndDeletedAtIsNotNullOrderByDeletedAtDesc(0)
+        return brandRepository.findAllByStatusAndDeletedAtIsNotNullOrderByDeletedAtDesc(BrandStatus.INACTIVE)
                 .stream().map(brandMapper::toBrandResponse).toList();
     }
 

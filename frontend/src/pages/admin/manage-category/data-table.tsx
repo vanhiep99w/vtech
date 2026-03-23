@@ -18,6 +18,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
+import { CategoryStatus } from '@/defines/category.enum'
 import type { Category } from '@/pages/admin/manage-category/columns'
 import {
   type ColumnDef,
@@ -114,8 +115,12 @@ export function DataTable<TData, TValue>({ data, columns }: DataTableProps<TData
           </SelectTrigger>
           <SelectContent>
             <SelectItem value='all'>{t('filters.status.all')}</SelectItem>
-            <SelectItem value='1'>{t('filters.status.ACTIVE')}</SelectItem>
-            <SelectItem value='0'>{t('filters.status.INACTIVE')}</SelectItem>
+
+            {Object.values(CategoryStatus).map((status) => (
+              <SelectItem key={status} value={status}>
+                {t(`filters.status.${status}` as const)}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
         {isFiltered && (

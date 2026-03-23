@@ -1,17 +1,18 @@
 package com.haui.vtech.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.haui.vtech.enums.BrandStatus;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 
 @Entity
+@DynamicInsert
 @Table(name = "brands")
 @Getter
 @Setter
@@ -37,5 +38,9 @@ public class BrandEntity extends BaseEntity {
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    private BrandStatus status;
 
 }

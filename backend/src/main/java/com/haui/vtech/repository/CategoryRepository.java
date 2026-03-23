@@ -1,6 +1,7 @@
 package com.haui.vtech.repository;
 
 import com.haui.vtech.entity.CategoryEntity;
+import com.haui.vtech.enums.CategoryStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -23,5 +24,5 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, String
 
     Optional<CategoryEntity> findBySlug(String slug);
 
-    List<CategoryEntity> findAllByStatus(Integer status);
+    List<CategoryEntity> findAllByStatus(CategoryStatus status);
 }

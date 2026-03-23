@@ -1,5 +1,3 @@
-import { editUserSchema, type EditUserFormValues } from './user.schema'
-import { updateUserApi } from '@/services/user/user.api'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -10,13 +8,15 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Controller, useForm } from 'react-hook-form'
+import { UserRole, UserStatus } from '@/defines/user.enum'
 import type { User } from '@/pages/admin/manage-user/columns'
-import { toast } from 'sonner'
-import { useTranslation } from 'react-i18next'
+import { updateUserApi } from '@/services/user/user.api'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { NumberToUserStatus, UserRole, UserStatus, UserStatusToNumber } from '@/defines/user.enum'
+import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
+import { editUserSchema, type EditUserFormValues } from './user.schema'
 
 interface EditUserFormProps {
   user: User
@@ -37,7 +37,7 @@ export function EditUserForm({ user, onSuccess }: EditUserFormProps) {
       fullName: user.fullName ?? '',
       phone: user.phone ?? '',
       avatar: user.avatar ?? '',
-      status: NumberToUserStatus[user.status],
+      status: user.status,
       roles: user.roles?.filter((r): r is UserRole =>
         Object.values(UserRole).includes(r as UserRole)
       )
@@ -53,7 +53,7 @@ export function EditUserForm({ user, onSuccess }: EditUserFormProps) {
         fullName: values.fullName,
         phone: values.phone,
         avatar: values.avatar,
-        status: UserStatusToNumber[values.status],
+        status: values.status,
         roles: values.roles
       }),
     onSuccess: () => {

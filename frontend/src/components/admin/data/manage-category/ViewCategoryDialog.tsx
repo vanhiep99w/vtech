@@ -1,4 +1,4 @@
-import { UserStatusBadge } from '@/components/admin/data/manage-user/UserStatusBadges'
+import { CategoryStatusBadge } from '@/components/admin/data/manage-category/CategoryStatusBadges'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
@@ -50,7 +50,7 @@ export function ViewCategoryDialog({ open, onOpenChange, category }: ViewUserDia
             </Section>
 
             <Section title={t('fields.status.label')}>
-              <UserStatusBadge status={category.status} />
+              <CategoryStatusBadge status={category.status} />
             </Section>
 
             <Separator />

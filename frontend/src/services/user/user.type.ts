@@ -1,3 +1,5 @@
+import type { UserStatus } from '@/defines/user.enum'
+
 export interface UserResponse {
   id: string
   username: string
@@ -5,7 +7,7 @@ export interface UserResponse {
   fullName?: string | null
   phone?: string | null
   avatar?: string | null
-  status: number
+  status: UserStatus
   roles: string[]
   createdAt: string
   updatedAt: string
@@ -16,7 +18,7 @@ export type UpdateUserRequest = {
   fullName?: string | null
   phone?: string | null
   avatar?: string | null
-  status: number
+  status: UserStatus
   roles?: string[]
 }
 
@@ -27,5 +29,5 @@ export type UpdateUserResponse = {
   fullName?: string | null
   phone?: string | null
   avatar?: string | null
-  status: number
+  status: UserStatus
 }

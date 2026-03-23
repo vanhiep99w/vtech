@@ -1,5 +1,6 @@
 package com.haui.vtech.io.brand;
 
+import com.haui.vtech.enums.BrandStatus;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +17,7 @@ public class BrandResponse {
     private String brandDesc;
     private String brandLogo;
     private Integer displayOrder;
-    private Integer status;
+    private BrandStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;

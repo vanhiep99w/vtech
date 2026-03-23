@@ -1,5 +1,6 @@
 package com.haui.vtech.io.user;
 
+import com.haui.vtech.enums.UserStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,5 +13,5 @@ public class ProfileUpdateResponse {
     private String fullName;
     private String phone;
     private String avatar;
-    private Integer status;
+    private UserStatus status;
 }

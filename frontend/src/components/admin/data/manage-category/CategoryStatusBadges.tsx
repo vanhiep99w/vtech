@@ -1,14 +1,14 @@
+import { CategoryStatus } from '@/defines/category.enum'
 import { colorMap } from '@/defines/colorMap'
-import type { UserStatus } from '@/defines/user.enum'
 import { cn } from '@/lib/utils'
 import { useTranslation } from 'react-i18next'
 
-interface UserStatusBadgeProps {
-  status?: UserStatus
+interface CategoryStatusBadgeProps {
+  status?: CategoryStatus
 }
 
-export function UserStatusBadge({ status }: UserStatusBadgeProps) {
-  const { t } = useTranslation('user')
+export function CategoryStatusBadge({ status }: CategoryStatusBadgeProps) {
+  const { t } = useTranslation('category')
 
   if (!status) return <span>-</span>
 

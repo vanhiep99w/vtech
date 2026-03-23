@@ -1,15 +1,17 @@
 package com.haui.vtech.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.github.f4b6a3.uuid.UuidCreator;
+import com.haui.vtech.enums.CategoryStatus;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.DynamicInsert;
 
 @Entity
+@DynamicInsert
 @Table(name = "categories")
 @Getter
 @Setter
@@ -35,5 +37,9 @@ public class CategoryEntity extends BaseEntity{
 
     @Column(name = "display_order")
     private Integer displayOrder;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    private CategoryStatus status;
 
 }

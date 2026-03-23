@@ -1,12 +1,16 @@
 package com.haui.vtech.entity;
 
+import com.github.f4b6a3.uuid.UuidCreator;
+import com.haui.vtech.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.util.Set;
 
 @Entity
+@DynamicInsert
 @Table(name = "users", indexes = {
         @Index(name = "idx_user_email", columnList = "email"),
         @Index(name = "idx_user_status", columnList = "status"),
@@ -37,6 +41,10 @@ public class UserEntity extends BaseEntity{
     @Column(name = "avatar", length = 500)
     private String avatar;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    private UserStatus status;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "user_roles",
@@ -44,7 +52,5 @@ public class UserEntity extends BaseEntity{
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<RoleEntity> roles;
-
-
 
 }

@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { CategoryStatus } from '@/defines/category.enum'
 import { ACCEPTED_IMAGE_TYPES } from '@/defines/upload-image'
 import { useAppMutation } from '@/hooks/useAppMutation'
 import { useFetchData } from '@/hooks/useFetchData'
@@ -160,23 +161,22 @@ export function EditCategoryForm({ category, onSuccess }: EditCategoryFormProps)
             control={control}
             name='status'
             render={({ field }) => (
-              <Select
-                value={String(field.value)}
-                onValueChange={(value) => field.onChange(Number(value))}
-              >
+              <Select value={field.value} onValueChange={field.onChange}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value='1'>{t('fields.status.options.ACTIVE')}</SelectItem>
-                  <SelectItem value='0'>{t('fields.status.options.INACTIVE')}</SelectItem>
+                  {Object.values(CategoryStatus).map((status) => (
+                    <SelectItem key={status} value={status}>
+                      {t(`fields.status.options.${status}`)}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             )}
           />
         </div>
 
-        {/* Description */}
         <div className='space-y-2 md:col-span-2'>
           <Label>{t('fields.categoryDesc.label')}</Label>
           <Input {...register('categoryDesc')} />

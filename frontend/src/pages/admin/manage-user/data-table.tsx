@@ -18,6 +18,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
+import { UserRole, UserStatus } from '@/defines/user.enum'
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -90,9 +91,12 @@ export function DataTable<TData, TValue>({ data, columns }: DataTableProps<TData
           </SelectTrigger>
           <SelectContent>
             <SelectItem value='all'>{t('filters.role.all')}</SelectItem>
-            <SelectItem value='ADMIN'>{t('filters.role.ADMIN')}</SelectItem>
-            <SelectItem value='USER'>{t('filters.role.USER')}</SelectItem>
-            <SelectItem value='STAFF'>{t('filters.role.STAFF')}</SelectItem>
+
+            {Object.values(UserRole).map((role) => (
+              <SelectItem key={role} value={role}>
+                {t(`filters.role.${role}` as const)}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
         <Select
@@ -106,8 +110,12 @@ export function DataTable<TData, TValue>({ data, columns }: DataTableProps<TData
           </SelectTrigger>
           <SelectContent>
             <SelectItem value='all'>{t('filters.status.all')}</SelectItem>
-            <SelectItem value='ACTIVE'>{t('filters.status.ACTIVE')}</SelectItem>
-            <SelectItem value='INACTIVE'>{t('filters.status.INACTIVE')}</SelectItem>
+
+            {Object.values(UserStatus).map((status) => (
+              <SelectItem key={status} value={status}>
+                {t(`filters.status.${status}` as const)}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
         {isFiltered && (
